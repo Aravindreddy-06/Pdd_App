@@ -1,0 +1,258 @@
+.home-page {
+  background-color: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* ── Category Strip ──────────────────────────────── */
+.home-category-strip {
+  background: rgba(10, 12, 1, 0.6);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 64px;
+  z-index: 99;
+}
+
+.strip-inner {
+  max-width: 1500px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 40px;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: all 0.2s;
+  color: var(--text-dark); /* Changed from text-gray to text-dark (white) for visibility */
+}
+
+.category-item:hover {
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.category-item.active {
+  color: var(--primary);
+}
+
+.category-item.active span {
+  font-weight: 800;
+}
+
+.category-item.active::after {
+  content: '';
+  width: 20px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 2px;
+  margin-top: 2px;
+}
+
+.category-item span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ── Banners ────────────────────────────────────── */
+.home-banners {
+  max-width: 1500px;
+  margin: 16px auto;
+  padding: 0 10px;
+}
+
+.main-banner {
+  position: relative;
+  height: 320px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--grad-olive);
+  box-shadow: 0 20px 40px rgba(132, 204, 22, 0.15);
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+}
+
+.banner-content {
+  position: absolute;
+  top: 50%;
+  left: 60px;
+  transform: translateY(-50%);
+  color: white;
+  z-index: 10;
+  max-width: 500px;
+}
+
+.banner-content h2 {
+  font-size: 42px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+
+.banner-btn {
+  margin-top: 24px;
+  padding: 12px 32px;
+  background-color: #000;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.banner-btn:hover {
+  background-color: var(--primary);
+  color: #000;
+}
+
+/* ── Section Header Row ─────────────────────────── */
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.section-header-row h3 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.view-all-link {
+  color: var(--primary);
+  background: none;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ── Horizontal Grid ────────────────────────────── */
+.horizontal-scroll-grid {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 4px;
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+}
+
+.horizontal-scroll-grid::-webkit-scrollbar {
+  display: none; /* Hide scrollbar Chrome/Safari */
+}
+
+.deal-card {
+  flex: 0 0 200px;
+  background: var(--glass-bg);
+  padding: 16px;
+  border-radius: 24px;
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.deal-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.deal-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.deal-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #388e3c;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+.deal-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* ── Main Content Area ──────────────────────────── */
+.home-content {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.home-location-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.home-location-bar:hover {
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.home-location-bar .location-text {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.home-location-bar .location-text strong {
+  color: #fff;
+}
+
+.home-location-bar .change-location-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.home-section {
+  background: var(--glass-bg);
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  margin-bottom: 24px;
+}
+
+/* Re-using existing Grid & Card styles but adapted */
+.rec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+/* rec-card styles moved to index.css for global consistency */

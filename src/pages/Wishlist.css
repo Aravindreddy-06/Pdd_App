@@ -1,0 +1,64 @@
+.wishlist-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+}
+
+.wishlist-header {
+  background-color: var(--bg-white);
+  border-bottom: 1px solid var(--border-color);
+  padding: 40px 24px;
+}
+
+.wishlist-header-inner {
+  max-width: var(--content-max-width, 1440px);
+  margin: 0 auto;
+}
+
+.wishlist-title {
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.wishlist-subtitle {
+  font-size: 16px;
+  color: var(--text-gray);
+}
+
+.wishlist-content {
+  max-width: var(--content-max-width, 1440px);
+  margin: 0 auto;
+  width: 100%;
+  padding: 32px 24px;
+  flex: 1;
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 24px;
+}
+
+@media (min-width: 600px) { .wishlist-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .wishlist-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .wishlist-grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* Reusing rec-card from home/explore */
+/* rec-card styles moved to index.css for global consistency */
+
+.empty-state {
+  background-color: var(--bg-white);
+  border: 1px dashed var(--border-color);
+  border-radius: 24px;
+  padding: 64px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 16px;
+  box-shadow: var(--shadow-sm);
+}

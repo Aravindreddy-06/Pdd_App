@@ -1,0 +1,176 @@
+.help-page {
+  min-height: 100vh;
+  background-color: #f9fafb;
+  display: flex;
+  flex-direction: column;
+}
+
+.help-content {
+  padding: 24px 20px;
+}
+
+.help-heading {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 24px;
+}
+
+.search-bar-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #f3f4f6;
+  border-radius: 16px;
+  padding: 12px 16px;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.faq-search-input {
+  background: none;
+  border: none;
+  flex: 1;
+  font-size: 16px;
+  color: #111827;
+  outline: none;
+}
+
+.section-subtitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #9ca3af;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.topic-card {
+  background-color: white;
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.topic-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topic-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.issues-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.issue-item {
+  background-color: white;
+  border-radius: 24px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  cursor: pointer;
+}
+
+.issue-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.issue-icon-bg {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.issue-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.issue-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.issue-desc {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.still-need-help {
+  text-align: center;
+}
+
+.still-help-text {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 24px;
+}
+
+.help-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.live-chat-btn {
+  width: 100%;
+  padding: 18px;
+  background-color: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(34, 197, 94, 0.2);
+}
+
+.email-support-btn {
+  width: 100%;
+  padding: 18px;
+  background-color: white;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
