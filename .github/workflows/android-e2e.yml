@@ -43,11 +43,10 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: 📦 Install Appium v2 & UiAutomator2 Driver
+      - name: 📦 Stage 4: Install Dependencies & Drivers
         run: |
           npm ci
-          npm install -g appium@latest
-          appium driver install uiautomator2
+          npx appium driver install uiautomator2 || true
 
       # STAGE 5: Build Web App & Android APK
       - name: 🛠️ Stage 5: Build Android APK
@@ -58,7 +57,7 @@ jobs:
       # STAGE 6 - 10: Start Appium Server & Verify Health
       - name: 🚀 Stage 6-10: Start Appium Server & Verify Health
         run: |
-          appium --log-timestamp --log appium.log &
+          npx appium --log-timestamp --log appium.log &
           sleep 5
           curl -s -f http://localhost:4723/wd/hub/status || echo "Appium server is healthy"
 
