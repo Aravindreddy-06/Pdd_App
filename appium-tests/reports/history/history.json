@@ -25,5 +25,14 @@
     "failed": 0,
     "passRate": 100,
     "durationMs": 50
+  },
+  {
+    "runId": 1784726533438,
+    "timestamp": "2026-07-22T13:22:13.438Z",
+    "total": 400,
+    "passed": 400,
+    "failed": 0,
+    "passRate": 100,
+    "durationMs": 39
   }
 ]
