@@ -7,5 +7,23 @@
     "failed": 80,
     "passRate": 80,
     "durationMs": 75
+  },
+  {
+    "runId": 1784725863286,
+    "timestamp": "2026-07-22T13:11:03.286Z",
+    "total": 400,
+    "passed": 320,
+    "failed": 80,
+    "passRate": 80,
+    "durationMs": 54
+  },
+  {
+    "runId": 1784726023282,
+    "timestamp": "2026-07-22T13:13:43.282Z",
+    "total": 400,
+    "passed": 400,
+    "failed": 0,
+    "passRate": 100,
+    "durationMs": 50
   }
 ]

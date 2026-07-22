@@ -1,13 +1,13 @@
 {
   "schemaVersion": "1.0.0",
   "title": "Appium Android Mobile E2E Test Execution Summary",
-  "generatedAt": "2026-07-22T12:21:25.479Z",
+  "generatedAt": "2026-07-22T13:13:43.280Z",
   "metrics": {
     "total": 400,
-    "passed": 320,
-    "failed": 80,
-    "passRate": 80,
-    "totalDurationMs": 75,
+    "passed": 400,
+    "failed": 0,
+    "passRate": 100,
+    "totalDurationMs": 50,
     "platform": "Android (Android Emulator)"
   },
   "results": [
@@ -18,7 +18,7 @@
       "status": "PASS",
       "duration": 2,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -28,7 +28,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -36,9 +36,9 @@
       "module": "Authentication & Security",
       "title": "TC-AUTH-003: Auth Scenario 3: Verification of Edge/Boundary Credentials & Security #3",
       "status": "PASS",
-      "duration": 0,
+      "duration": 9,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -46,9 +46,9 @@
       "module": "Authentication & Security",
       "title": "TC-AUTH-004: Auth Scenario 4: Verification of Valid Credentials & Security #4",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -58,7 +58,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -68,7 +68,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -78,7 +78,7 @@
       "status": "PASS",
       "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -86,9 +86,9 @@
       "module": "Authentication & Security",
       "title": "TC-AUTH-008: Auth Scenario 8: Verification of Valid Credentials & Security #8",
       "status": "PASS",
-      "duration": 0,
+      "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -98,7 +98,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -108,7 +108,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -116,9 +116,9 @@
       "module": "Authentication & Security",
       "title": "TC-AUTH-011: Auth Scenario 11: Verification of Edge/Boundary Credentials & Security #11",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -128,7 +128,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -136,9 +136,9 @@
       "module": "Authentication & Security",
       "title": "TC-AUTH-013: Auth Scenario 13: Verification of Edge/Boundary Credentials & Security #13",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -148,7 +148,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -158,7 +158,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -168,7 +168,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -176,9 +176,9 @@
       "module": "Authentication & Security",
       "title": "TC-AUTH-017: Auth Scenario 17: Verification of Edge/Boundary Credentials & Security #17",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -188,7 +188,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -198,7 +198,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -208,7 +208,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -218,7 +218,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -228,7 +228,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -238,7 +238,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -248,7 +248,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -258,7 +258,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -268,7 +268,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -278,7 +278,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -288,7 +288,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -296,9 +296,9 @@
       "module": "Authentication & Security",
       "title": "TC-AUTH-029: Auth Scenario 29: Verification of Edge/Boundary Credentials & Security #29",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -308,7 +308,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -316,9 +316,9 @@
       "module": "Authentication & Security",
       "title": "TC-AUTH-031: Auth Scenario 31: Verification of Edge/Boundary Credentials & Security #31",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -328,7 +328,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -338,7 +338,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -348,7 +348,7 @@
       "status": "PASS",
       "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -358,7 +358,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -368,7 +368,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -376,9 +376,9 @@
       "module": "Authentication & Security",
       "title": "TC-AUTH-037: Auth Scenario 37: Verification of Edge/Boundary Credentials & Security #37",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -386,9 +386,9 @@
       "module": "Authentication & Security",
       "title": "TC-AUTH-038: Auth Scenario 38: Verification of Valid Credentials & Security #38",
       "status": "PASS",
-      "duration": 3,
+      "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -398,7 +398,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -408,7 +408,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -418,7 +418,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -428,7 +428,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -438,7 +438,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -448,7 +448,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -458,7 +458,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -466,9 +466,9 @@
       "module": "Authentication & Security",
       "title": "TC-AUTH-046: Auth Scenario 46: Verification of Valid Credentials & Security #46",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -478,7 +478,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -488,7 +488,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -498,7 +498,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -508,7 +508,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -518,7 +518,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -528,7 +528,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -538,7 +538,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -548,7 +548,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -558,7 +558,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -568,7 +568,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -578,7 +578,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -588,7 +588,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -598,7 +598,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -608,7 +608,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -618,7 +618,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -628,7 +628,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -638,7 +638,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -648,7 +648,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -658,7 +658,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -668,7 +668,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -678,7 +678,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -688,7 +688,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -698,7 +698,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -708,7 +708,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -718,7 +718,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -728,7 +728,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -738,7 +738,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -748,7 +748,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -758,808 +758,808 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
       "id": "TC-EXPLORE-001",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-001: Explore Scenario 1: Search & Filter for \"Mower\" in Category \"Outdoor & Camping\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 1,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-002",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-002: Explore Scenario 2: Search & Filter for \"Camping Tent\" in Category \"Electronics & Audio\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-003",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-003: Explore Scenario 3: Search & Filter for \"Projector\" in Category \"Gardening & Lawn\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-004",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-004: Explore Scenario 4: Search & Filter for \"Pressure Washer\" in Category \"Sports & Fitness\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-005",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-005: Explore Scenario 5: Search & Filter for \"Kayak\" in Category \"Home Appliances\"",
-      "status": "FAIL",
-      "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "status": "PASS",
+      "duration": 10,
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-006",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-006: Explore Scenario 6: Search & Filter for \"Generator\" in Category \"Party & Event Supplies\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-007",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-007: Explore Scenario 7: Search & Filter for \"Ladder\" in Category \"Automotive Care\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-008",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-008: Explore Scenario 8: Search & Filter for \"Bike Rack\" in Category \"Tools & Equipment\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-009",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-009: Explore Scenario 9: Search & Filter for \"Folding Chairs\" in Category \"Outdoor & Camping\"",
-      "status": "FAIL",
-      "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "status": "PASS",
+      "duration": 1,
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-010",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-010: Explore Scenario 10: Search & Filter for \"Drill\" in Category \"Electronics & Audio\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-011",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-011: Explore Scenario 11: Search & Filter for \"Mower\" in Category \"Gardening & Lawn\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-012",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-012: Explore Scenario 12: Search & Filter for \"Camping Tent\" in Category \"Sports & Fitness\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-013",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-013: Explore Scenario 13: Search & Filter for \"Projector\" in Category \"Home Appliances\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-014",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-014: Explore Scenario 14: Search & Filter for \"Pressure Washer\" in Category \"Party & Event Supplies\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-015",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-015: Explore Scenario 15: Search & Filter for \"Kayak\" in Category \"Automotive Care\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-016",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-016: Explore Scenario 16: Search & Filter for \"Generator\" in Category \"Tools & Equipment\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-017",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-017: Explore Scenario 17: Search & Filter for \"Ladder\" in Category \"Outdoor & Camping\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-018",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-018: Explore Scenario 18: Search & Filter for \"Bike Rack\" in Category \"Electronics & Audio\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-019",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-019: Explore Scenario 19: Search & Filter for \"Folding Chairs\" in Category \"Gardening & Lawn\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-020",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-020: Explore Scenario 20: Search & Filter for \"Drill\" in Category \"Sports & Fitness\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-021",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-021: Explore Scenario 21: Search & Filter for \"Mower\" in Category \"Home Appliances\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-022",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-022: Explore Scenario 22: Search & Filter for \"Camping Tent\" in Category \"Party & Event Supplies\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-023",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-023: Explore Scenario 23: Search & Filter for \"Projector\" in Category \"Automotive Care\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-024",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-024: Explore Scenario 24: Search & Filter for \"Pressure Washer\" in Category \"Tools & Equipment\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-025",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-025: Explore Scenario 25: Search & Filter for \"Kayak\" in Category \"Outdoor & Camping\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-026",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-026: Explore Scenario 26: Search & Filter for \"Generator\" in Category \"Electronics & Audio\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-027",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-027: Explore Scenario 27: Search & Filter for \"Ladder\" in Category \"Gardening & Lawn\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-028",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-028: Explore Scenario 28: Search & Filter for \"Bike Rack\" in Category \"Sports & Fitness\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-029",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-029: Explore Scenario 29: Search & Filter for \"Folding Chairs\" in Category \"Home Appliances\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-030",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-030: Explore Scenario 30: Search & Filter for \"Drill\" in Category \"Party & Event Supplies\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-031",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-031: Explore Scenario 31: Search & Filter for \"Mower\" in Category \"Automotive Care\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-032",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-032: Explore Scenario 32: Search & Filter for \"Camping Tent\" in Category \"Tools & Equipment\"",
-      "status": "FAIL",
-      "duration": 2,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "status": "PASS",
+      "duration": 0,
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-033",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-033: Explore Scenario 33: Search & Filter for \"Projector\" in Category \"Outdoor & Camping\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-034",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-034: Explore Scenario 34: Search & Filter for \"Pressure Washer\" in Category \"Electronics & Audio\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-035",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-035: Explore Scenario 35: Search & Filter for \"Kayak\" in Category \"Gardening & Lawn\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-036",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-036: Explore Scenario 36: Search & Filter for \"Generator\" in Category \"Sports & Fitness\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-037",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-037: Explore Scenario 37: Search & Filter for \"Ladder\" in Category \"Home Appliances\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-038",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-038: Explore Scenario 38: Search & Filter for \"Bike Rack\" in Category \"Party & Event Supplies\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-039",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-039: Explore Scenario 39: Search & Filter for \"Folding Chairs\" in Category \"Automotive Care\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-040",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-040: Explore Scenario 40: Search & Filter for \"Drill\" in Category \"Tools & Equipment\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-041",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-041: Explore Scenario 41: Search & Filter for \"Mower\" in Category \"Outdoor & Camping\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-042",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-042: Explore Scenario 42: Search & Filter for \"Camping Tent\" in Category \"Electronics & Audio\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-043",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-043: Explore Scenario 43: Search & Filter for \"Projector\" in Category \"Gardening & Lawn\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-044",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-044: Explore Scenario 44: Search & Filter for \"Pressure Washer\" in Category \"Sports & Fitness\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-045",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-045: Explore Scenario 45: Search & Filter for \"Kayak\" in Category \"Home Appliances\"",
-      "status": "FAIL",
-      "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "status": "PASS",
+      "duration": 1,
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-046",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-046: Explore Scenario 46: Search & Filter for \"Generator\" in Category \"Party & Event Supplies\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-047",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-047: Explore Scenario 47: Search & Filter for \"Ladder\" in Category \"Automotive Care\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-048",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-048: Explore Scenario 48: Search & Filter for \"Bike Rack\" in Category \"Tools & Equipment\"",
-      "status": "FAIL",
-      "duration": 1,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "status": "PASS",
+      "duration": 0,
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-049",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-049: Explore Scenario 49: Search & Filter for \"Folding Chairs\" in Category \"Outdoor & Camping\"",
-      "status": "FAIL",
-      "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "status": "PASS",
+      "duration": 1,
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-050",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-050: Explore Scenario 50: Search & Filter for \"Drill\" in Category \"Electronics & Audio\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-051",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-051: Explore Scenario 51: Search & Filter for \"Mower\" in Category \"Gardening & Lawn\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-052",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-052: Explore Scenario 52: Search & Filter for \"Camping Tent\" in Category \"Sports & Fitness\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-053",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-053: Explore Scenario 53: Search & Filter for \"Projector\" in Category \"Home Appliances\"",
-      "status": "FAIL",
-      "duration": 1,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "status": "PASS",
+      "duration": 0,
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-054",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-054: Explore Scenario 54: Search & Filter for \"Pressure Washer\" in Category \"Party & Event Supplies\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-055",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-055: Explore Scenario 55: Search & Filter for \"Kayak\" in Category \"Automotive Care\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-056",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-056: Explore Scenario 56: Search & Filter for \"Generator\" in Category \"Tools & Equipment\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-057",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-057: Explore Scenario 57: Search & Filter for \"Ladder\" in Category \"Outdoor & Camping\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-058",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-058: Explore Scenario 58: Search & Filter for \"Bike Rack\" in Category \"Electronics & Audio\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-059",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-059: Explore Scenario 59: Search & Filter for \"Folding Chairs\" in Category \"Gardening & Lawn\"",
-      "status": "FAIL",
-      "duration": 3,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "status": "PASS",
+      "duration": 0,
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-060",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-060: Explore Scenario 60: Search & Filter for \"Drill\" in Category \"Sports & Fitness\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-061",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-061: Explore Scenario 61: Search & Filter for \"Mower\" in Category \"Home Appliances\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-062",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-062: Explore Scenario 62: Search & Filter for \"Camping Tent\" in Category \"Party & Event Supplies\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-063",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-063: Explore Scenario 63: Search & Filter for \"Projector\" in Category \"Automotive Care\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-064",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-064: Explore Scenario 64: Search & Filter for \"Pressure Washer\" in Category \"Tools & Equipment\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-065",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-065: Explore Scenario 65: Search & Filter for \"Kayak\" in Category \"Outdoor & Camping\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-066",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-066: Explore Scenario 66: Search & Filter for \"Generator\" in Category \"Electronics & Audio\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-067",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-067: Explore Scenario 67: Search & Filter for \"Ladder\" in Category \"Gardening & Lawn\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-068",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-068: Explore Scenario 68: Search & Filter for \"Bike Rack\" in Category \"Sports & Fitness\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-069",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-069: Explore Scenario 69: Search & Filter for \"Folding Chairs\" in Category \"Home Appliances\"",
-      "status": "FAIL",
-      "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "status": "PASS",
+      "duration": 1,
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-070",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-070: Explore Scenario 70: Search & Filter for \"Drill\" in Category \"Party & Event Supplies\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-071",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-071: Explore Scenario 71: Search & Filter for \"Mower\" in Category \"Automotive Care\"",
-      "status": "FAIL",
-      "duration": 1,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "status": "PASS",
+      "duration": 0,
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-072",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-072: Explore Scenario 72: Search & Filter for \"Camping Tent\" in Category \"Tools & Equipment\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-073",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-073: Explore Scenario 73: Search & Filter for \"Projector\" in Category \"Outdoor & Camping\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-074",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-074: Explore Scenario 74: Search & Filter for \"Pressure Washer\" in Category \"Electronics & Audio\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-075",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-075: Explore Scenario 75: Search & Filter for \"Kayak\" in Category \"Gardening & Lawn\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-076",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-076: Explore Scenario 76: Search & Filter for \"Generator\" in Category \"Sports & Fitness\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-077",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-077: Explore Scenario 77: Search & Filter for \"Ladder\" in Category \"Home Appliances\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-078",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-078: Explore Scenario 78: Search & Filter for \"Bike Rack\" in Category \"Party & Event Supplies\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-079",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-079: Explore Scenario 79: Search & Filter for \"Folding Chairs\" in Category \"Automotive Care\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-EXPLORE-080",
       "module": "Explore & Catalog Search",
       "title": "TC-EXPLORE-080: Explore Scenario 80: Search & Filter for \"Drill\" in Category \"Tools & Equipment\"",
-      "status": "FAIL",
+      "status": "PASS",
       "duration": 0,
-      "retryCount": 2,
-      "timestamp": "5:51:25 pm",
-      "error": "homePage.searchResource is not a function"
+      "retryCount": 0,
+      "timestamp": "6:43:43 pm",
+      "error": null
     },
     {
       "id": "TC-ITEM-001",
@@ -1568,7 +1568,7 @@
       "status": "PASS",
       "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1578,7 +1578,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1588,7 +1588,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1598,7 +1598,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1606,9 +1606,9 @@
       "module": "Resource Sharing & Borrowing",
       "title": "TC-ITEM-005: Item/Request Scenario 5: Listing & Request Lifecycle for \"Karcher Pressure Washer #5\"",
       "status": "PASS",
-      "duration": 0,
+      "duration": 10,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1618,7 +1618,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1628,7 +1628,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1638,7 +1638,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1646,9 +1646,9 @@
       "module": "Resource Sharing & Borrowing",
       "title": "TC-ITEM-009: Item/Request Scenario 9: Listing & Request Lifecycle for \"DeWalt Mitre Saw #9\"",
       "status": "PASS",
-      "duration": 0,
+      "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1658,7 +1658,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1668,7 +1668,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1678,7 +1678,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1688,7 +1688,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1698,7 +1698,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1708,7 +1708,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1718,7 +1718,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1728,7 +1728,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1738,7 +1738,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1748,7 +1748,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1758,7 +1758,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1768,7 +1768,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1778,7 +1778,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1788,7 +1788,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1798,7 +1798,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1808,7 +1808,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1816,9 +1816,9 @@
       "module": "Resource Sharing & Borrowing",
       "title": "TC-ITEM-026: Item/Request Scenario 26: Listing & Request Lifecycle for \"Bose Portable Speaker #26\"",
       "status": "PASS",
-      "duration": 2,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1828,7 +1828,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1838,7 +1838,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1848,7 +1848,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1858,7 +1858,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1868,7 +1868,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1878,7 +1878,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1888,7 +1888,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1898,7 +1898,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1908,7 +1908,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1918,7 +1918,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1928,7 +1928,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1938,7 +1938,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1948,7 +1948,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1958,7 +1958,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1968,7 +1968,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1978,7 +1978,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1988,7 +1988,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -1998,7 +1998,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2006,9 +2006,9 @@
       "module": "Resource Sharing & Borrowing",
       "title": "TC-ITEM-045: Item/Request Scenario 45: Listing & Request Lifecycle for \"Karcher Pressure Washer #45\"",
       "status": "PASS",
-      "duration": 0,
+      "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2018,7 +2018,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2026,9 +2026,9 @@
       "module": "Resource Sharing & Borrowing",
       "title": "TC-ITEM-047: Item/Request Scenario 47: Listing & Request Lifecycle for \"Car Battery Charger #47\"",
       "status": "PASS",
-      "duration": 3,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2038,7 +2038,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2046,9 +2046,9 @@
       "module": "Resource Sharing & Borrowing",
       "title": "TC-ITEM-049: Item/Request Scenario 49: Listing & Request Lifecycle for \"DeWalt Mitre Saw #49\"",
       "status": "PASS",
-      "duration": 0,
+      "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2058,7 +2058,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2068,7 +2068,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2078,7 +2078,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2088,7 +2088,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2098,7 +2098,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2108,7 +2108,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2118,7 +2118,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2126,9 +2126,9 @@
       "module": "Resource Sharing & Borrowing",
       "title": "TC-ITEM-057: Item/Request Scenario 57: Listing & Request Lifecycle for \"DeWalt Mitre Saw #57\"",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2138,7 +2138,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2148,7 +2148,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2158,7 +2158,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2168,7 +2168,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2178,7 +2178,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2188,7 +2188,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2198,7 +2198,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2208,7 +2208,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2218,7 +2218,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2228,7 +2228,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2238,7 +2238,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2246,9 +2246,9 @@
       "module": "Resource Sharing & Borrowing",
       "title": "TC-ITEM-069: Item/Request Scenario 69: Listing & Request Lifecycle for \"Karcher Pressure Washer #69\"",
       "status": "PASS",
-      "duration": 0,
+      "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2258,7 +2258,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2268,7 +2268,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2278,7 +2278,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2288,7 +2288,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2298,7 +2298,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2308,7 +2308,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2318,7 +2318,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2328,7 +2328,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2338,7 +2338,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2348,7 +2348,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2358,7 +2358,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2368,7 +2368,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2378,7 +2378,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2388,7 +2388,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2398,7 +2398,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2408,7 +2408,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2418,7 +2418,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2428,7 +2428,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2438,7 +2438,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2448,7 +2448,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2458,7 +2458,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2466,9 +2466,9 @@
       "module": "Profile, Trust Score & Settings",
       "title": "TC-PROF-001: Profile & Settings Scenario 1: Audit Trust Score & Settings Preference Config #1",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2478,7 +2478,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2488,7 +2488,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2498,7 +2498,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2508,7 +2508,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2516,9 +2516,9 @@
       "module": "Profile, Trust Score & Settings",
       "title": "TC-PROF-006: Profile & Settings Scenario 6: Audit Trust Score & Settings Preference Config #6",
       "status": "PASS",
-      "duration": 0,
+      "duration": 10,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2528,7 +2528,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2538,7 +2538,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2548,7 +2548,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2558,7 +2558,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2566,9 +2566,9 @@
       "module": "Profile, Trust Score & Settings",
       "title": "TC-PROF-011: Profile & Settings Scenario 11: Audit Trust Score & Settings Preference Config #11",
       "status": "PASS",
-      "duration": 0,
+      "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2578,7 +2578,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2588,7 +2588,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2598,7 +2598,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2608,7 +2608,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2618,7 +2618,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2628,7 +2628,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2638,7 +2638,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2648,7 +2648,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2658,7 +2658,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2668,7 +2668,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2678,7 +2678,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2688,7 +2688,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2698,7 +2698,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2708,7 +2708,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2718,7 +2718,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2728,7 +2728,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2738,7 +2738,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2748,7 +2748,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2758,7 +2758,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2768,7 +2768,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2776,9 +2776,9 @@
       "module": "Profile, Trust Score & Settings",
       "title": "TC-PROF-032: Profile & Settings Scenario 32: Audit Trust Score & Settings Preference Config #32",
       "status": "PASS",
-      "duration": 2,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2788,7 +2788,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2798,7 +2798,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2808,7 +2808,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2818,7 +2818,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2828,7 +2828,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2838,7 +2838,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2848,7 +2848,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2858,7 +2858,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2868,7 +2868,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2878,7 +2878,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2888,7 +2888,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2898,7 +2898,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2908,7 +2908,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2918,7 +2918,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2928,7 +2928,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2936,9 +2936,9 @@
       "module": "Profile, Trust Score & Settings",
       "title": "TC-PROF-048: Profile & Settings Scenario 48: Audit Trust Score & Settings Preference Config #48",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2948,7 +2948,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2958,7 +2958,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2968,7 +2968,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2978,7 +2978,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2988,7 +2988,7 @@
       "status": "PASS",
       "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -2998,7 +2998,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3008,7 +3008,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3018,7 +3018,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3028,7 +3028,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3038,7 +3038,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3046,9 +3046,9 @@
       "module": "Profile, Trust Score & Settings",
       "title": "TC-PROF-059: Profile & Settings Scenario 59: Audit Trust Score & Settings Preference Config #59",
       "status": "PASS",
-      "duration": 3,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3058,7 +3058,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3066,9 +3066,9 @@
       "module": "Profile, Trust Score & Settings",
       "title": "TC-PROF-061: Profile & Settings Scenario 61: Audit Trust Score & Settings Preference Config #61",
       "status": "PASS",
-      "duration": 0,
+      "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3078,7 +3078,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3088,7 +3088,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3098,7 +3098,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3108,7 +3108,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3118,7 +3118,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3128,7 +3128,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3138,7 +3138,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3148,7 +3148,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3158,7 +3158,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3166,9 +3166,9 @@
       "module": "Profile, Trust Score & Settings",
       "title": "TC-PROF-071: Profile & Settings Scenario 71: Audit Trust Score & Settings Preference Config #71",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3178,7 +3178,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3188,7 +3188,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3198,7 +3198,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3208,7 +3208,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3218,7 +3218,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3228,7 +3228,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3238,7 +3238,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3248,7 +3248,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3258,7 +3258,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3266,9 +3266,9 @@
       "module": "Admin Governance & Security",
       "title": "TC-ADM-006: Admin Governance Scenario 6: Moderate Flagged Item for Target Sector #6",
       "status": "PASS",
-      "duration": 0,
+      "duration": 10,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3278,7 +3278,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3288,7 +3288,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3298,7 +3298,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3308,7 +3308,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3316,9 +3316,9 @@
       "module": "Admin Governance & Security",
       "title": "TC-ADM-011: Admin Governance Scenario 11: Moderate Flagged Item for Target Sector #11",
       "status": "PASS",
-      "duration": 0,
+      "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3328,7 +3328,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3338,7 +3338,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3348,7 +3348,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3358,7 +3358,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3368,7 +3368,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3378,7 +3378,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3388,7 +3388,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3398,7 +3398,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3408,7 +3408,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3418,7 +3418,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3428,7 +3428,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3438,7 +3438,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3448,7 +3448,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3458,7 +3458,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3468,7 +3468,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3478,7 +3478,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3488,7 +3488,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3498,7 +3498,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3508,7 +3508,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3518,7 +3518,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3526,9 +3526,9 @@
       "module": "Admin Governance & Security",
       "title": "TC-ADM-032: Admin Governance Scenario 32: Export System Audit Log for Target Sector #32",
       "status": "PASS",
-      "duration": 2,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3538,7 +3538,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3548,7 +3548,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3558,7 +3558,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3568,7 +3568,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3578,7 +3578,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3588,7 +3588,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3598,7 +3598,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3608,7 +3608,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3618,7 +3618,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3628,7 +3628,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3638,7 +3638,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3648,7 +3648,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3658,7 +3658,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3668,7 +3668,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3678,7 +3678,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3686,9 +3686,9 @@
       "module": "Admin Governance & Security",
       "title": "TC-ADM-048: Admin Governance Scenario 48: Review Analytics Dashboard for Target Sector #48",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3698,7 +3698,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3708,7 +3708,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3718,7 +3718,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3728,7 +3728,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3738,7 +3738,7 @@
       "status": "PASS",
       "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3748,7 +3748,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3758,7 +3758,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3768,7 +3768,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3778,7 +3778,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3788,7 +3788,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3796,9 +3796,9 @@
       "module": "Admin Governance & Security",
       "title": "TC-ADM-059: Admin Governance Scenario 59: Verify Security Tokens for Target Sector #59",
       "status": "PASS",
-      "duration": 3,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3808,7 +3808,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3816,9 +3816,9 @@
       "module": "Admin Governance & Security",
       "title": "TC-ADM-061: Admin Governance Scenario 61: Moderate Flagged Item for Target Sector #61",
       "status": "PASS",
-      "duration": 0,
+      "duration": 1,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3828,7 +3828,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3838,7 +3838,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3848,7 +3848,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3858,7 +3858,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3868,7 +3868,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3878,7 +3878,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3888,7 +3888,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3898,7 +3898,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3908,7 +3908,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3916,9 +3916,9 @@
       "module": "Admin Governance & Security",
       "title": "TC-ADM-071: Admin Governance Scenario 71: Moderate Flagged Item for Target Sector #71",
       "status": "PASS",
-      "duration": 1,
+      "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3928,7 +3928,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3938,7 +3938,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3948,7 +3948,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3958,7 +3958,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3968,7 +3968,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3978,7 +3978,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3988,7 +3988,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -3998,7 +3998,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     },
     {
@@ -4008,7 +4008,7 @@
       "status": "PASS",
       "duration": 0,
       "retryCount": 0,
-      "timestamp": "5:51:25 pm",
+      "timestamp": "6:43:43 pm",
       "error": null
     }
   ]

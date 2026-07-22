@@ -11,8 +11,8 @@ export async function runExploreSuite(driver, baseUrl) {
     const timestamp = new Date().toLocaleTimeString();
 
     const execution = await executeWithRetry(async () => {
-      await homePage.searchResource(data.query);
-      await homePage.filterCategory(data.category);
+      await homePage.searchItem(data.query);
+      await homePage.filterByCategory(data.category);
       await homePage.selectItemCard(0);
       return true;
     }, data.title);
