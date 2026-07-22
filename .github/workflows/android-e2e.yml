@@ -14,10 +14,6 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
   android-e2e-execution:
     name: 📱 Android E2E Execution & Reporting
@@ -29,26 +25,26 @@ jobs:
       - name: 📥 Stage 1: Checkout Repository
         uses: actions/checkout@v4
 
-      # STAGE 2: Setup Java
+      # STAGE 2: Setup Java JDK 17
       - name: ☕ Stage 2: Setup Java JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # STAGE 3 & STAGE 4: Setup Node & Install Dependencies
+      # STAGE 3 & STAGE 4: Setup Node.js & Dependencies
       - name: 🟢 Stage 3-4: Setup Node.js 20 & Install Dependencies
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      - name: 📦 Stage 4: Install Dependencies & Drivers
+      - name: 📦 Install Appium v2 & UiAutomator2 Driver
         run: |
           npm ci
           npx appium driver install uiautomator2 || true
 
-      # STAGE 5: Build Web App & Android APK
+      # STAGE 5: Build Android APK
       - name: 🛠️ Stage 5: Build Android APK
         run: |
           npm run build
@@ -81,11 +77,7 @@ jobs:
         with:
           name: appium-test-reports
           retention-days: 30
-          path: |
-            automation/reports/
-            automation/screenshots/
-            automation/logs/
-            appium.log
+          path: automation/reports/
 
   # STAGE 19 - 21: Deploy Reports to GitHub Pages & Update History
   deploy-reports:
@@ -93,6 +85,10 @@ jobs:
     needs: android-e2e-execution
     if: always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
+    concurrency:
+      group: "github-pages"
+      cancel-in-progress: true
+
     steps:
       - name: 📥 Stage 1: Checkout Repository
         uses: actions/checkout@v4
@@ -117,3 +113,4 @@ jobs:
         run: |
           echo "### 🌐 GitHub Pages Report Deployment Complete" >> $GITHUB_STEP_SUMMARY
           echo "The interactive HTML, Excel, and JSON test reports have been updated and deployed to GitHub Pages." >> $GITHUB_STEP_SUMMARY
+          echo "Live Report URL: https://Aravindreddy-06.github.io/Pdd_App/latest/execution-report.html" >> $GITHUB_STEP_SUMMARY
