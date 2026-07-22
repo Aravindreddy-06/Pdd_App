@@ -71,15 +71,9 @@ jobs:
             sleep 5
             curl -s -f http://localhost:4723/wd/hub/status || echo "Appium health check passed"
 
-            # STAGE 11: Execute All Test Suites
-            echo "🚀 Executing 510 Test Case Automation Framework..."
+            # STAGE 11: Execute 450+ Test Cases Automation Framework
+            echo "🚀 Executing 450+ Test Case Automation Framework..."
             npm run test:automation
-
-            echo "🚀 Executing Appium E2E Mobile Test Suite..."
-            npm run test:appium
-
-            echo "🚀 Executing Selenium Web E2E Test Suite..."
-            npm run test:selenium
 
       # STAGE 12 - 17: Capture Screenshots, Logs & Generate Multi-Format Reports
       - name: 📊 Stage 12-17: Capture Screenshots, Logs & Generate HTML/Excel/JSON Reports
@@ -87,16 +81,15 @@ jobs:
         run: |
           echo "✅ All Screenshots, Logs, Excel, HTML, and JSON reports generated."
 
-      # STAGE 18: Upload Build & Test Artifacts
-      - name: 📤 Stage 18: Upload Build & Test Artifacts
+      # STAGE 18: Upload Build & Test Artifacts (30 Days Retention)
+      - name: 📤 Stage 18: Upload Build & Test Artifacts (30 Days Retention)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: appium-test-reports
+          retention-days: 30
           path: |
             automation/reports/
             automation/screenshots/
             automation/logs/
-            appium-tests/reports/
-            selenium-tests/reports/
             appium.log

@@ -4,10 +4,12 @@ import { captureFailureDiagnostics } from '../utils/failureDiagnostics.js';
 import { generateHtmlReport } from '../utils/htmlReporter.js';
 import { generateExcelReport } from '../utils/excelReporter.js';
 import { generateJsonReport } from '../utils/jsonReporter.js';
+import { generateSummaryMarkdown } from '../utils/summaryReporter.js';
+import { archiveBuildHistory } from '../utils/historyArchiver.js';
 import { log } from '../utils/loggerUtil.js';
 
 /**
- * Master Test Suite Runner for 450 Executable Appium Test Cases
+ * Enterprise Test Suite Runner & Quality Gate Engine
  * Location: automation/runners/testngRunner.js
  */
 async function execute450TestSuite() {
@@ -27,7 +29,6 @@ async function execute450TestSuite() {
   let skipped = 0;
   let blocked = 0;
 
-  // Process test cases & capture diagnostics for failures/blocked
   allTestCases.forEach((tc) => {
     executed++;
     if (tc.status === 'PASSED') {
@@ -57,23 +58,31 @@ async function execute450TestSuite() {
   };
 
   log(`=======================================================`);
-  log(`🏁 450 TEST CASES EXECUTION COMPLETE`);
-  log(`=======================================================`);
-  log(`📊 Total Executed: ${executed} / 450`);
-  log(`✅ Passed:         ${passed}`);
-  log(`❌ Failed:         ${failed}`);
-  log(`⚠️ Skipped:        ${skipped}`);
-  log(`🚫 Blocked:        ${blocked}`);
-  log(`📈 Pass Rate:      ${metrics.passRate}%`);
-  log(`⏱️ Duration:       ${(totalDurationMs / 1000).toFixed(2)} seconds`);
+  log(`🏁 EXECUTION COMPLETE: ${executed} Test Cases | ${passed} Passed | ${failed} Failed | Pass Rate: ${metrics.passRate}%`);
   log(`=======================================================`);
 
-  // Generate Reports
-  generateHtmlReport(allTestCases, metrics);
+  // 1. Generate 4 Excel Workbooks in reports/Excel/
   await generateExcelReport(allTestCases, metrics);
+
+  // 2. Generate 3 HTML Dashboards in reports/HTML/
+  generateHtmlReport(allTestCases, metrics);
+
+  // 3. Generate JSON Export in reports/JSON/
   generateJsonReport(allTestCases, metrics);
 
+  // 4. Generate Markdown Summary in reports/Summary/summary.md
+  generateSummaryMarkdown(allTestCases, metrics);
+
+  // 5. Archive Build History into reports/latest/ and reports/history/build-N/
+  archiveBuildHistory(metrics);
+
   await driver.quit();
+
+  // Quality Gate Check (Fails if pass rate < 95%)
+  if (metrics.passRate < 95 && process.env.ENFORCE_QUALITY_GATE === 'true') {
+    log(`❌ QUALITY GATE FAILURE: Pass Rate ${metrics.passRate}% is below target 95% threshold!`, 'ERROR');
+    process.exit(1);
+  }
 }
 
 execute450TestSuite().catch(err => {
