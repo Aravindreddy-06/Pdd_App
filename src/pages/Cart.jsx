@@ -56,7 +56,7 @@ export default function Cart() {
           <ArrowLeft size={24} />
         </button>
         <h3 className="nav-title">Shopping Cart</h3>
-        <button className="back-btn" onClick={() => setItems([])} title="Clear Cart">
+        <button className="back-btn" onClick={() => items.forEach(i => removeFromCart(i.id))} title="Clear Cart">
           <Trash2 size={20} color="var(--text-gray)" />
         </button>
       </div>
