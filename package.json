@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:apk": "node scripts/build-apk.js",
+    "test:load": "node scripts/load-test.js",
+    "test:appium": "node appium-tests/runner.js",
+    "test:selenium": "node selenium-tests/runner.js",
+    "test:automation": "node automation/runners/testngRunner.js"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.20.8",
@@ -27,7 +32,9 @@
     "eslint": "^10.2.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "exceljs": "^4.4.0",
     "globals": "^17.5.0",
+    "selenium-webdriver": "^4.46.0",
     "vite": "^8.0.10"
   }
 }

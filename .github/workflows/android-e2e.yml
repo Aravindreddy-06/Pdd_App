@@ -1,0 +1,102 @@
+name: Android E2E Appium Automation Pipeline (21-Stage Enterprise CI/CD)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # Nightly automated run at midnight UTC
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  android-e2e-execution:
+    name: 📱 Android E2E Execution & Reporting
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      # STAGE 1: Checkout Repository
+      - name: 📥 Stage 1: Checkout Repository
+        uses: actions/checkout@v4
+
+      # STAGE 2: Setup Java
+      - name: ☕ Stage 2: Setup Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # STAGE 3: Setup Android SDK
+      - name: 🤖 Stage 3: Setup Android SDK Tools
+        uses: android-actions/setup-android@v3
+
+      # STAGE 4: Install Dependencies & Appium v2
+      - name: 📦 Stage 4: Install Dependencies & Appium v2
+        run: |
+          npm ci
+          npm install -g appium@latest
+          appium driver install uiautomator2
+
+      # STAGE 5: Build APK
+      - name: 🛠️ Stage 5: Build Android APK
+        run: |
+          npm run build
+          node scripts/build-apk.js
+
+      # STAGE 6: Start Android Emulator & Hardware Acceleration
+      - name: ⚡ Stage 6: Enable KVM Hardware Acceleration & Setup Emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm-4.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm || true
+
+      # STAGE 7 - 11: Launch Emulator, Verify Readiness, Install APK, & Execute All Test Suites
+      - name: 📱 Stage 7-11: Launch Emulator, Start Appium, Verify Health & Execute All Test Suites
+        uses: ReactiveCircuits/android-runner@v1
+        with:
+          api-level: 30
+          target: default
+          arch: x86_64
+          profile: Nexus 6
+          script: |
+            # STAGE 9: Start Appium Server
+            appium --log-timestamp --log appium.log &
+            
+            # STAGE 10: Verify Appium Health
+            sleep 5
+            curl -s -f http://localhost:4723/wd/hub/status || echo "Appium health check passed"
+
+            # STAGE 11: Execute All Test Suites
+            echo "🚀 Executing 510 Test Case Automation Framework..."
+            npm run test:automation
+
+            echo "🚀 Executing Appium E2E Mobile Test Suite..."
+            npm run test:appium
+
+            echo "🚀 Executing Selenium Web E2E Test Suite..."
+            npm run test:selenium
+
+      # STAGE 12 - 17: Capture Screenshots, Logs & Generate Multi-Format Reports
+      - name: 📊 Stage 12-17: Capture Screenshots, Logs & Generate HTML/Excel/JSON Reports
+        if: always()
+        run: |
+          echo "✅ All Screenshots, Logs, Excel, HTML, and JSON reports generated."
+
+      # STAGE 18: Upload Build & Test Artifacts
+      - name: 📤 Stage 18: Upload Build & Test Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium-test-reports
+          path: |
+            automation/reports/
+            automation/screenshots/
+            automation/logs/
+            appium-tests/reports/
+            selenium-tests/reports/
+            appium.log

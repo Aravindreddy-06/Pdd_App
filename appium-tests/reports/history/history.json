@@ -1,0 +1,11 @@
+[
+  {
+    "runId": 1784722885500,
+    "timestamp": "2026-07-22T12:21:25.500Z",
+    "total": 400,
+    "passed": 320,
+    "failed": 80,
+    "passRate": 80,
+    "durationMs": 75
+  }
+]
