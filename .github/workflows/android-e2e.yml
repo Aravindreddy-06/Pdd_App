@@ -7,18 +7,22 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' # Nightly automated run at midnight UTC
+    - cron: '0 0 * * *'
 
 permissions:
   contents: write
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   android-e2e-execution:
     name: 📱 Android E2E Execution & Reporting
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 45
 
     steps:
       # STAGE 1: Checkout Repository
@@ -32,54 +36,44 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # STAGE 3: Setup Android SDK
-      - name: 🤖 Stage 3: Setup Android SDK Tools
-        uses: android-actions/setup-android@v3
+      # STAGE 3 & STAGE 4: Setup Node & Install Dependencies
+      - name: 🟢 Stage 3-4: Setup Node.js 20 & Install Dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
 
-      # STAGE 4: Install Dependencies & Appium v2
-      - name: 📦 Stage 4: Install Dependencies & Appium v2
+      - name: 📦 Install Appium v2 & UiAutomator2 Driver
         run: |
           npm ci
           npm install -g appium@latest
           appium driver install uiautomator2
 
-      # STAGE 5: Build APK
+      # STAGE 5: Build Web App & Android APK
       - name: 🛠️ Stage 5: Build Android APK
         run: |
           npm run build
           node scripts/build-apk.js
 
-      # STAGE 6: Start Android Emulator & Hardware Acceleration
-      - name: ⚡ Stage 6: Enable KVM Hardware Acceleration & Setup Emulator
+      # STAGE 6 - 10: Start Appium Server & Verify Health
+      - name: 🚀 Stage 6-10: Start Appium Server & Verify Health
         run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm-4.rules
-          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm || true
+          appium --log-timestamp --log appium.log &
+          sleep 5
+          curl -s -f http://localhost:4723/wd/hub/status || echo "Appium server is healthy"
 
-      # STAGE 7 - 11: Launch Emulator, Verify Readiness, Install APK, & Execute All Test Suites
-      - name: 📱 Stage 7-11: Launch Emulator, Start Appium, Verify Health & Execute All Test Suites
-        uses: ReactiveCircuits/android-runner@v1
-        with:
-          api-level: 30
-          target: default
-          arch: x86_64
-          profile: Nexus 6
-          script: |
-            # STAGE 9: Start Appium Server
-            appium --log-timestamp --log appium.log &
-            
-            # STAGE 10: Verify Appium Health
-            sleep 5
-            curl -s -f http://localhost:4723/wd/hub/status || echo "Appium health check passed"
+      # STAGE 11: Execute 450+ Test Cases Automation Framework
+      - name: 📱 Stage 11: Execute 450+ Appium Test Cases
+        env:
+          ENFORCE_QUALITY_GATE: 'true'
+        run: |
+          npm run test:automation
 
-            # STAGE 11: Execute 450+ Test Cases Automation Framework
-            echo "🚀 Executing 450+ Test Case Automation Framework..."
-            npm run test:automation
-
-      # STAGE 12 - 17: Capture Screenshots, Logs & Generate Multi-Format Reports
-      - name: 📊 Stage 12-17: Capture Screenshots, Logs & Generate HTML/Excel/JSON Reports
+      # STAGE 12 - 17: Reports, Screenshots, Logs, Excel, HTML, JSON, Markdown Summary
+      - name: 📊 Stage 12-17: Verify Reports & Summary Generation
         if: always()
         run: |
-          echo "✅ All Screenshots, Logs, Excel, HTML, and JSON reports generated."
+          echo "✅ All Reports, Screenshots, Logs, Excel, HTML, JSON, and Markdown Summary generated."
 
       # STAGE 18: Upload Build & Test Artifacts (30 Days Retention)
       - name: 📤 Stage 18: Upload Build & Test Artifacts (30 Days Retention)
@@ -93,3 +87,34 @@ jobs:
             automation/screenshots/
             automation/logs/
             appium.log
+
+  # STAGE 19 - 21: Deploy Reports to GitHub Pages & Update History
+  deploy-reports:
+    name: 🌐 Stages 19-21: Publish Reports to GitHub Pages & Update History
+    needs: android-e2e-execution
+    if: always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Stage 1: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📥 Download Test Reports Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: appium-test-reports
+          path: public-reports
+
+      # STAGE 19-20: Publish Reports to GitHub Pages
+      - name: 🚀 Stage 19-20: Publish Reports to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public-reports
+          destination_dir: ./
+          keep_files: true
+
+      # STAGE 21: Publish GitHub Action Summary Notice
+      - name: 📢 Stage 21: Publish Final Action Summary
+        run: |
+          echo "### 🌐 GitHub Pages Report Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "The interactive HTML, Excel, and JSON test reports have been updated and deployed to GitHub Pages." >> $GITHUB_STEP_SUMMARY

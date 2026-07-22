@@ -25,8 +25,7 @@ jobs:
           name: appium-test-reports
           path: public-reports
 
-      # STAGE 19: Publish Reports to GitHub Pages
-      # STAGE 20: Update Historical Reports
+      # STAGE 19-20: Publish Reports to GitHub Pages
       - name: 🚀 Stage 19-20: Publish Reports to GitHub Pages & Update Execution History
         uses: peaceiris/actions-gh-pages@v3
         with:
