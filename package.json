@@ -15,6 +15,7 @@
     "test:selenium:live": "node automation/runners/seleniumRunner.cjs",
     "test:login:selenium": "node selenium-tests/tests/login-tests.js",
     "test:vulnerability": "node vulnerability/runner.js",
+    "test:load:suite": "node load-tests/runner.js",
     "test:automation": "node automation/runners/testngRunner.js"
   },
   "dependencies": {
