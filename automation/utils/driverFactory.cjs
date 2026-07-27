@@ -8,21 +8,21 @@ class DriverFactory {
     logger.info(`Initializing ${config.browser.toUpperCase()} WebDriver... (Headless: ${config.headless})`);
     
     const options = new chrome.Options();
-    if (config.headless) {
-      options.addArguments('--headless=new');
-    }
     options.addArguments(
+      '--headless=new',
       '--no-sandbox',
+      '--disable-setuid-sandbox',
       '--disable-dev-shm-usage',
       '--disable-gpu',
       '--window-size=1920,1080',
       '--ignore-certificate-errors',
       '--disable-extensions',
+      '--remote-allow-origins=*',
       '--allow-insecure-localhost'
     );
 
     const driver = await new Builder()
-      .forBrowser(config.browser)
+      .forBrowser('chrome')
       .setChromeOptions(options)
       .build();
 
