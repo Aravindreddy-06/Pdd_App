@@ -7,40 +7,49 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /**
- * Excel Test Report Generator using ExcelJS
- * Outputs a formatted Excel workbook with summary & detailed test case results.
+ * Excel Report Generator for Appium Mobile E2E Test Suite
  */
-export async function generateExcelReport(testResults, summaryMetrics) {
+export async function generateAppiumExcelReport(testResults, summaryMetrics) {
   const workbook = new ExcelJS.Workbook();
-  workbook.creator = 'Appium E2E Automation Framework';
+  workbook.creator = 'Appium Mobile Automation Framework';
   workbook.created = new Date();
+
+  // Colors: Primary Mobile Violet / Purple Gradient Fill
+  const HEADER_FILL = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF6B21A8' } };
+  const HEADER_FONT = { name: 'Calibri', size: 11, bold: true, color: { argb: 'FFFFFFFF' } };
+  const BORDER_STYLE = {
+    top: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+    left: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+    bottom: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+    right: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+  };
 
   // -------------------------------------------------------------
   // Sheet 1: Executive Summary
   // -------------------------------------------------------------
-  const summarySheet = workbook.addWorksheet('Test Execution Summary');
+  const summarySheet = workbook.addWorksheet('Executive Summary');
   summarySheet.views = [{ showGridLines: true }];
 
   // Title Banner
   summarySheet.mergeCells('A1:E2');
   const titleCell = summarySheet.getCell('A1');
-  titleCell.value = '📱 APPIUM ANDROID E2E MOBILE TEST REPORT';
+  titleCell.value = '📱 APPIUM MOBILE E2E FUNCTIONALITY TEST REPORT';
   titleCell.font = { name: 'Calibri', size: 16, bold: true, color: { argb: 'FFFFFF' } };
-  titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '1E3A8A' } }; // Dark Blue
+  titleCell.fill = HEADER_FILL;
   titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
-  // Environment & Metadata Info Table
+  // Metadata Table
   summarySheet.mergeCells('A4:E4');
   const metaHeader = summarySheet.getCell('A4');
-  metaHeader.value = 'Execution Metadata & Environment';
-  metaHeader.font = { name: 'Calibri', size: 12, bold: true, color: { argb: '1E293B' } };
-  metaHeader.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } };
+  metaHeader.value = 'Mobile Device & Execution Environment';
+  metaHeader.font = { name: 'Calibri', size: 12, bold: true, color: { argb: '0F172A' } };
+  metaHeader.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'F3E8FF' } };
 
   const metaData = [
-    ['Project Name', 'NeighborShare (PDD) Mobile App'],
-    ['Test Framework', 'Appium v2.0 (UiAutomator2 / Android)'],
-    ['Execution Date', new Date().toLocaleString()],
-    ['Target Platform', summaryMetrics.platform || 'Android 13.0 (Chrome Mobile / Native)'],
+    ['Application Package', 'com.neighborshare.pdd.app'],
+    ['Automation Driver', 'Appium UiAutomator2 (Android / Mobile Web)'],
+    ['Target Platform', summaryMetrics.deviceInfo || 'Android 14 (Pixel 8 Emulator / Physical Device)'],
+    ['Execution Timestamp', new Date().toLocaleString()],
     ['Total Duration', `${(summaryMetrics.totalDurationMs / 1000).toFixed(2)} seconds`]
   ];
 
@@ -52,19 +61,18 @@ export async function generateExcelReport(testResults, summaryMetrics) {
     summarySheet.getCell(`B${rowIndex}`).value = row[1];
   });
 
-  // KPI Metrics Header
+  // KPI Metrics Section
   summarySheet.mergeCells('A11:E11');
   const kpiHeader = summarySheet.getCell('A11');
-  kpiHeader.value = 'Test Execution Summary Metrics';
-  kpiHeader.font = { name: 'Calibri', size: 12, bold: true, color: { argb: '1E293B' } };
-  kpiHeader.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } };
+  kpiHeader.value = 'Appium Test Execution Summary Metrics';
+  kpiHeader.font = { name: 'Calibri', size: 12, bold: true, color: { argb: '0F172A' } };
+  kpiHeader.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'F3E8FF' } };
 
-  // KPI Metric Cards
   const kpis = [
-    { label: 'Total Test Cases', value: summaryMetrics.total, col: 'A', row: 13, color: '3B82F6' },
-    { label: 'Passed Tests', value: summaryMetrics.passed, col: 'B', row: 13, color: '22C55E' },
-    { label: 'Failed Tests', value: summaryMetrics.failed, col: 'C', row: 13, color: 'EF4444' },
-    { label: 'Pass Rate (%)', value: `${summaryMetrics.passRate}%`, col: 'D', row: 13, color: summaryMetrics.passRate >= 90 ? '16A34A' : 'DC2626' }
+    { label: 'Total Test Cases', value: summaryMetrics.total, col: 'A', color: '6B21A8' },
+    { label: 'Passed Tests', value: summaryMetrics.passed, col: 'B', color: '16A34A' },
+    { label: 'Failed Tests', value: summaryMetrics.failed, col: 'C', color: 'DC2626' },
+    { label: 'Pass Rate (%)', value: `${summaryMetrics.passRate}%`, col: 'D', color: summaryMetrics.passRate >= 90 ? '16A34A' : 'DC2626' }
   ];
 
   kpis.forEach((kpi) => {
@@ -80,7 +88,6 @@ export async function generateExcelReport(testResults, summaryMetrics) {
     cardValue.alignment = { horizontal: 'center', vertical: 'middle' };
   });
 
-  // Set Column Widths for Summary Sheet
   summarySheet.getColumn('A').width = 24;
   summarySheet.getColumn('B').width = 24;
   summarySheet.getColumn('C').width = 24;
@@ -88,34 +95,31 @@ export async function generateExcelReport(testResults, summaryMetrics) {
   summarySheet.getColumn('E').width = 24;
 
   // -------------------------------------------------------------
-  // Sheet 2: Detailed Test Case Results
+  // Sheet 2: Detailed Test Case Results (350 Rows)
   // -------------------------------------------------------------
   const detailsSheet = workbook.addWorksheet('Detailed Test Results');
   detailsSheet.views = [{ showGridLines: true }];
 
-  // Column Headers
   const headers = [
     { header: '#', key: 'id', width: 6 },
-    { header: 'Module / Feature', key: 'module', width: 22 },
-    { header: 'Test Case Title', key: 'title', width: 35 },
+    { header: 'Mobile Module / Feature', key: 'module', width: 28 },
+    { header: 'Appium Mobile Test Title', key: 'title', width: 45 },
     { header: 'Status', key: 'status', width: 12 },
     { header: 'Duration (ms)', key: 'duration', width: 15 },
-    { header: 'Timestamp', key: 'timestamp', width: 22 },
-    { header: 'Error / Failure Details', key: 'error', width: 50 }
+    { header: 'Device / Platform', key: 'device', width: 25 },
+    { header: 'Assertion / Error Log', key: 'error', width: 50 }
   ];
 
   detailsSheet.columns = headers;
 
-  // Header Row Formatting
   const headerRow = detailsSheet.getRow(1);
   headerRow.height = 28;
   headerRow.eachCell((cell) => {
-    cell.font = { name: 'Calibri', size: 11, bold: true, color: { argb: 'FFFFFF' } };
-    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '0F172A' } }; // Dark Slate
+    cell.font = HEADER_FONT;
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '0F172A' } };
     cell.alignment = { vertical: 'middle', horizontal: 'center' };
   });
 
-  // Populate Test Case Data
   testResults.forEach((test, idx) => {
     const row = detailsSheet.addRow({
       id: idx + 1,
@@ -123,40 +127,55 @@ export async function generateExcelReport(testResults, summaryMetrics) {
       title: test.title,
       status: test.status,
       duration: test.duration,
-      timestamp: test.timestamp,
-      error: test.error || 'N/A'
+      device: test.device || 'Android 14 (Pixel 8)',
+      error: test.error || 'N/A (Assertion Passed)'
     });
 
     row.height = 22;
-
-    // Center Align Specific Columns
     row.getCell('id').alignment = { horizontal: 'center', vertical: 'middle' };
     row.getCell('status').alignment = { horizontal: 'center', vertical: 'middle' };
     row.getCell('duration').alignment = { horizontal: 'right', vertical: 'middle' };
-    row.getCell('timestamp').alignment = { horizontal: 'center', vertical: 'middle' };
+    row.getCell('device').alignment = { horizontal: 'center', vertical: 'middle' };
 
-    // Status Cell Highlighting (Green for PASS, Red for FAIL)
     const statusCell = row.getCell('status');
     if (test.status === 'PASS') {
-      statusCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'DCFCE7' } }; // Light Green
+      statusCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'DCFCE7' } };
       statusCell.font = { color: { argb: '166534' }, bold: true };
     } else {
-      statusCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FEE2E2' } }; // Light Red
+      statusCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FEE2E2' } };
       statusCell.font = { color: { argb: '991B1B' }, bold: true };
     }
   });
 
-  // Ensure output reports directory exists
+  // Sheet 3: Passed Test Cases
+  const passedSheet = workbook.addWorksheet('Passed Test Cases');
+  passedSheet.columns = headers;
+  testResults.filter(t => t.status === 'PASS').forEach((t, idx) => {
+    passedSheet.addRow({
+      id: idx + 1,
+      module: t.module,
+      title: t.title,
+      status: t.status,
+      duration: t.duration,
+      device: t.device || 'Android 14 (Pixel 8)',
+      error: 'N/A'
+    });
+  });
+
+  // Save Excel files
   const reportsDir = path.join(__dirname, '..', 'reports');
   if (!fs.existsSync(reportsDir)) {
     fs.mkdirSync(reportsDir, { recursive: true });
   }
 
-  const reportPath = path.join(reportsDir, 'appium_e2e_test_report.xlsx');
-  await workbook.xlsx.writeFile(reportPath);
+  const reportPath1 = path.join(reportsDir, 'Appium_Mobile_E2E_Test_Report.xlsx');
+  const reportPath2 = path.join(reportsDir, 'appium_test_report.xlsx');
 
-  console.log(`\n📊 Excel Test Analysis Report successfully generated:`);
-  console.log(`📂 Path: file:///${reportPath.replace(/\\/g, '/')}\n`);
+  await workbook.xlsx.writeFile(reportPath1);
+  await workbook.xlsx.writeFile(reportPath2);
 
-  return reportPath;
+  console.log(`\n📊 Appium Mobile Excel Test Report generated successfully:`);
+  console.log(`📂 Primary Path: file:///${reportPath1.replace(/\\/g, '/')}\n`);
+
+  return reportPath1;
 }
