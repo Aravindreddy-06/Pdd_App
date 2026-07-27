@@ -1,46 +1,30 @@
-# 🚀 CI/CD Execution Guide - GitHub Actions & GitHub Pages Reporting
+# 🚀 CI/CD Execution Guide — Phase 7 GitHub Actions Pipeline
 
-This document details the automated 21-stage CI/CD pipeline execution flow in GitHub Actions and GitHub Pages deployment.
-
----
-
-## ⚙️ Workflow Triggers
-
-The primary test workflow [`.github/workflows/android-e2e.yml`](file:///c:/PDD/App/neighbor-share/.github/workflows/android-e2e.yml) triggers on:
-- `push` to `main` or `master` branches
-- `pull_request` to `main` or `master` branches
-- `workflow_dispatch` (Manual trigger via GitHub Actions UI)
-- `schedule` (Daily Nightly Cron at midnight UTC: `0 0 * * *`)
+## Overview
+This document outlines the complete 13-stage GitHub Actions CI/CD deployment & testing workflow configured in `.github/workflows/deploy-and-test.yml`.
 
 ---
 
-## 🗺️ 21-Stage CI/CD Pipeline Order
+## 🔁 Pipeline Stages
 
-1. **Stage 1:** Checkout Repository (`actions/checkout@v4`)
-2. **Stage 2:** Setup Java JDK 17 (`actions/setup-java@v4`)
-3. **Stage 3:** Setup Android SDK Tools (`android-actions/setup-android@v3`)
-4. **Stage 4:** Install Dependencies & Appium (`npm ci`, `appium driver install uiautomator2`)
-5. **Stage 5:** Build Android APK (`npm run build:apk`)
-6. **Stage 6:** Enable KVM Hardware Acceleration & Setup Emulator
-7. **Stage 7:** Verify Emulator Readiness (`adb wait-for-device`)
-8. **Stage 8:** Install APK on Emulator (`adb install ...`)
-9. **Stage 9:** Start Appium Server (`appium --log appium.log &`)
-10. **Stage 10:** Verify Appium Health (`curl http://localhost:4723/wd/hub/status`)
-11. **Stage 11:** Execute 450+ Test Cases (`npm run test:automation`)
-12. **Stage 12:** Capture Screenshots (`automation/screenshots/`)
-13. **Stage 13:** Capture Logs (`automation/logs/`)
-14. **Stage 14:** Generate 4 Excel Reports (`automation/reports/Excel/`)
-15. **Stage 15:** Generate 3 HTML Dashboards (`automation/reports/HTML/`)
-16. **Stage 16:** Generate JSON Export (`automation/reports/JSON/`)
-17. **Stage 17:** Generate Markdown Summary (`automation/reports/Summary/summary.md`)
-18. **Stage 18:** Upload Workflow Artifacts (`actions/upload-artifact@v4`, Retention: 30 Days)
-19. **Stage 19:** Publish Reports to GitHub Pages (`peaceiris/actions-gh-pages@v3`)
-20. **Stage 20:** Update Build History (`reports/latest/` & `reports/history/build-N/`)
-21. **Stage 21:** Publish Final Deployment Notice (`$GITHUB_STEP_SUMMARY`)
+1. **Stage 1: Checkout Repository** — Clones latest source code.
+2. **Stage 2: Dependency Installation** — Installs node dependencies via `npm ci`.
+3. **Stage 3: Build Application** — Compiles production bundle with Vite (`npm run build`).
+4. **Stage 4: Static Analysis** — Executes ESLint and verifies `dist/index.html`.
+5. **Stage 5: Deploy to GitHub Pages** — Deploys application live to GitHub Pages.
+6. **Stage 6: Wait for Deployment** — Polls target `BASE_URL` until HTTP status 200 is returned.
+7. **Stage 7: Deployment Verification** — Verifies HTML headers, CSS, and JS bundles.
+8. **Stage 8: Run Selenium E2E Tests** — Executes 420 Selenium E2E tests in Headless Chrome against the live URL.
+9. **Stage 9: Generate HTML Reports** — Creates `execution-report.html` and `dashboard.html`.
+10. **Stage 10: Generate Excel Reports** — Generates `Automation_Test_Report.xlsx`, `Passed_Test_Cases.xlsx`, `Failed_Test_Cases.xlsx`, and `Summary_Report.xlsx`.
+11. **Stage 11: Upload Artifacts** — Uploads all report artifacts to GitHub Actions (30-day retention).
+12. **Stage 12: Publish Summary** — Publishes execution status and failure details to `$GITHUB_STEP_SUMMARY`.
+13. **Stage 13: Store Historical Results** — Archives execution JSON for historical trend tracking.
 
 ---
 
-## 🌐 Live GitHub Pages URL
-
-Reports are automatically published to:
-👉 `https://Aravindreddy-06.github.io/Pdd_App/latest/execution-report.html`
+## ⚙️ Repository Configuration Checklist
+To enable GitHub Pages deployment:
+1. Navigate to **Settings** > **Pages** in your GitHub repository.
+2. Under **Source**, select **GitHub Actions**.
+3. Ensure Workflow Permissions under **Settings** > **Actions** > **General** are set to **Read and write permissions**.

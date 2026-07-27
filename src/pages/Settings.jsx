@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import {
   ArrowLeft, User, Bell, Shield, HelpCircle, FileText,
   LogOut, ChevronRight, Eye, EyeOff, MapPin, Users,
-  BarChart2, Lock, UserX, Download, Trash2, Check, X
+  BarChart2, Lock, UserX, Download, Trash2, Check, X, CreditCard
 } from 'lucide-react';
 import { useUser } from '../hooks/useUser';
+import PaymentMethodsManager from '../components/PaymentMethodsManager';
 import './Settings.css';
 
 // ── Reusable Toggle Switch ─────────────────────────────────────────────
@@ -51,6 +52,7 @@ export default function Settings() {
   const { user }  = useUser();
 
   const [showPrivacy, setShowPrivacy]     = useState(false);
+  const [showPayments, setShowPayments]   = useState(false);
   const [privacy, setPrivacy]             = useState(loadPrivacy);
   const [savedBanner, setSavedBanner]     = useState(false);
 
@@ -78,9 +80,10 @@ export default function Settings() {
       id: 'account',
       title: 'ACCOUNT SETTINGS',
       items: [
-        { label: 'Edit Profile',             icon: User,     path: '/edit-profile', color: 'rgba(132,204,22,0.12)', iconColor: '#84cc16' },
-        { label: 'Notification Preferences', icon: Bell,     path: '#',             color: 'rgba(132,204,22,0.12)', iconColor: '#84cc16' },
-        { label: 'Privacy Settings',         icon: Shield,   path: 'privacy',       color: 'rgba(132,204,22,0.12)', iconColor: '#84cc16', isPrivacy: true },
+        { label: 'Edit Profile',             icon: User,       path: '/edit-profile', color: 'rgba(132,204,22,0.12)', iconColor: '#84cc16' },
+        { label: 'Payment Methods & Billing', icon: CreditCard, path: 'payments',      color: 'rgba(132,204,22,0.12)', iconColor: '#84cc16', isPayments: true },
+        { label: 'Notification Preferences', icon: Bell,       path: '#',             color: 'rgba(132,204,22,0.12)', iconColor: '#84cc16' },
+        { label: 'Privacy Settings',         icon: Shield,     path: 'privacy',       color: 'rgba(132,204,22,0.12)', iconColor: '#84cc16', isPrivacy: true },
       ]
     },
     {
@@ -123,10 +126,14 @@ export default function Settings() {
     <div className="settings-page">
       {/* ── Sticky Header ─────────────────────────────── */}
       <div className="header-nav px-4 pt-6 pb-2">
-        <button className="back-btn" onClick={() => { if (showPrivacy) setShowPrivacy(false); else navigate(-1); }}>
+        <button className="back-btn" onClick={() => { 
+          if (showPrivacy) setShowPrivacy(false); 
+          else if (showPayments) setShowPayments(false); 
+          else navigate(-1); 
+        }}>
           <ArrowLeft size={24} />
         </button>
-        <h3 className="nav-title">{showPrivacy ? 'Privacy Settings' : 'Settings'}</h3>
+        <h3 className="nav-title">{showPrivacy ? 'Privacy Settings' : showPayments ? 'Payment Methods' : 'Settings'}</h3>
         <div style={{ width: 24 }} />
       </div>
 
@@ -215,6 +222,9 @@ export default function Settings() {
             </div>
           </div>
 
+        ) : showPayments ? (
+          /* ── PAYMENTS PANEL ───────────────────────────── */
+          <PaymentMethodsManager />
         ) : (
           /* ── MAIN SETTINGS MENU ──────────────────────── */
           <>
@@ -241,6 +251,8 @@ export default function Settings() {
                       onClick={() => {
                         if (item.isPrivacy) {
                           setShowPrivacy(true);
+                        } else if (item.isPayments) {
+                          setShowPayments(true);
                         } else if (item.path !== '#') {
                           navigate(item.path);
                         }

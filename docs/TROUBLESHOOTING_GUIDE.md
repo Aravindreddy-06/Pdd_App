@@ -1,27 +1,19 @@
-# 🛠️ Troubleshooting Guide - Common Issues & Diagnostics
+# 🛠️ Troubleshooting Guide — Phase 7 CI/CD & Selenium E2E
 
-This guide helps diagnose and resolve common setup, build, and test execution errors.
+## Common Issues & Resolutions
 
----
+### 1. `BASE_URL` Localhost Guard Triggered
+**Error**: `CRITICAL ERROR: Selenium tests are forbidden from running against localhost!`
+**Resolution**: Ensure `BASE_URL` environment variable points to your live deployment (e.g. `https://aravindreddy-06.github.io/Pdd_App`).
 
-## 🛑 Common Issues & Solutions
+### 2. GitHub Pages Deployment Timeout (Stage 6)
+**Error**: `Deployment timeout! Target URL did not return HTTP 200.`
+**Resolution**: Check repository Settings > Pages to ensure source is set to **GitHub Actions**.
 
-### 1. Emulator Startup Fails in GitHub Actions
-- **Symptom:** Timeout during `android-runner` step.
-- **Cause:** KVM acceleration not available on runner host.
-- **Fix:** Ensure KVM setup step (`echo 'KERNEL=="kvm"...'`) executes prior to launching the emulator.
+### 3. Selenium Chrome Driver Initialization Error
+**Error**: `WebDriverError: chrome not reachable` or `DevToolsActivePort file doesn't exist`
+**Resolution**: Verify Chrome options in `automation/utils/driverFactory.js` include `--headless=new`, `--no-sandbox`, and `--disable-dev-shm-usage`.
 
-### 2. Appium Health Check Connection Refused
-- **Symptom:** `curl: (7) Failed to connect to localhost port 4723`.
-- **Cause:** Appium server died or did not finish starting.
-- **Fix:** Inspect `appium.log` artifact uploaded by the workflow run to verify driver initialization.
-
-### 3. Quality Gate Build Failure (< 95% Pass Rate)
-- **Symptom:** Workflow step fails with `QUALITY GATE FAILURE: Pass Rate < 95%`.
-- **Cause:** More than 5% of critical test assertions failed.
-- **Fix:** Review `automation/reports/Summary/summary.md` or `Automation_Test_Report.xlsx` Sheet 6 ("Defect Summary") to isolate broken test cases.
-
-### 4. GitHub Pages 404 Not Found
-- **Symptom:** Live report URL shows 404.
-- **Cause:** GitHub Pages source branch not set to `gh-pages`.
-- **Fix:** Go to Repository Settings -> Pages -> Source, and select branch `gh-pages` / `/ (root)`.
+### 4. Workflow Failure Threshold
+**Condition**: Workflow fails if Pass Rate < 95.0%.
+**Resolution**: Inspect `Test Results/Screenshots/` and `Test Results/Logs/execution.log` in job artifacts to diagnose root cause.

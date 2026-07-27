@@ -1,5 +1,5 @@
 const { By } = require('selenium-webdriver');
-const BasePage = require('./BasePage');
+const BasePage = require('./BasePage.cjs');
 
 class HomePage extends BasePage {
   constructor(driver) {

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('../config/config');
-const logger = require('./logger');
+const config = require('../config/config.cjs');
+const logger = require('./logger.cjs');
 
 class HtmlReporter {
   static generateReports(testResults, summaryData) {

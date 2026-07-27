@@ -1,15 +1,20 @@
-import { useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, Trash2, ShoppingCart, Minus, Plus, 
   ShieldCheck, Clock, MapPin, ChevronRight, Bookmark
 } from 'lucide-react';
 import { useUser } from '../hooks/useUser';
+import { useNotifications } from '../context/NotificationContext';
+import PaymentModal from '../components/PaymentModal';
 import './Cart.css';
 
 export default function Cart() {
   const navigate = useNavigate();
   const { user, removeFromCart, updateCartItem, toggleWishlist } = useUser();
+  const { addNotification } = useNotifications();
+
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   
   const items = user?.cart || [];
   const savedItems = user?.wishlist || [];
@@ -208,9 +213,9 @@ export default function Cart() {
                 <button 
                   className="btn btn-primary w-full mt-6" 
                   style={{ padding: '16px', fontSize: '16px' }}
-                  onClick={() => alert("Proceeding to request items...")}
+                  onClick={() => setIsPaymentModalOpen(true)}
                 >
-                  Proceed to Request
+                  Proceed to Payment
                 </button>
 
                 <div className="trust-badges">
@@ -239,12 +244,34 @@ export default function Cart() {
           <button 
             className="btn btn-primary" 
             style={{ padding: '12px 32px' }}
-            onClick={() => alert("Proceeding to request...")}
+            onClick={() => setIsPaymentModalOpen(true)}
           >
             Checkout
           </button>
         </div>
       )}
+
+      {/* ── Payment Modal Integration ─────────────────────── */}
+      <PaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        amount={total}
+        items={items}
+        onSuccess={(paymentInfo) => {
+          items.forEach(i => removeFromCart(i.id));
+          if (addNotification) {
+            addNotification({
+              type: 'payment_success',
+              icon: '💳',
+              title: 'Payment Successful!',
+              text: `Your payment of ₹${total}.00 was processed. Request sent to owner.`,
+              link: '/requests'
+            });
+          }
+          setIsPaymentModalOpen(false);
+          navigate('/requests');
+        }}
+      />
     </div>
   );
 }

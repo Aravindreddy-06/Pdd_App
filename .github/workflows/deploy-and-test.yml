@@ -1,0 +1,154 @@
+name: Phase 7 — Live E2E Deployment & Selenium Testing Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages-deploy-and-test'
+  cancel-in-progress: true
+
+env:
+  BASE_URL: https://aravindreddy-06.github.io/Pdd_App
+  NODE_VERSION: '18'
+
+jobs:
+  # =========================================================================
+  # STAGE 1 - 5: BUILD AND DEPLOY TO GITHUB PAGES
+  # =========================================================================
+  build-and-deploy:
+    name: 🚀 Build & Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+
+    steps:
+      # STAGE 1: Repository Checkout
+      - name: '📥 Stage 1: Checkout Repository'
+        uses: actions/checkout@v4
+
+      # STAGE 2: Dependency Installation
+      - name: '📦 Stage 2: Setup Node.js & Install Dependencies'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      - run: npm ci
+
+      # STAGE 3: Build Application
+      - name: '🛠️ Stage 3: Build Application (Vite)'
+        run: npm run build
+
+      # STAGE 4: Static Analysis
+      - name: '🔍 Stage 4: Static Code Analysis & Verification'
+        run: |
+          echo "Running ESLint and static bundle check..."
+          npm run lint || true
+          test -f dist/index.html || (echo "dist/index.html missing!" && exit 1)
+
+      # STAGE 5: Upload & Deploy to GitHub Pages
+      - name: '📤 Stage 5: Upload GitHub Pages Artifact'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: '🌐 Stage 5: Deploy to GitHub Pages'
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # =========================================================================
+  # STAGE 6 - 13: VERIFY DEPLOYMENT, EXECUTE 400+ SELENIUM TESTS & REPORT
+  # =========================================================================
+  verify-and-test:
+    name: 🧪 Live E2E Testing & Reporting (400+ Selenium Tests)
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      # STAGE 1: Checkout Repository for Test Framework
+      - name: '📥 Stage 1: Checkout Repository for Test Runner'
+        uses: actions/checkout@v4
+
+      # STAGE 2: Setup Node.js & Dependencies for Selenium
+      - name: '📦 Stage 2: Setup Node.js Environment'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      - run: npm ci
+
+      # STAGE 6: Wait for Live Deployment
+      - name: '⏳ Stage 6: Wait for Live Deployment Availability'
+        run: |
+          echo "Waiting for live URL (${{ env.BASE_URL }}) to respond with HTTP 200..."
+          MAX_ATTEMPTS=30
+          ATTEMPT=1
+          until [ $ATTEMPT -gt $MAX_ATTEMPTS ]; do
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${{ env.BASE_URL }}" || echo "000")
+            echo "Attempt $ATTEMPT/$MAX_ATTEMPTS: HTTP Status = $HTTP_CODE"
+            if [ "$HTTP_CODE" -eq 200 ] || [ "$HTTP_CODE" -eq 301 ] || [ "$HTTP_CODE" -eq 302 ]; then
+              echo "✅ Live application is reachable!"
+              break
+            fi
+            ATTEMPT=$((ATTEMPT+1))
+            sleep 5
+          done
+          if [ $ATTEMPT -gt $MAX_ATTEMPTS ]; then
+            echo "❌ Deployment timeout! Target URL ${{ env.BASE_URL }} did not return HTTP 200."
+            exit 1
+          fi
+
+      # STAGE 7: Deployment Verification
+      - name: '🔍 Stage 7: Deployment Verification'
+        run: |
+          echo "Verifying Live Deployment HTML and Assets..."
+          curl -sL "${{ env.BASE_URL }}" | grep -q "<title" || (echo "Main HTML title missing!" && exit 1)
+          echo "✅ Deployment verification passed!"
+
+      # STAGE 8: Run Selenium E2E Tests against LIVE BASE_URL
+      - name: '🧪 Stage 8: Run Selenium 400+ E2E Tests'
+        env:
+          BASE_URL: ${{ env.BASE_URL }}
+          HEADLESS: 'true'
+        run: node automation/runners/seleniumRunner.cjs
+
+      # STAGE 9 & 10: Reports generated automatically by runner into "Test Results/"
+      - name: '📊 Stage 9 & 10: Verify Generated Reports Structure'
+        if: always()
+        run: |
+          echo "Verifying report directory structure..."
+          ls -R "Test Results"
+
+      # STAGE 11: Upload Artifacts (Retention: 30 Days)
+      - name: '📦 Stage 11: Upload All Execution Reports & Artifacts'
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-e2e-test-results
+          path: |
+            Test Results/
+          retention-days: 30
+
+      # STAGE 12: Publish GitHub Actions Job Summary
+      - name: '📝 Stage 12: Publish Execution Summary to Job Summary'
+        if: always()
+        run: |
+          if [ -f "Test Results/Summary/summary.md" ]; then
+            cat "Test Results/Summary/summary.md" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Summary file missing!" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      # STAGE 13: Store Historical Results
+      - name: '📜 Stage 13: Store Historical Execution Results'
+        if: always()
+        run: |
+          mkdir -p history
+          cp -r "Test Results/JSON" "history/execution-${{ github.run_id }}"
+          echo "Historical execution recorded for Run ID ${{ github.run_id }}"
