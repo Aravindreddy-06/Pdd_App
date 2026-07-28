@@ -18,7 +18,7 @@ concurrency:
 
 env:
   BASE_URL: https://aravindreddy-06.github.io/Pdd_App
-  NODE_VERSION: '18'
+  NODE_VERSION: '20'
 
 jobs:
   # =========================================================================
