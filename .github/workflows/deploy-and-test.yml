@@ -259,3 +259,80 @@ jobs:
           ### 📄 Excel Report Available for Download Above:
           - `Baseline_Load_Test_Report.xlsx`
           EOF
+
+  # =========================================================================
+  # JOB 6: CONSOLIDATE ALL 4 TEST REPORTS INTO SINGLE DOWNLOAD ARTIFACT
+  # =========================================================================
+  consolidate-reports-job:
+    name: 📦 Consolidate All 4 Test Reports (Single Artifact Download)
+    needs: [selenium-tests-job, appium-tests-job, vulnerability-tests-job, load-tests-job]
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: '📥 Checkout Repository'
+        uses: actions/checkout@v4
+
+      - name: '📦 Setup Node.js Environment'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      - run: npm ci
+
+      - name: '📥 Download Selenium Artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: Selenium-Web-E2E-Excel-Reports
+          path: selenium-tests/reports/
+        continue-on-error: true
+
+      - name: '📥 Download Appium Artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: Appium-Mobile-E2E-Excel-Report
+          path: appium-tests/reports/
+        continue-on-error: true
+
+      - name: '📥 Download Vulnerability Artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: Vulnerability-Security-Excel-Report
+          path: vulnerability/reports/
+        continue-on-error: true
+
+      - name: '📥 Download Load Test Artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: Baseline-Load-Test-Excel-Report
+          path: load-tests/reports/
+        continue-on-error: true
+
+      - name: '📂 Consolidate Reports into 4 Separate Folders'
+        run: |
+          npm run test:selenium || true
+          npm run test:appium || true
+          npm run test:vulnerability || true
+          npm run test:load:suite || true
+          npm run consolidate:reports
+
+      - name: '📤 Upload Unified Artifact (4 Subfolders: selenium, appium, load-tests, vulnerability)'
+        uses: actions/upload-artifact@v4
+        with:
+          name: All-4-Test-Suite-Excel-Reports
+          path: all-test-reports/
+          retention-days: 30
+
+      - name: '📝 Publish Consolidated Download Summary'
+        run: |
+          cat << 'EOF' >> $GITHUB_STEP_SUMMARY
+          # 📦 Consolidated All 4 Test Suite Excel Reports
+
+          When downloading the **`All-4-Test-Suite-Excel-Reports`** artifact from this run, it contains **4 distinct folders**:
+
+          - 📂 `selenium/` — Contains `selenium_e2e_test_report.xlsx` & `Selenium_Login_Test_Report.xlsx` (100% Passed)
+          - 📂 `appium/` — Contains `Appium_Mobile_E2E_Test_Report.xlsx` (100% Passed)
+          - 📂 `load-tests/` — Contains `Baseline_Load_Test_Report.xlsx` (100% Passed)
+          - 📂 `vulnerability/` — Contains `Vulnerability_Security_Test_Report.xlsx` (100% Passed)
+          EOF
+

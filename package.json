@@ -16,7 +16,8 @@
     "test:login:selenium": "node selenium-tests/tests/login-tests.js",
     "test:vulnerability": "node vulnerability/runner.js",
     "test:load:suite": "node load-tests/runner.js",
-    "test:automation": "node automation/runners/testngRunner.js"
+    "test:automation": "node automation/runners/testngRunner.js",
+    "consolidate:reports": "node scripts/consolidate-reports.js"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.20.8",
