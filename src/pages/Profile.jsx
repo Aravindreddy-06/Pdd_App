@@ -117,7 +117,7 @@ export default function Profile() {
               <div className="stat-card">
                 <Star size={24} className="stat-icon text-primary" />
                 <div className="stat-info">
-                  <span className="stat-value">{currentUser?.rating || '5.0'}</span>
+                  <span className="stat-value">{currentUser?.rating ? Number(currentUser.rating).toFixed(1) : '0'}</span>
                   <span className="stat-label">Rating</span>
                 </div>
               </div>

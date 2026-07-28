@@ -80,7 +80,7 @@ export default function MyItems() {
   const totalViews  = Number(user?.profileViews) || 0;
   const earned      = Number(user?.totalEarned) || 0;
   const helpedCount = Number(user?.helpedCount) || 0;
-  const trustScore  = user?.rating ? Number(user.rating).toFixed(1) : '5.0';
+  const trustScore  = user?.rating ? Number(user.rating).toFixed(1) : '0';
 
   const animatedItems    = useCounter(lendingItems.length, 800);
   const animatedHelped   = useCounter(helpedCount, 1000);
