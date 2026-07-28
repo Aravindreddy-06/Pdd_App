@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ImagePlus, ChevronDown, X, MapPin, Package, Star, Sparkles } from 'lucide-react';
+import { ArrowLeft, ImagePlus, ChevronDown, X, MapPin, Package, Star, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useUser } from '../hooks/useUser';
 import { useItems } from '../context/ItemContext';
 import { useNotifications } from '../context/NotificationContext';
@@ -41,6 +41,7 @@ export default function AddItem() {
   const { addNotification } = useNotifications();
   const fileInputRef = useRef(null);
   const [photos, setPhotos] = useState([]);
+  const [draggedPhotoIndex, setDraggedPhotoIndex] = useState(null);
   const [category, setCategory] = useState('');
   const [customCategory, setCustomCategory] = useState('');
   const [location, setLocation] = useState(() => {
@@ -71,6 +72,22 @@ export default function AddItem() {
   const [isFree, setIsFree] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [previewIndex, setPreviewIndex] = useState(0);
+
+  // Photo reordering functions
+  const movePhoto = (fromIndex, toIndex) => {
+    if (toIndex < 0 || toIndex >= photos.length || fromIndex === toIndex) return;
+    setPhotos(prev => {
+      const updated = [...prev];
+      const [moved] = updated.splice(fromIndex, 1);
+      updated.splice(toIndex, 0, moved);
+      return updated;
+    });
+  };
+
+  const setAsMainPhoto = (index) => {
+    if (index === 0) return;
+    movePhoto(index, 0);
+  };
 
   // Calculate form completion progress
   const progress = [
@@ -236,7 +253,9 @@ export default function AddItem() {
           <div className="form-section">
             <div className="section-header">
               <h2 className="section-title">Item Media</h2>
-              <p className="section-subtitle">Add up to 5 photos. High-quality photos help items get borrowed 3x faster.</p>
+              <p className="section-subtitle">
+                Add up to 5 photos. {photos.length > 1 ? 'Drag photos or click ◄ ► arrows to rearrange order. The 1st photo is your cover photo.' : 'High-quality photos help items get borrowed 3x faster.'}
+              </p>
             </div>
             
             <div className={`photo-grid ${isDragging ? 'dragging' : ''}`}
@@ -245,12 +264,57 @@ export default function AddItem() {
               onDrop={handleDrop}
             >
               {photos.map((photo, index) => (
-                <div key={index} className="photo-preview-card animate-in">
+                <div 
+                  key={photo.preview} 
+                  className={`photo-preview-card animate-in ${draggedPhotoIndex === index ? 'dragging-card' : ''}`}
+                  draggable
+                  onDragStart={(e) => {
+                    e.dataTransfer.setData('text/plain', index.toString());
+                    setDraggedPhotoIndex(index);
+                  }}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                  }}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const fromIdx = parseInt(e.dataTransfer.getData('text/plain'), 10);
+                    if (!isNaN(fromIdx)) {
+                      movePhoto(fromIdx, index);
+                    }
+                    setDraggedPhotoIndex(null);
+                  }}
+                  onDragEnd={() => setDraggedPhotoIndex(null)}
+                >
                   <img src={photo.preview} alt={`Upload ${index}`} className="photo-preview-img" />
-                  <button className="remove-photo-btn" onClick={() => removePhoto(index)}>
+                  
+                  {/* Remove Button */}
+                  <button type="button" className="remove-photo-btn" onClick={() => removePhoto(index)} title="Remove photo">
                     <X size={14} color="white" />
                   </button>
-                  {index === 0 && <div className="main-photo-badge">Main Photo</div>}
+
+                  {/* Main Photo Badge or Set as Main */}
+                  {index === 0 ? (
+                    <div className="main-photo-badge">Main Photo</div>
+                  ) : (
+                    <button type="button" className="set-main-photo-btn" onClick={() => setAsMainPhoto(index)} title="Set as Main Cover Photo">
+                      Set Main
+                    </button>
+                  )}
+
+                  {/* Move Left / Right Buttons */}
+                  <div className="photo-reorder-overlay">
+                    {index > 0 && (
+                      <button type="button" className="photo-move-btn move-left" onClick={() => movePhoto(index, index - 1)} title="Move left">
+                        <ChevronLeft size={16} />
+                      </button>
+                    )}
+                    {index < photos.length - 1 && (
+                      <button type="button" className="photo-move-btn move-right" onClick={() => movePhoto(index, index + 1)} title="Move right">
+                        <ChevronRight size={16} />
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
               

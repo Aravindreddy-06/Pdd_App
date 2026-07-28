@@ -16,7 +16,21 @@
   aspect-ratio: 1;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.photo-preview-card:active {
+  cursor: grabbing;
+}
+
+.photo-preview-card.dragging-card {
+  opacity: 0.4;
+  transform: scale(0.95);
+  border: 2px dashed var(--primary);
 }
 
 .photo-preview-img {
@@ -29,20 +43,112 @@
   position: absolute;
   top: 6px;
   right: 6px;
-  width: 24px;
-  height: 24px;
-  background-color: rgba(0,0,0,0.5);
+  width: 26px;
+  height: 26px;
+  background-color: rgba(0,0,0,0.65);
   border-radius: 50%;
-  border: none;
+  border: 1px solid rgba(255,255,255,0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s;
+  z-index: 5;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
 }
 
 .remove-photo-btn:hover {
-  background-color: rgba(0,0,0,0.7);
+  background-color: #ef4444;
+  transform: scale(1.1);
+}
+
+.main-photo-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: var(--primary);
+  color: #000;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 4;
+}
+
+.set-main-photo-btn {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 4;
+  transition: all 0.15s ease;
+  backdrop-filter: blur(4px);
+}
+
+.set-main-photo-btn:hover {
+  background: var(--primary);
+  color: #000;
+  border-color: var(--primary);
+  transform: scale(1.05);
+}
+
+.photo-reorder-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.photo-preview-card:hover .photo-reorder-overlay {
+  opacity: 1;
+}
+
+.photo-move-btn {
+  pointer-events: auto;
+  width: 28px;
+  height: 28px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  backdrop-filter: blur(4px);
+}
+
+.photo-move-btn:hover {
+  background: var(--primary);
+  color: #000;
+  border-color: var(--primary);
+  transform: scale(1.15);
+}
+
+.photo-move-btn.move-left {
+  margin-right: auto;
+}
+
+.photo-move-btn.move-right {
+  margin-left: auto;
 }
 
 .photo-upload-box {
