@@ -1,11 +1,12 @@
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import {
   Home, Compass, Package, User, Plus,
-  Bell, ShoppingCart, Heart, Menu, X, Search, Award, MessageSquare, Users, MapPin, Shield, CheckCheck, Trash2
+  Bell, ShoppingCart, Heart, Menu, X, Search, Award, MessageSquare, Users, MapPin, Shield, CheckCheck, Trash2, ChevronRight
 } from 'lucide-react';
 import Logo from './Logo';
 import { useUser } from '../hooks/useUser';
+import { useItems } from '../context/ItemContext';
 import { useNotifications, timeAgo } from '../context/NotificationContext';
 import './Navbar.css';
 
@@ -33,13 +34,27 @@ export default function Navbar() {
   const navigate  = useNavigate();
   const [searchParams] = useSearchParams();
   const { user }  = useUser();
+  const { items } = useItems();
   const { notifications, unreadCount, markAsRead, markAllRead, dismiss, clearAll } = useNotifications();
   const path      = location.pathname;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const notifRef = useRef(null);
+  const searchRef = useRef(null);
 
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || searchParams.get('search') || '');
+
+  // Calculate live matching product recommendations as user types
+  const recommendations = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q || !items) return [];
+    return items.filter(item => 
+      item.title?.toLowerCase().includes(q) ||
+      item.category?.toLowerCase().includes(q) ||
+      item.description?.toLowerCase().includes(q)
+    ).slice(0, 6);
+  }, [searchQuery, items]);
 
   // Keep search input synced with URL parameter on /explore page
   useEffect(() => {
@@ -49,15 +64,29 @@ export default function Navbar() {
     }
   }, [location.pathname, searchParams]);
 
-  // Close dropdown when clicking outside
+  // Close notification & search dropdowns when clicking outside
   useEffect(() => {
     const handler = (e) => {
       if (notifRef.current && !notifRef.current.contains(e.target)) {
         setShowNotifications(false);
       }
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setShowSuggestions(false);
+      }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  // Close search suggestions on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const handleNotifClick = (notif) => {
@@ -67,7 +96,8 @@ export default function Navbar() {
   };
 
   const handleSearchSubmit = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
+    setShowSuggestions(false);
     const query = searchQuery.trim();
     if (query) {
       navigate(`/explore?q=${encodeURIComponent(query)}`);
@@ -96,19 +126,88 @@ export default function Navbar() {
         </div>
 
         {/* ── Section 2: Search Bar ── */}
-        <div className="navbar-search-container">
+        <div className="navbar-search-container" ref={searchRef}>
           <form className="navbar-search-inner" onSubmit={handleSearchSubmit}>
             <input 
               type="text" 
               placeholder="Search for tools, electronics, books..." 
               className="navbar-search-input"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
             />
             <button type="submit" className="navbar-search-btn" title="Search">
               <Search size={20} />
             </button>
           </form>
+
+          {/* ── Live Search Product Recommendations Dropdown ── */}
+          {showSuggestions && searchQuery.trim().length > 0 && (
+            <div className="search-suggestions-dropdown">
+              {recommendations.length > 0 ? (
+                <>
+                  <div className="suggestions-header">
+                    <span>Matching Product Recommendations</span>
+                    <span className="suggestions-count">{recommendations.length} found</span>
+                  </div>
+                  <div className="suggestions-list">
+                    {recommendations.map(item => (
+                      <div 
+                        key={item.id} 
+                        className="suggestion-item"
+                        onClick={() => {
+                          setShowSuggestions(false);
+                          navigate(`/item/${item.id}`);
+                        }}
+                      >
+                        <img 
+                          src={item.image || item.img || 'https://images.unsplash.com/photo-1512314889357-e157c22f938d?auto=format&fit=crop&w=100&q=80'} 
+                          alt={item.title} 
+                          className="suggestion-thumb"
+                          onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1512314889357-e157c22f938d?auto=format&fit=crop&w=100&q=80'; }}
+                        />
+                        <div className="suggestion-info">
+                          <span className="suggestion-title">{item.title}</span>
+                          <div className="suggestion-meta">
+                            <span className="suggestion-cat">{item.category || 'General'}</span>
+                            <span className="suggestion-price">{item.price}</span>
+                          </div>
+                        </div>
+                        <ChevronRight size={16} className="suggestion-arrow" />
+                      </div>
+                    ))}
+                  </div>
+                  <button 
+                    className="suggestions-footer-btn"
+                    onClick={(e) => {
+                      setShowSuggestions(false);
+                      handleSearchSubmit(e);
+                    }}
+                  >
+                    <Search size={15} />
+                    <span>View all results for "<strong>{searchQuery}</strong>"</span>
+                  </button>
+                </>
+              ) : (
+                <div className="suggestions-empty">
+                  <Search size={22} />
+                  <span>No products matching "<strong>{searchQuery}</strong>"</span>
+                  <button 
+                    className="suggestions-footer-btn mt-2"
+                    onClick={(e) => {
+                      setShowSuggestions(false);
+                      handleSearchSubmit(e);
+                    }}
+                  >
+                    <span>Search on Explore page</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* ── Section 3: Actions ── */}
