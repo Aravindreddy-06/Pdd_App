@@ -11,30 +11,7 @@ import './MyItems.css';
 
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1512314889357-e157c22f938d?auto=format&fit=crop&w=400&q=80';
 
-const INITIAL_BORROWING = [
-  {
-    id: 301,
-    title: 'Lawn Mower',
-    status: 'Due Soon',
-    owner: 'Michael R.',
-    dueDate: 'Today',
-    price: '₹12/day',
-    image: 'https://images.unsplash.com/photo-1592424001806-0dbfa77e387c?auto=format&fit=crop&w=400&q=80',
-    category: 'Tools',
-    rating: 4.8
-  },
-  {
-    id: 302,
-    title: 'Canon DSLR Camera',
-    status: 'Active',
-    owner: 'Sarah J.',
-    dueDate: 'Jun 2',
-    price: '₹40/day',
-    image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=400&q=80',
-    category: 'Electronics',
-    rating: 5.0
-  }
-];
+const INITIAL_BORROWING = [];
 
 // Animated counter hook
 function useCounter(target, duration = 1200) {
@@ -79,8 +56,8 @@ export default function MyItems() {
   const [borrowingItems, setBorrowingItems] = useState(() => {
     try {
       const saved = localStorage.getItem('rs_borrowing_items');
-      return saved ? JSON.parse(saved) : INITIAL_BORROWING;
-    } catch { return INITIAL_BORROWING; }
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
   });
 
   useEffect(() => {
@@ -94,12 +71,13 @@ export default function MyItems() {
     item.owner === 'Local Neighbor'
   );
 
-  const totalViews  = lendingItems.length * 47 + 18;
-  const earned      = lendingItems.length * 280 + 120;
-  const trustScore  = 4.9;
+  const totalViews  = Number(user?.profileViews) || 0;
+  const earned      = Number(user?.totalEarned) || 0;
+  const helpedCount = Number(user?.helpedCount) || 0;
+  const trustScore  = user?.rating ? Number(user.rating).toFixed(1) : '5.0';
 
   const animatedItems    = useCounter(lendingItems.length, 800);
-  const animatedHelped   = useCounter(14, 1000);
+  const animatedHelped   = useCounter(helpedCount, 1000);
   const animatedEarned   = useCounter(earned, 1200);
 
   const confirmDelete = (id, title, type) => setDeleteModal({ id, title, type });
