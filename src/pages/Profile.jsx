@@ -33,17 +33,25 @@ export default function Profile() {
     );
   }
 
-  if (!user) {
-    return (
-      <div className="profile-page" style={{ textAlign: 'center', padding: '100px 20px' }}>
-        <ShieldCheck size={64} className="mb-4" color="var(--text-light)" />
-        <h2>Please sign in to view your profile</h2>
-        <button className="btn btn-primary mt-6" onClick={() => navigate('/login')}>Sign In</button>
-      </div>
-    );
-  }
+  const currentUser = user || {
+    name: 'Guest User',
+    email: 'guest@neighborshare.app',
+    avatar: 'https://ui-avatars.com/api/?name=Guest+User&background=84cc16&color=000&bold=true',
+    location: 'Thandalam',
+    rating: 5.0,
+    shared: 0,
+    borrowed: 0,
+    memberSince: new Date().getFullYear().toString()
+  };
 
-  const memberSinceYear = user?.memberSince || (() => {
+  const hasActivity = (
+    Number(currentUser?.shared || 0) > 0 || 
+    Number(currentUser?.borrowed || 0) > 0 || 
+    Number(currentUser?.helpedCount || 0) > 0 ||
+    Boolean(currentUser?.isVerified)
+  );
+
+  const memberSinceYear = currentUser?.memberSince || (() => {
     let saved = localStorage.getItem('rs_join_date');
     if (!saved) {
       saved = new Date().getFullYear().toString();
@@ -63,7 +71,7 @@ export default function Profile() {
         
         <div className="profile-header-content">
           <div className="profile-avatar-wrapper">
-            <img src={user?.avatar} alt={user?.name} className="profile-avatar" />
+            <img src={currentUser?.avatar} alt={currentUser?.name} className="profile-avatar" />
             <button className="edit-avatar-btn" onClick={() => navigate('/edit-profile')} title="Change Avatar">
               <Edit3 size={16} />
             </button>
@@ -71,7 +79,7 @@ export default function Profile() {
           
           <div className="profile-info-top">
             <div className="flex-row items-center gap-3">
-              <h1 className="profile-name">{user?.name}</h1>
+              <h1 className="profile-name">{currentUser?.name}</h1>
               {hasActivity && (
                 <div className="verified-badge" title="Verified Neighbor">
                   <ShieldCheck size={16} /> Verified
@@ -79,11 +87,11 @@ export default function Profile() {
               )}
             </div>
             
-            <p className="profile-email">{user?.email}</p>
+            <p className="profile-email">{currentUser?.email}</p>
             
             <div className="location-pill mt-4">
               <MapPin size={16} />
-              {loading ? "Detecting..." : (user?.location || "Location not set")}
+              {loading ? "Detecting..." : (currentUser?.location || "Location not set")}
             </div>
           </div>
           
@@ -109,21 +117,21 @@ export default function Profile() {
               <div className="stat-card">
                 <Star size={24} className="stat-icon text-primary" />
                 <div className="stat-info">
-                  <span className="stat-value">{user?.rating || '5.0'}</span>
+                  <span className="stat-value">{currentUser?.rating || '5.0'}</span>
                   <span className="stat-label">Rating</span>
                 </div>
               </div>
               <div className="stat-card">
                 <Package size={24} className="stat-icon text-primary" />
                 <div className="stat-info">
-                  <span className="stat-value">{user?.shared || 0}</span>
+                  <span className="stat-value">{currentUser?.shared || 0}</span>
                   <span className="stat-label">Items Shared</span>
                 </div>
               </div>
               <div className="stat-card">
                 <Heart size={24} className="stat-icon text-primary" />
                 <div className="stat-info">
-                  <span className="stat-value">{user?.borrowed || 0}</span>
+                  <span className="stat-value">{currentUser?.borrowed || 0}</span>
                   <span className="stat-label">Borrowed</span>
                 </div>
               </div>
