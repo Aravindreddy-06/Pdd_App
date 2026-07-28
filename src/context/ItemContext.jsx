@@ -67,6 +67,14 @@ export function ItemProvider({ children }) {
     return guestItem;
   }, []);
 
+  const updateItem = useCallback((id, updatedFields) => {
+    setItems(prev => {
+      const newItems = prev.map(item => item.id === id ? { ...item, ...updatedFields } : item);
+      safeSave(newItems);
+      return newItems;
+    });
+  }, []);
+
   const removeItem = (id) => {
     setItems(prev => {
       const newItems = prev.filter(item => item.id !== id);
@@ -81,7 +89,7 @@ export function ItemProvider({ children }) {
   };
 
   return (
-    <ItemContext.Provider value={{ items, loading, addItem, removeItem, getItemsByCategory, refreshItems: () => {} }}>
+    <ItemContext.Provider value={{ items, loading, addItem, updateItem, removeItem, getItemsByCategory, refreshItems: () => {} }}>
       {children}
     </ItemContext.Provider>
   );

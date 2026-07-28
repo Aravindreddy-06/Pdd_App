@@ -48,9 +48,11 @@ function getStatus(raw = 'available') {
 export default function MyItems() {
   const navigate = useNavigate();
   const { user } = useUser();
-  const { items, removeItem: removeFromMarket } = useItems();
-  const [activeTab, setActiveTab] = useState('lending');
+  const { items, removeItem: removeFromMarket, updateItem } = useItems();
+  const [activeTab, setActiveTab] = useState('published');
   const [deleteModal, setDeleteModal] = useState(null); // { id, title, type }
+  const [editModalItem, setEditModalItem] = useState(null);
+  const [editForm, setEditForm] = useState({ title: '', price: '', category: '', condition: 'Good', description: '', isFree: false });
   const [expandedId, setExpandedId] = useState(null);
 
   const [borrowingItems, setBorrowingItems] = useState(() => {
@@ -71,6 +73,10 @@ export default function MyItems() {
     item.owner === 'Local Neighbor'
   );
 
+  const activeLendingItems = lendingItems.filter(item => 
+    item.status === 'borrowed' || item.status === 'Active' || item.status === 'Borrowed'
+  );
+
   const totalViews  = Number(user?.profileViews) || 0;
   const earned      = Number(user?.totalEarned) || 0;
   const helpedCount = Number(user?.helpedCount) || 0;
@@ -84,9 +90,38 @@ export default function MyItems() {
 
   const executeDelete = () => {
     if (!deleteModal) return;
-    if (deleteModal.type === 'lending') removeFromMarket(deleteModal.id);
-    else setBorrowingItems(prev => prev.filter(i => i.id !== deleteModal.id));
+    if (deleteModal.type === 'published' || deleteModal.type === 'lending') {
+      removeFromMarket(deleteModal.id);
+    } else {
+      setBorrowingItems(prev => prev.filter(i => i.id !== deleteModal.id));
+    }
     setDeleteModal(null);
+  };
+
+  const openEditModal = (item) => {
+    setEditModalItem(item);
+    const rawPrice = item.price ? item.price.replace(/[^\d]/g, '') : '';
+    setEditForm({
+      title: item.title || '',
+      price: rawPrice,
+      category: item.category || 'tools',
+      condition: item.condition || 'Good',
+      description: item.description || '',
+      isFree: item.price === 'Free' || rawPrice === '0'
+    });
+  };
+
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
+    if (!editModalItem) return;
+    updateItem(editModalItem.id, {
+      title: editForm.title,
+      price: editForm.isFree ? 'Free' : `₹${editForm.price}/day`,
+      category: editForm.category,
+      condition: editForm.condition,
+      description: editForm.description
+    });
+    setEditModalItem(null);
   };
 
   const extendBorrowing = (id) => {
@@ -101,7 +136,11 @@ export default function MyItems() {
     setBorrowingItems(prev => prev.filter(i => i.id !== id));
   };
 
-  const displayItems = activeTab === 'lending' ? lendingItems : borrowingItems;
+  const displayItems = activeTab === 'published' 
+    ? lendingItems 
+    : activeTab === 'lending' 
+      ? activeLendingItems 
+      : borrowingItems;
 
   const hasActivity = (
     lendingItems.length > 0 || 
@@ -174,11 +213,18 @@ export default function MyItems() {
         {/* Tabs */}
         <div className="mi-tabs">
           <button
+            className={`mi-tab ${activeTab === 'published' ? 'active' : ''}`}
+            onClick={() => setActiveTab('published')}
+          >
+            <Package size={15} /> Items Published
+            <span className="mi-tab-count">{lendingItems.length}</span>
+          </button>
+          <button
             className={`mi-tab ${activeTab === 'lending' ? 'active' : ''}`}
             onClick={() => setActiveTab('lending')}
           >
-            <Zap size={15} /> Lending
-            <span className="mi-tab-count">{lendingItems.length}</span>
+            <Zap size={15} /> Active Lending
+            <span className="mi-tab-count">{activeLendingItems.length}</span>
           </button>
           <button
             className={`mi-tab ${activeTab === 'borrowing' ? 'active' : ''}`}
@@ -197,22 +243,23 @@ export default function MyItems() {
             </div>
             <h3>Nothing here yet</h3>
             <p>
-              {activeTab === 'lending'
-                ? 'List your first item and start earning from your neighborhood.'
-                : 'Browse the marketplace and borrow something useful today.'}
+              {activeTab === 'published'
+                ? 'You have not published any items yet. List your first item and start earning from your neighborhood.'
+                : activeTab === 'lending'
+                  ? 'No active lendings currently in progress.'
+                  : 'Browse the marketplace and borrow something useful today.'}
             </p>
             <button
               className="mi-empty-btn"
-              onClick={() => navigate(activeTab === 'lending' ? '/add-item' : '/explore')}
+              onClick={() => navigate(activeTab === 'borrowing' ? '/explore' : '/add-item')}
             >
-              {activeTab === 'lending' ? 'Start Sharing' : 'Explore Items'}
+              {activeTab === 'borrowing' ? 'Explore Items' : 'Start Sharing'}
               <ArrowRight size={16} />
             </button>
           </div>
         ) : (
           <div className="mi-grid">
             {displayItems.map(item => {
-              const statusKey = (item.status || 'available').toLowerCase().replace(/\s+/g, '-');
               const cfg = getStatus(item.status);
               const StatusIcon = cfg.icon;
               const isExpanded = expandedId === item.id;
@@ -295,7 +342,28 @@ export default function MyItems() {
                     {/* Expanded actions */}
                     {isExpanded && (
                       <div className="mi-card-actions" onClick={e => e.stopPropagation()}>
-                        {activeTab === 'lending' ? (
+                        {activeTab === 'published' ? (
+                          <>
+                            <button
+                              className="mi-btn mi-btn-primary"
+                              onClick={() => navigate(`/item/${item.id}`)}
+                            >
+                              <Eye size={15} /> View
+                            </button>
+                            <button
+                              className="mi-btn mi-btn-ghost"
+                              onClick={() => openEditModal(item)}
+                            >
+                              <Edit3 size={15} /> Edit Item
+                            </button>
+                            <button
+                              className="mi-btn mi-btn-danger"
+                              onClick={() => confirmDelete(item.id, item.title, 'published')}
+                            >
+                              <Trash2 size={15} /> Delete
+                            </button>
+                          </>
+                        ) : activeTab === 'lending' ? (
                           <>
                             <button
                               className="mi-btn mi-btn-primary"
@@ -305,7 +373,7 @@ export default function MyItems() {
                             </button>
                             <button
                               className="mi-btn mi-btn-ghost"
-                              onClick={() => navigate(`/add-item`)}
+                              onClick={() => openEditModal(item)}
                             >
                               <Edit3 size={15} /> Edit
                             </button>
@@ -348,7 +416,7 @@ export default function MyItems() {
         )}
 
         {/* Analytics teaser */}
-        {activeTab === 'lending' && lendingItems.length > 0 && (
+        {(activeTab === 'published' || activeTab === 'lending') && lendingItems.length > 0 && (
           <div className="mi-analytics-card" onClick={() => navigate('/impact')}>
             <div className="mi-analytics-left">
               <BarChart2 size={28} color="var(--primary)" />
@@ -362,6 +430,110 @@ export default function MyItems() {
         )}
       </div>
 
+      {/* ── Edit Published Item Modal ──────────────────────── */}
+      {editModalItem && (
+        <div className="mi-modal-overlay" onClick={() => setEditModalItem(null)}>
+          <div className="mi-modal p-6 max-w-lg w-full" onClick={e => e.stopPropagation()} style={{ background: 'var(--grad-dark)', borderRadius: '24px', border: '1px solid var(--glass-border)' }}>
+            <button className="mi-modal-close" onClick={() => setEditModalItem(null)}>
+              <X size={18} />
+            </button>
+            <div className="mi-modal-icon mb-3">
+              <Edit3 size={28} color="var(--primary)" />
+            </div>
+            <h3 className="text-white text-xl font-bold mb-1">Edit Published Item</h3>
+            <p className="text-gray-400 text-xs mb-4">Update the details for "{editModalItem.title}"</p>
+            
+            <form onSubmit={handleSaveEdit} className="flex flex-col gap-4 text-left">
+              <div>
+                <label className="text-xs font-bold text-gray-300 block mb-1">Item Title</label>
+                <input 
+                  type="text" 
+                  className="input-field w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-700 focus:border-primary"
+                  value={editForm.title}
+                  onChange={e => setEditForm({ ...editForm, title: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <label className="text-xs font-bold text-gray-300 block mb-1">Category</label>
+                  <select 
+                    className="input-field w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-700"
+                    value={editForm.category}
+                    onChange={e => setEditForm({ ...editForm, category: e.target.value })}
+                  >
+                    <option value="tools">Tools & DIY</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="sports">Sports & Outdoors</option>
+                    <option value="home">Home & Kitchen</option>
+                    <option value="books">Books & Media</option>
+                    <option value="party">Party & Events</option>
+                    <option value="others">Others</option>
+                  </select>
+                </div>
+                <div className="flex-1">
+                  <label className="text-xs font-bold text-gray-300 block mb-1">Condition</label>
+                  <select 
+                    className="input-field w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-700"
+                    value={editForm.condition}
+                    onChange={e => setEditForm({ ...editForm, condition: e.target.value })}
+                  >
+                    <option value="New">New</option>
+                    <option value="Like New">Like New</option>
+                    <option value="Good">Good</option>
+                    <option value="Fair">Fair</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="text-xs font-bold text-gray-300">Price per day (₹)</label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      checked={editForm.isFree}
+                      onChange={e => setEditForm({ ...editForm, isFree: e.target.checked, price: e.target.checked ? '0' : editForm.price })}
+                    />
+                    <span className="text-xs font-bold text-primary">Free Listing</span>
+                  </label>
+                </div>
+                {!editForm.isFree && (
+                  <input 
+                    type="number" 
+                    className="input-field w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-700"
+                    placeholder="Enter daily rate in ₹"
+                    value={editForm.price}
+                    onChange={e => setEditForm({ ...editForm, price: e.target.value })}
+                    required={!editForm.isFree}
+                  />
+                )}
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-gray-300 block mb-1">Description</label>
+                <textarea 
+                  className="input-field w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-700 min-h-[90px]"
+                  value={editForm.description}
+                  onChange={e => setEditForm({ ...editForm, description: e.target.value })}
+                  rows={3}
+                ></textarea>
+              </div>
+
+              <div className="flex gap-2 mt-2">
+                <button type="submit" className="btn btn-primary flex-1 py-3 rounded-xl font-bold">
+                  Save Changes
+                </button>
+                <button type="button" className="btn btn-light flex-1 py-3 rounded-xl" onClick={() => setEditModalItem(null)}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* ── Delete Confirmation Modal ──────────────────────── */}
       {deleteModal && (
         <div className="mi-modal-overlay" onClick={() => setDeleteModal(null)}>
@@ -372,16 +544,16 @@ export default function MyItems() {
             <div className="mi-modal-icon">
               <Trash2 size={28} color="#ef4444" />
             </div>
-            <h3>Remove Item?</h3>
+            <h3>Remove Published Item?</h3>
             <p>
               <strong>"{deleteModal.title}"</strong> will be{' '}
-              {deleteModal.type === 'lending'
-                ? 'removed from the marketplace and no longer visible to neighbors.'
+              {deleteModal.type === 'published' || deleteModal.type === 'lending'
+                ? 'permanently removed from your published list and the public marketplace.'
                 : 'removed from your borrowed list.'}
             </p>
             <div className="mi-modal-actions">
               <button className="mi-btn mi-btn-danger w-full" onClick={executeDelete}>
-                Yes, Remove It
+                Yes, Delete Item
               </button>
               <button className="mi-btn mi-btn-ghost w-full" onClick={() => setDeleteModal(null)}>
                 Cancel
