@@ -142,24 +142,26 @@ export default function Home() {
 
 
 
-        {/* Row 1: Deals / Top Picks */}
-        <section className="home-section">
-          <div className="section-header-row">
-            <h3>Rental Deals of the Day</h3>
-            <button className="view-all-link">View all</button>
-          </div>
-          <div className="horizontal-scroll-grid">
-            {mergedItems.slice(0, 6).map(item => (
-              <div key={item.id} className="deal-card" onClick={() => navigate(`/item/${item.id}`)}>
-                <img src={item.img || item.image || DEFAULT_IMAGE} alt={item.title} />
-                <div className="deal-info">
-                  <span className="deal-badge">Up to 40% Off</span>
-                  <p className="deal-title">{item.title}</p>
+        {/* Row 1: Deals / Top Picks (Shown only when items exist) */}
+        {mergedItems.length > 0 && (
+          <section className="home-section">
+            <div className="section-header-row">
+              <h3>Rental Deals of the Day</h3>
+              <button className="view-all-link" onClick={() => navigate('/explore')}>View all</button>
+            </div>
+            <div className="horizontal-scroll-grid">
+              {mergedItems.slice(0, 6).map(item => (
+                <div key={item.id} className="deal-card" onClick={() => navigate(`/item/${item.id}`)}>
+                  <img src={item.img || item.image || DEFAULT_IMAGE} alt={item.title} />
+                  <div className="deal-info">
+                    <span className="deal-badge">Up to 40% Off</span>
+                    <p className="deal-title">{item.title}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Row 2: Suggested for You (Main Grid) */}
         <section id="inventory" className="home-section">
@@ -230,13 +232,12 @@ export default function Home() {
           ) : (
             <div className="empty-state">
               <Search size={40} className="text-light mb-3" />
-              <h3>No items found</h3>
+              <h3>No items listed yet</h3>
               <p className="text-gray mt-2 text-center max-w-md">
-                We couldn't find anything matching "{searchQuery}" in {activeCategory || 'any category'}. 
-                Try adjusting your search or expanding your location radius.
+                There are currently no resources available in your neighborhood. Be the first to share an item with your community!
               </p>
-              <button className="btn btn-outline mt-4" onClick={() => { setSearchQuery(''); setActiveCategory(null); }}>
-                Clear Filters
+              <button className="btn btn-primary mt-4" onClick={() => navigate('/add-item')} style={{ borderRadius: '24px' }}>
+                + Add New Item
               </button>
             </div>
           )}

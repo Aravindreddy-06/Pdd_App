@@ -1,65 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { ArrowLeft, Search, Map, SlidersHorizontal, ChevronDown, MapPin, Heart } from 'lucide-react';
+import { useItems } from '../context/ItemContext';
 import './Category.css';
-
-const STATIC_ITEMS = [
-  {
-    id: 1,
-    title: 'DeWalt Electric Drill',
-    distance: '0.5 mi away',
-    price: '₹12/day',
-    category: 'TOOLS',
-    image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=400&q=80',
-    available: true,
-    liked: false
-  },
-  {
-    id: 2,
-    title: '6ft Step Ladder',
-    distance: '1.2 mi away',
-    price: '₹8/day',
-    category: 'TOOLS',
-    image: 'https://images.unsplash.com/photo-1542455988-75c13b1f501e?auto=format&fit=crop&w=400&q=80',
-    available: false,
-    liked: false
-  },
-  {
-    id: 3,
-    title: 'Pressure Washer',
-    distance: '0.8 mi away',
-    price: '₹25/day',
-    category: 'TOOLS',
-    image: 'https://images.unsplash.com/photo-1627914022830-7fc43a25b204?auto=format&fit=crop&w=400&q=80',
-    available: false,
-    liked: false
-  },
-  {
-    id: 4,
-    title: 'Leaf Blower',
-    distance: '2.1 mi away',
-    price: '₹15/day',
-    category: 'TOOLS',
-    image: 'https://images.unsplash.com/photo-1622322629631-50e56d75c58b?auto=format&fit=crop&w=400&q=80',
-    available: false,
-    liked: false
-  }
-];
 
 export default function Category() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [dynamicItems, setDynamicItems] = useState([]);
+  const { items: allItems } = useItems();
   
   // Use category from state or default to TOOLS
   const activeCategory = location.state?.category || 'TOOLS';
 
-  useEffect(() => {
-    // No-op for now, using static items
-  }, []);
-
-  const allItems = STATIC_ITEMS;
-  const items = allItems.filter(item => item.category === activeCategory);
+  const items = allItems.filter(item => item.category?.toLowerCase() === activeCategory.toLowerCase());
 
   return (
     <div className="category-container">

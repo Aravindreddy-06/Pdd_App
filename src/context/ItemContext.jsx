@@ -38,14 +38,13 @@ export function ItemProvider({ children }) {
       console.error("Error parsing local items", e);
     }
     
-    // Combine ALL_ITEMS with any locally saved items that aren't in ALL_ITEMS
-    if (parsedSaved && parsedSaved.length > 0) {
-      const allItemIds = new Set(ALL_ITEMS.map(i => i.id));
-      const newLocalItems = parsedSaved.filter(i => !allItemIds.has(i.id));
-      return [...newLocalItems, ...ALL_ITEMS];
+    // Filter out legacy mock items (ids 1..50 or static items)
+    if (Array.isArray(parsedSaved) && parsedSaved.length > 0) {
+      const userAdded = parsedSaved.filter(item => typeof item.id === 'string' || item.id > 1000);
+      return userAdded;
     }
     
-    return ALL_ITEMS;
+    return [];
   });
 
   const [loading, setLoading] = useState(true);
