@@ -80,6 +80,13 @@ export function UserProvider({ children }) {
         try { return JSON.parse(localStorage.getItem('rs_profile') || '{}'); } catch { return {}; }
       })();
 
+      // Load or initialize member join year
+      let joinYear = localStorage.getItem('rs_join_date');
+      if (!joinYear) {
+        joinYear = data?.created_at ? new Date(data.created_at).getFullYear().toString() : new Date().getFullYear().toString();
+        localStorage.setItem('rs_join_date', joinYear);
+      }
+
       const userName = savedProfile.name || data?.full_name || authUser?.user_metadata?.full_name || authUser?.user_metadata?.name || 'Neighbor';
       
       const mappedUser = {
@@ -89,6 +96,7 @@ export function UserProvider({ children }) {
         email: authUser?.email,
         name: userName,
         avatar: savedProfile.avatar || data?.avatar_url || authUser?.user_metadata?.avatar_url || authUser?.user_metadata?.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=84cc16&color=fff`,
+        memberSince: joinYear,
         wishlist: finalWishlist,
         cart: finalCart,
       };

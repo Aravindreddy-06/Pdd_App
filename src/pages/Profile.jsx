@@ -43,12 +43,14 @@ export default function Profile() {
     );
   }
 
-  const hasActivity = (
-    Number(user?.shared || 0) > 0 || 
-    Number(user?.borrowed || 0) > 0 || 
-    Number(user?.helpedCount || 0) > 0 ||
-    Boolean(user?.isVerified)
-  );
+  const memberSinceYear = user?.memberSince || (() => {
+    let saved = localStorage.getItem('rs_join_date');
+    if (!saved) {
+      saved = new Date().getFullYear().toString();
+      localStorage.setItem('rs_join_date', saved);
+    }
+    return saved;
+  })();
 
   return (
     <div className="profile-page">
@@ -107,29 +109,29 @@ export default function Profile() {
               <div className="stat-card">
                 <Star size={24} className="stat-icon text-primary" />
                 <div className="stat-info">
-                  <span className="stat-value">{user?.rating}</span>
+                  <span className="stat-value">{user?.rating || '5.0'}</span>
                   <span className="stat-label">Rating</span>
                 </div>
               </div>
               <div className="stat-card">
                 <Package size={24} className="stat-icon text-primary" />
                 <div className="stat-info">
-                  <span className="stat-value">{user?.shared}</span>
+                  <span className="stat-value">{user?.shared || 0}</span>
                   <span className="stat-label">Items Shared</span>
                 </div>
               </div>
               <div className="stat-card">
                 <Heart size={24} className="stat-icon text-primary" />
                 <div className="stat-info">
-                  <span className="stat-value">{user?.borrowed}</span>
+                  <span className="stat-value">{user?.borrowed || 0}</span>
                   <span className="stat-label">Borrowed</span>
                 </div>
               </div>
               <div className="stat-card">
                 <Clock size={24} className="stat-icon text-primary" />
                 <div className="stat-info">
-                  <span className="stat-value">Active</span>
-                  <span className="stat-label">Member Since 2024</span>
+                  <span className="stat-value">Active Member</span>
+                  <span className="stat-label">Member Since {memberSinceYear}</span>
                 </div>
               </div>
             </div>
