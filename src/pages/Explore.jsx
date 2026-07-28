@@ -4,7 +4,7 @@ import {
   Wrench, Monitor, Coffee, Tent, PartyPopper,
   Map, LayoutGrid, ChevronRight, SlidersHorizontal, CheckCircle2, Sparkles, Navigation
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import MapComponent from '../components/MapComponent';
 import { useUser } from '../hooks/useUser';
 import { useItems } from '../context/ItemContext';
@@ -23,15 +23,21 @@ const CATEGORIES = [
 
 export default function Explore() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { user, loading, requestLocation, toggleWishlist } = useUser();
   const { items: allItems } = useItems();
   
   const [activeCategory, setActiveCategory] = useState(null);
   const [viewMode, setViewMode] = useState('list');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || searchParams.get('search') || '');
   const [dynamicItems, setDynamicItems] = useState([]);
   const [sortBy, setSortBy] = useState('distance'); // distance, price, rating
   const [availableOnly, setAvailableOnly] = useState(false);
+
+  useEffect(() => {
+    const q = searchParams.get('q') || searchParams.get('search') || '';
+    setSearchQuery(q);
+  }, [searchParams]);
   
   const mapCenter = useMemo(() => user?.coordinates || { lat: 47.6062, lng: -122.3321 }, [user?.coordinates]);
   const locationName = user?.location || "Downtown Seattle";
@@ -112,18 +118,29 @@ export default function Explore() {
               </div>
             </div>
           </div>
-          <div className="explore-search">
+          <form className="explore-search" onSubmit={(e) => {
+            e.preventDefault();
+            if (searchQuery.trim()) {
+              setSearchParams({ q: searchQuery.trim() });
+            } else {
+              setSearchParams({});
+            }
+            document.getElementById('explore-main')?.scrollIntoView({ behavior: 'smooth' });
+          }}>
             <Search size={20} className="search-icon" />
             <input 
               type="text" 
               placeholder="Search for items, categories..." 
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setSearchParams(e.target.value.trim() ? { q: e.target.value.trim() } : {});
+              }}
             />
-            <button className="btn btn-primary" onClick={() => document.getElementById('explore-main')?.scrollIntoView({behavior: 'smooth'})}>
+            <button type="submit" className="btn btn-primary">
               Search
             </button>
-          </div>
+          </form>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import {
   Home, Compass, Package, User, Plus,
@@ -31,12 +31,23 @@ const TYPE_COLORS = {
 export default function Navbar() {
   const location  = useLocation();
   const navigate  = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user }  = useUser();
   const { notifications, unreadCount, markAsRead, markAllRead, dismiss, clearAll } = useNotifications();
   const path      = location.pathname;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const notifRef = useRef(null);
+
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || searchParams.get('search') || '');
+
+  // Keep search input synced with URL parameter on /explore page
+  useEffect(() => {
+    if (location.pathname === '/explore') {
+      const q = searchParams.get('q') || searchParams.get('search') || '';
+      setSearchQuery(q);
+    }
+  }, [location.pathname, searchParams]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -53,6 +64,16 @@ export default function Navbar() {
     markAsRead(notif.id);
     setShowNotifications(false);
     if (notif.link) navigate(notif.link);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const query = searchQuery.trim();
+    if (query) {
+      navigate(`/explore?q=${encodeURIComponent(query)}`);
+    } else {
+      navigate('/explore');
+    }
   };
 
   return (
@@ -76,16 +97,18 @@ export default function Navbar() {
 
         {/* ── Section 2: Search Bar ── */}
         <div className="navbar-search-container">
-          <div className="navbar-search-inner">
+          <form className="navbar-search-inner" onSubmit={handleSearchSubmit}>
             <input 
               type="text" 
               placeholder="Search for tools, electronics, books..." 
               className="navbar-search-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button className="navbar-search-btn">
+            <button type="submit" className="navbar-search-btn" title="Search">
               <Search size={20} />
             </button>
-          </div>
+          </form>
         </div>
 
         {/* ── Section 3: Actions ── */}
