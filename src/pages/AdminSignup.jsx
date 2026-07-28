@@ -41,12 +41,20 @@ export default function AdminSignup() {
     setError('');
     setSuccess('');
 
-    // Validations (Enforce strict format: RS-ADMIN-2026-firstname)
-    const firstName = name.trim().split(' ')[0];
-    const expectedKey = `${ADMIN_SECRET}-${firstName}`;
-    
-    if (secretKey.trim().toLowerCase() !== expectedKey.toLowerCase()) {
-      setError(`Invalid secret key. Please contact the system administrator if you are unsure.`);
+    // Admin Secret Key Validation (Format: LK-<USERNAME>-2026, Case-insensitive)
+    const username = name.trim();
+    const expectedKey = `LK-${username}-2026`;
+    const defaultAdminKey = `LK-ADMIN-2026`;
+    const envSecretKey = import.meta.env.VITE_ADMIN_SECRET || 'LK-ADMIN-2026';
+
+    const userEnteredKey = secretKey.trim().toLowerCase();
+    const isValidKey = 
+      (username && userEnteredKey === expectedKey.toLowerCase()) || 
+      userEnteredKey === defaultAdminKey.toLowerCase() ||
+      userEnteredKey === envSecretKey.toLowerCase();
+
+    if (!isValidKey) {
+      setError(`Invalid secret key. For registrar "${username || 'Admin'}", enter "LK-${username || 'ADMIN'}-2026".`);
       return;
     }
     if (password !== confirm) {
@@ -139,7 +147,7 @@ export default function AdminSignup() {
                   <input
                     type="text"
                     className="admin-auth-input"
-                    placeholder="Admin Name"
+                    placeholder="e.g. Kumar Reddy"
                     value={name}
                     onChange={e => setName(e.target.value)}
                     required
@@ -172,13 +180,16 @@ export default function AdminSignup() {
                   <input
                     type="password"
                     className="admin-auth-input"
-                    placeholder="Enter admin secret key"
+                    placeholder={name ? `e.g. LK-${name.trim()}-2026` : 'e.g. LK-Kumar Reddy-2026'}
                     value={secretKey}
                     onChange={e => { setSecretKey(e.target.value); setError(''); }}
                     required
                     autoComplete="off"
                   />
                 </div>
+                <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', marginLeft: '4px' }}>
+                  Format: LK-&lt;Name&gt;-2026 (Case-insensitive)
+                </p>
               </div>
 
               {/* Password */}
