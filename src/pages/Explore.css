@@ -298,12 +298,18 @@
   width: 100%;
   padding: 12px;
   border-radius: 12px;
-  border: 1px solid var(--border-color);
-  background-color: var(--bg-color);
+  border: 1px solid var(--glass-border);
+  background-color: #181d06;
   font-size: 15px;
-  color: var(--text-dark);
+  color: #ffffff;
   cursor: pointer;
   outline: none;
+}
+
+.explore-select option {
+  background-color: #141704;
+  color: #ffffff;
+  padding: 10px 14px;
 }
 
 .toggle-label {

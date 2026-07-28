@@ -335,6 +335,27 @@ p.subtitle {
 }
 .input-field::placeholder { color: var(--text-light); }
 
+/* ── Global Select & Option Dropdown Fix ────────────────────────── */
+select {
+  background-color: #181d06;
+  color: #ffffff;
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+}
+
+select option {
+  background-color: #141704;
+  color: #ffffff;
+  padding: 10px 14px;
+}
+
+select option:checked,
+select option:hover,
+select option:focus {
+  background-color: var(--primary);
+  color: #000000;
+}
+
 /* Validation states */
 .input-wrapper.input-error .input-field  { border-color: #ef4444; }
 .input-wrapper.input-valid .input-field  { border-color: #22c55e; }
