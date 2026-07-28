@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X, Star } from 'lucide-react';
+import { useUser } from '../hooks/useUser';
 import './RateExperience.css';
 
 export default function RateExperience() {
   const navigate = useNavigate();
-  const [rating, setRating] = useState(4);
+  const { user, updateUser } = useUser();
+  const [rating, setRating] = useState(5);
   const [tags, setTags] = useState(['On time', 'Friendly']);
-  const [feedback, setFeedback] = useState('Alex was very careful with the drill and returned it cleaner than when he took it! Would definitely share with him again.');
+  const [feedback, setFeedback] = useState('Great experience borrowing from neighbor! Item worked perfectly.');
 
   const availableTags = ['On time', 'Great communication', 'Item as described', 'Friendly'];
 
@@ -16,6 +18,24 @@ export default function RateExperience() {
       setTags(tags.filter(t => t !== tag));
     } else {
       setTags([...tags, tag]);
+    }
+  };
+
+  const handleSubmitReview = async () => {
+    try {
+      const currentRatingCount = Number(user?.ratingCount || 0);
+      const currentRating = Number(user?.rating || 0);
+      const newRatingCount = currentRatingCount + 1;
+      const newRating = Number(((currentRating * currentRatingCount + rating) / newRatingCount).toFixed(1));
+      
+      await updateUser({
+        rating: newRating,
+        ratingCount: newRatingCount
+      });
+      alert(`Thank you for submitting your ${rating}-star rating!`);
+      navigate(-1);
+    } catch (e) {
+      navigate(-1);
     }
   };
 
@@ -86,7 +106,7 @@ export default function RateExperience() {
         </div>
 
         <div className="rate-actions">
-          <button className="submit-review-btn" onClick={() => navigate(-1)}>
+          <button className="submit-review-btn" onClick={handleSubmitReview}>
             Submit Review
           </button>
           <button className="skip-review-btn" onClick={() => navigate(-1)}>

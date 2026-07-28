@@ -83,14 +83,17 @@ export default function ItemDetails() {
           
           <div className="product-rating">
             <div className="stars">
-              <Star size={16} fill="#f59e0b" color="#f59e0b" />
-              <Star size={16} fill="#f59e0b" color="#f59e0b" />
-              <Star size={16} fill="#f59e0b" color="#f59e0b" />
-              <Star size={16} fill="#f59e0b" color="#f59e0b" />
-              <Star size={16} fill="#e5e7eb" color="#e5e7eb" />
+              {[1, 2, 3, 4, 5].map((starIdx) => (
+                <Star 
+                  key={starIdx}
+                  size={16} 
+                  fill={starIdx <= Math.round(Number(item.rating) || 0) ? "#f59e0b" : "none"} 
+                  color={starIdx <= Math.round(Number(item.rating) || 0) ? "#f59e0b" : "#6b7280"} 
+                />
+              ))}
             </div>
-            <span className="rating-score">{item.rating}</span>
-            <span className="rating-count">1,248 ratings</span>
+            <span className="rating-score">{Number(item.rating || 0) > 0 ? Number(item.rating).toFixed(1) : '0.0'}</span>
+            <span className="rating-count">{item.ratingCount ? `${item.ratingCount} rating(s)` : 'No ratings yet'}</span>
           </div>
 
           <div className="product-price-section">
