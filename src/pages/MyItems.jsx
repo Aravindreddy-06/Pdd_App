@@ -103,6 +103,15 @@ export default function MyItems() {
 
   const displayItems = activeTab === 'lending' ? lendingItems : borrowingItems;
 
+  const hasActivity = (
+    lendingItems.length > 0 || 
+    borrowingItems.length > 0 || 
+    Number(user?.borrowed || 0) > 0 || 
+    Number(user?.shared || 0) > 0 || 
+    Number(user?.helpedCount || 0) > 0 ||
+    Boolean(user?.isVerified)
+  );
+
   return (
     <div className="my-items-page">
 
@@ -120,10 +129,12 @@ export default function MyItems() {
             <div>
               <p className="mi-hero-greeting">Welcome back,</p>
               <h1 className="mi-hero-name">{user?.name?.split(' ')[0] || 'Neighbor'} 👋</h1>
-              <div className="mi-hero-badges">
-                <span className="mi-badge"><Shield size={11} /> Verified</span>
-                <span className="mi-badge mi-badge-gold"><Star size={11} /> {trustScore}/5 Trust</span>
-              </div>
+              {hasActivity && (
+                <div className="mi-hero-badges">
+                  <span className="mi-badge"><Shield size={11} /> Verified</span>
+                  <span className="mi-badge mi-badge-gold"><Star size={11} /> {trustScore}/5 Trust</span>
+                </div>
+              )}
             </div>
           </div>
           <button className="mi-add-btn" onClick={() => navigate('/add-item')}>

@@ -43,6 +43,13 @@ export default function Profile() {
     );
   }
 
+  const hasActivity = (
+    Number(user?.shared || 0) > 0 || 
+    Number(user?.borrowed || 0) > 0 || 
+    Number(user?.helpedCount || 0) > 0 ||
+    Boolean(user?.isVerified)
+  );
+
   return (
     <div className="profile-page">
       
@@ -63,9 +70,11 @@ export default function Profile() {
           <div className="profile-info-top">
             <div className="flex-row items-center gap-3">
               <h1 className="profile-name">{user?.name}</h1>
-              <div className="verified-badge" title="Verified Neighbor">
-                <ShieldCheck size={16} /> Verified
-              </div>
+              {hasActivity && (
+                <div className="verified-badge" title="Verified Neighbor">
+                  <ShieldCheck size={16} /> Verified
+                </div>
+              )}
             </div>
             
             <p className="profile-email">{user?.email}</p>
