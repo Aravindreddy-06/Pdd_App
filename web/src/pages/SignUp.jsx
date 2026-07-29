@@ -2,21 +2,17 @@ import { useState, useRef, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   User,
-  Eye, EyeOff, CheckCircle, XCircle, Loader, Mail, Lock, ShieldCheck, ArrowRight
+  Eye, EyeOff, CheckCircle, XCircle, Loader, Mail, Lock, ShieldCheck
 } from 'lucide-react';
 import Logo from '../components/Logo';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
-import PhoneInput from 'react-phone-number-input';
-import 'react-phone-number-input/style.css';
 import { useUser } from '../hooks/useUser';
 import { supabase } from '../lib/supabaseClient';
 import './Auth.css';
 
-// ─── helpers ────────────────────────────────────────────────────────────────
-
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'ResourceShareadmin@gmail.com').toLowerCase().trim();
 
-// ── status icon component ──────────────────────────────────────────────────
 const ContactStatusIcon = ({ contactStatus }) => {
   if (contactStatus === 'checking') return <Loader size={18} className="input-status-icon spinning" />;
   if (contactStatus === 'valid')    return <CheckCircle size={18} className="input-status-icon valid" />;
@@ -42,42 +38,24 @@ function looksLikePhone(value) {
   return /^[+\d]/.test(value.trim()) && !value.includes('@');
 }
 
-// ─── component ──────────────────────────────────────────────────────────────
-
 export default function SignUp() {
   const navigate = useNavigate();
-  const { updateUser, requestLocation } = useUser();
+  const { requestLocation } = useUser();
   
-  const handleGoToSignIn = () => {
-    const lastLogin = localStorage.getItem('rs_last_login');
-    const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000;
-    
-    if (lastLogin) {
-      const timeSinceLogin = Date.now() - parseInt(lastLogin);
-      if (timeSinceLogin < TWO_DAYS_MS) {
-        navigate('/home');
-        return;
-      }
-    }
-    navigate('/login');
-  };
+  // Toggle mode right on this page: 'signup' vs 'login'
+  const [authMode, setAuthMode] = useState('signup');
 
   const [formData, setFormData]     = useState({ name: '', contact: '', password: '', confirmPassword: '' });
+  const [loginContact, setLoginContact] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
   const [showPassword, setShowPw]   = useState(false);
   const [showConfirmPw, setShowConfirmPw] = useState(false);
   const [agreed, setAgreed]         = useState(false);
 
-  // contact validation
-  const [contactStatus, setContactStatus] = useState('idle'); // idle|checking|valid|invalid
+  const [contactStatus, setContactStatus] = useState('idle');
   const [contactError,  setContactError]  = useState('');
-  const [contactIsPhone, setContactIsPhone] = useState(false);
-
-  // Flow stages: 'details' | 'otp' | 'password' | 'success'
+  
   const [stage, setStage] = useState('details');
-  const [otp, setOtp] = useState('');
-  const [otpError, setOtpError] = useState('');
-
-  // field errors
   const [nameError, setNameError] = useState('');
   const [pwError,   setPwError]   = useState('');
   const [confirmPwError, setConfirmPwError] = useState('');
@@ -87,95 +65,63 @@ export default function SignUp() {
 
   const debounceRef = useRef(null);
 
-  // ── contact validator ──────────────────────────────────────────────────────
   const validateContact = useCallback(async (value) => {
     const v = value.trim();
     if (!v) { setContactStatus('idle'); setContactError(''); return; }
 
     if (looksLikePhone(v)) {
-      setContactIsPhone(true);
       const parsed = parsePhoneNumberFromString(v);
       if (parsed?.isValid()) {
         setContactStatus('valid'); setContactError('');
       } else {
-        setContactStatus('invalid');
-        setContactError('Enter a valid phone number with country code (e.g. +91 98765 43210)');
+        setContactStatus('invalid'); setContactError('Enter a valid mobile phone number with country code');
       }
       return;
     }
 
-    setContactIsPhone(false);
     if (!EMAIL_REGEX.test(v)) {
-      setContactStatus('invalid'); setContactError('Enter a valid email address'); return;
+      setContactStatus('invalid'); setContactError('Invalid email format (e.g. name@domain.com)');
+      return;
     }
 
-    const domain = v.split('@')[1];
     setContactStatus('checking'); setContactError('');
-    const hasMX = await domainHasMX(domain);
-    if (hasMX) {
+    const domain = v.split('@')[1];
+    const mxOk = await domainHasMX(domain);
+    if (mxOk) {
       setContactStatus('valid'); setContactError('');
     } else {
-      setContactStatus('invalid');
-      setContactError(`"${domain}" doesn't appear to be a real email domain`);
+      setContactStatus('invalid'); setContactError(`Domain "@${domain}" cannot receive emails`);
     }
   }, []);
 
-  // ── change handler ─────────────────────────────────────────────────────────
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((p) => ({ ...p, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
     setSubmitError('');
 
-    if (name === 'contact') {
-      setContactStatus('idle');
-      clearTimeout(debounceRef.current);
-      debounceRef.current = setTimeout(() => validateContact(value), 600);
-    }
     if (name === 'name') {
-      setNameError(value.trim().length < 2 ? 'Please enter your name' : '');
+      setNameError(value.trim().length >= 2 ? '' : 'Name must be at least 2 characters');
+    }
+    if (name === 'contact') {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      debounceRef.current = setTimeout(() => validateContact(value), 500);
     }
     if (name === 'password') {
-      if (value.length > 0 && value.length < 8) {
-        setPwError('Password must be at least 8 characters');
-      } else if (value.length >= 8 && !/\d/.test(value)) {
-        setPwError('Password must include at least one number');
-      } else if (value.length >= 8 && !/[!@#$%^&*(),.?":{}|<>_]/.test(value)) {
-        setPwError('Password must include at least one special character');
-      } else {
-        setPwError('');
-      }
-      // Re-validate confirm password if it already has value
-      if (formData.confirmPassword) {
-        setConfirmPwError(value !== formData.confirmPassword ? 'Passwords do not match' : '');
-      }
+      setPwError(value.length >= 8 ? '' : 'Password must be at least 8 characters');
     }
     if (name === 'confirmPassword') {
-      setConfirmPwError(value !== formData.password ? 'Passwords do not match' : '');
+      setConfirmPwError(value === formData.password ? '' : 'Passwords do not match');
     }
   };
 
-  const handlePhoneChange = (value) => {
-    // If the user clears the input, reset contact to empty
-    const newValue = value || '';
-    setFormData((p) => ({ ...p, contact: newValue }));
-    setSubmitError('');
-    setContactStatus('idle');
-    clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => validateContact(newValue), 600);
-  };
-
-  // ── email/password submit ──────────────────────────────────────────────────
-  // ── Stage 1: Send OTP ─────────────────────────────────────────────────────
   const handleDetailsSubmit = (e) => {
     e.preventDefault();
-    if (formData.name.trim().length < 2) { setNameError('Please enter your name'); return; }
-    if (contactStatus !== 'valid') { setContactError('Please enter a valid email'); return; }
+    if (formData.name.trim().length < 2) { setNameError('Please enter your full name'); return; }
+    if (contactStatus !== 'valid') { setContactError('Please fix contact errors first'); return; }
     setStage('password');
   };
 
-
-
-  // ── Stage 3: Set Password & Complete Profile ──────────────────────────────
+  // ── Registration Handler ───────────────────────────────────────────
   const handleSignUp = async (e) => {
     e.preventDefault();
     
@@ -188,9 +134,14 @@ export default function SignUp() {
 
     setLoading(true);
     setSubmitError('');
+
+    localStorage.removeItem('rs_profile');
+    localStorage.removeItem('rs_wishlist');
+    localStorage.removeItem('rs_cart');
+    localStorage.removeItem('resource_share_items');
+
     try {
-      // Create user with email and password
-      const { error } = await supabase.auth.signUp({
+      const { data: signUpData, error } = await supabase.auth.signUp({
         email: formData.contact.trim(),
         password: formData.password,
         options: {
@@ -200,7 +151,22 @@ export default function SignUp() {
         }
       });
       
-      if (error) throw error;
+      if (error) {
+        if (error.message.toLowerCase().includes('already registered') || error.message.toLowerCase().includes('already exists')) {
+          setSubmitError('An account with this email already exists. Please log in below.');
+          setAuthMode('login');
+          setLoginContact(formData.contact.trim());
+          return;
+        }
+        throw error;
+      }
+
+      if (signUpData?.user && signUpData.user.identities && signUpData.user.identities.length === 0) {
+        setSubmitError('An account with this email already exists. Please log in below.');
+        setAuthMode('login');
+        setLoginContact(formData.contact.trim());
+        return;
+      }
 
       await requestLocation();
       navigate('/home');
@@ -211,7 +177,38 @@ export default function SignUp() {
     }
   };
 
-  // ── Google sign-in ─────────────────────────────────────────────────────────
+  // ── Direct Login Handler ─────────────────────────────────────────────
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    if (!loginContact.trim() || !loginPassword) return;
+
+    setLoading(true);
+    setSubmitError('');
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: loginContact.trim(),
+        password: loginPassword
+      });
+
+      if (error) {
+        if (error.message.includes('Invalid login credentials')) {
+          setSubmitError('Invalid credentials or account does not exist. Please check your email or create a new account.');
+        } else {
+          throw error;
+        }
+        return;
+      }
+
+      await requestLocation();
+      const loggedEmail = loginContact.trim().toLowerCase();
+      navigate(loggedEmail === ADMIN_EMAIL ? '/admin' : '/home', { replace: true });
+    } catch (err) {
+      setSubmitError('Login failed: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleGoogle = async () => {
     setLoading(true);
     setSubmitError('');
@@ -230,43 +227,15 @@ export default function SignUp() {
     }
   };
 
-  // ── Guest sign-in ──────────────────────────────────────────────────────────
-  const handleGuest = async () => {
-    setLoading(true);
-    setSubmitError('');
-    try {
-      console.log("Mocking Guest Login");
-      updateUser({
-        uid: 'guest-' + Math.random().toString(36).substr(2, 9),
-        name: 'Guest User',
-        avatar: 'https://ui-avatars.com/api/?name=Guest+User&background=84cc16&color=fff',
-        isAnonymous: true
-      });
-      requestLocation();
-      navigate('/home', { replace: true });
-    } catch (err) {
-      setSubmitError('Guest login failed.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-  const isReady = formData.name.trim().length >= 2
-    && contactStatus === 'valid'
-    && formData.password.length >= 8
-    && formData.password === formData.confirmPassword
-    && agreed;
-
   return (
     <div className="auth-split-page">
-      {/* ── Left Side: Visuals ────────────────────────────────────────── */}
+      {/* ── Left Visual Panel ── */}
       <div className="auth-visual-side">
         <div className="auth-visual-bg"></div>
         <div className="auth-visual-content">
           <Link to="/" className="auth-visual-logo">
             <Logo size={36} />
-            <span>ResourceShare</span>
+            <span>Lendkart</span>
           </Link>
           <h1 className="auth-visual-headline">
             Share more,<br />
@@ -278,204 +247,263 @@ export default function SignUp() {
           </p>
         </div>
         <div className="auth-visual-footer">
-          © 2026 ResourceShare. All rights reserved.
+          © 2026 Lendkart. All rights reserved.
         </div>
       </div>
 
-      {/* ── Right Side: Form ─────────────────────────────────────────── */}
+      {/* ── Right Auth Form Panel ── */}
       <div className="auth-form-side">
         <div className="auth-form-container">
-          <header style={{ marginBottom: '40px' }}>
-            <h1 className="auth-title-large">Create account</h1>
-            <p className="auth-subtitle-large">Start sharing with your neighbors today.</p>
-          </header>
 
-          {stage === 'details' && (
-            <form onSubmit={handleDetailsSubmit} className="animate-in">
-              {/* Full Name */}
-              <div className="form-group" style={{ marginBottom: '24px' }}>
-                <label>Full Name</label>
-                <div className={`input-wrapper ${nameError ? 'input-error' : ''}`}>
-                  <User size={18} className="input-icon" />
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="input-field"
-                    placeholder="Enter your full name"
-                    required
-                  />
-                </div>
-                {nameError && <p className="field-error" style={{ marginTop: '8px' }}>{nameError}</p>}
-              </div>
+          {/* ── MODE 1: CREATE ACCOUNT ── */}
+          {authMode === 'signup' && (
+            <>
+              <header style={{ marginBottom: '32px' }}>
+                <h1 className="auth-title-large">Create account</h1>
+                <p className="auth-subtitle-large">Start sharing with your neighbors today.</p>
+              </header>
 
-              {/* Email Address */}
-              <div className="form-group" style={{ marginBottom: '32px' }}>
-                <label>Email Address</label>
-                <div className={`input-wrapper ${contactError ? 'input-error' : ''}`}>
+              {stage === 'details' && (
+                <form onSubmit={handleDetailsSubmit} className="animate-in">
+                  <div className="form-group" style={{ marginBottom: '24px' }}>
+                    <label style={{ fontSize: '12px', fontWeight: 700, color: '#9ca3af', letterSpacing: '0.5px', marginBottom: '8px', display: 'block' }}>FULL NAME</label>
+                    <div className={`input-wrapper ${nameError ? 'input-error' : ''}`}>
+                      <User size={18} className="input-icon" />
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="input-field"
+                        placeholder="Enter your full name"
+                        required
+                      />
+                    </div>
+                    {nameError && <p className="field-error" style={{ marginTop: '8px' }}>{nameError}</p>}
+                  </div>
+
+                  <div className="form-group" style={{ marginBottom: '32px' }}>
+                    <label style={{ fontSize: '12px', fontWeight: 700, color: '#9ca3af', letterSpacing: '0.5px', marginBottom: '8px', display: 'block' }}>EMAIL ADDRESS</label>
+                    <div className={`input-wrapper ${contactError ? 'input-error' : ''}`}>
+                      <Mail size={18} className="input-icon" />
+                      <input
+                        type="email"
+                        name="contact"
+                        value={formData.contact}
+                        onChange={handleChange}
+                        className="input-field"
+                        placeholder="name@example.com"
+                        required
+                      />
+                      <ContactStatusIcon contactStatus={contactStatus} />
+                    </div>
+                    {contactError && <p className="field-error" style={{ marginTop: '8px', fontSize: '12px', color: '#ef4444' }}>{contactError}</p>}
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn-primary-website"
+                    disabled={formData.name.trim().length < 2 || contactStatus !== 'valid' || loading}
+                    style={{ width: '100%', padding: '14px', borderRadius: '12px', background: '#4ade80', color: '#000', fontWeight: 700, fontSize: '15px', border: 'none', cursor: 'pointer' }}
+                  >
+                    Continue
+                  </button>
+                </form>
+              )}
+
+              {stage === 'password' && (
+                <form onSubmit={handleSignUp} className="animate-in">
+                  <div className="text-center mb-6">
+                    <div className="icon-container-light-green" style={{ margin: '0 auto 16px' }}>
+                      <ShieldCheck size={24} color="var(--primary)" />
+                    </div>
+                    <h2 style={{ fontSize: '20px', fontWeight: 700 }}>Secure your account</h2>
+                    <p style={{ color: 'var(--text-gray)', fontSize: '14px', marginTop: '8px' }}>
+                      Almost there! Choose a strong password to finish.
+                    </p>
+                  </div>
+
+                  <div className="form-group mb-6">
+                    <label>Create Password</label>
+                    <div className="input-wrapper">
+                      <Lock size={18} className="input-icon" />
+                      <input
+                        type={showPassword ? 'text' : 'password'}
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        className="input-field"
+                        placeholder="At least 8 characters"
+                        required
+                      />
+                      <button type="button" className="btn-icon" onClick={() => setShowPw(!showPassword)}>
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+                    {pwError && <p className="field-error" style={{ marginTop: '8px' }}>{pwError}</p>}
+                  </div>
+
+                  <div className="form-group mb-6">
+                    <label>Confirm Password</label>
+                    <div className="input-wrapper">
+                      <Lock size={18} className="input-icon" />
+                      <input
+                        type={showConfirmPw ? 'text' : 'password'}
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        className="input-field"
+                        placeholder="Repeat your password"
+                        required
+                      />
+                      <button type="button" className="btn-icon" onClick={() => setShowConfirmPw(!showConfirmPw)}>
+                        {showConfirmPw ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+                    {confirmPwError && <p className="field-error" style={{ marginTop: '8px' }}>{confirmPwError}</p>}
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '24px' }}>
+                    <input 
+                      type="checkbox" 
+                      id="terms" 
+                      checked={agreed} 
+                      onChange={(e) => setAgreed(e.target.checked)} 
+                      style={{ marginTop: '4px', width: '16px', height: '16px', cursor: 'pointer' }}
+                    />
+                    <label htmlFor="terms" style={{ fontSize: '14px', color: 'var(--text-gray)', lineHeight: '1.4', cursor: 'pointer' }}>
+                      I agree to the <Link to="/terms" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>Terms of Service</Link> and 
+                      <Link to="/terms" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none', marginLeft: '4px' }}>Privacy Policy</Link>.
+                    </label>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn-primary-website"
+                    disabled={!agreed || formData.password.length < 8 || loading}
+                    style={{ width: '100%', padding: '14px', borderRadius: '12px', background: '#4ade80', color: '#000', fontWeight: 700, fontSize: '15px', border: 'none', cursor: 'pointer' }}
+                  >
+                    {loading ? <><Loader size={18} className="spinning" /> Finalizing...</> : 'Complete Registration'}
+                  </button>
+
+                  <button 
+                    type="button" 
+                    className="btn-link w-full mt-4" 
+                    onClick={() => setStage('details')}
+                    style={{ fontSize: '14px', color: 'var(--text-gray)', background: 'none', border: 'none', cursor: 'pointer', width: '100%', marginTop: '12px' }}
+                  >
+                    Go back
+                  </button>
+                </form>
+              )}
+            </>
+          )}
+
+          {/* ── MODE 2: SIGN IN / LOG IN ── */}
+          {authMode === 'login' && (
+            <form onSubmit={handleLoginSubmit} className="animate-in">
+              <header style={{ marginBottom: '32px' }}>
+                <h1 className="auth-title-large">Welcome back</h1>
+                <p className="auth-subtitle-large">Please log in to your Lendkart account to continue.</p>
+              </header>
+
+              <div className="form-group" style={{ marginBottom: '20px' }}>
+                <label style={{ fontSize: '12px', fontWeight: 700, color: '#9ca3af', letterSpacing: '0.5px', marginBottom: '8px', display: 'block' }}>EMAIL ADDRESS</label>
+                <div className="input-wrapper">
                   <Mail size={18} className="input-icon" />
                   <input
                     type="email"
-                    name="contact"
-                    value={formData.contact}
-                    onChange={handleChange}
+                    value={loginContact}
+                    onChange={(e) => { setLoginContact(e.target.value); setSubmitError(''); }}
                     className="input-field"
                     placeholder="name@example.com"
                     required
                   />
-                  <ContactStatusIcon contactStatus={contactStatus} />
                 </div>
-                {contactError && <p className="field-error" style={{ marginTop: '8px', fontSize: '12px', color: '#ef4444' }}>{contactError}</p>}
               </div>
 
-              <button
-                type="submit"
-                className="btn-primary-website"
-                disabled={formData.name.trim().length < 2 || contactStatus !== 'valid' || loading}
-              >
-                Continue
-              </button>
-            </form>
-          )}
-
-          {stage === 'password' && (
-            <form onSubmit={handleSignUp} className="animate-in">
-              <div className="text-center mb-8">
-                <div className="icon-container-light-green" style={{ margin: '0 auto 16px' }}>
-                  <ShieldCheck size={24} color="var(--primary)" />
+              <div className="form-group" style={{ marginBottom: '28px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <label style={{ fontSize: '12px', fontWeight: 700, color: '#9ca3af', letterSpacing: '0.5px', margin: 0 }}>PASSWORD</label>
+                  <Link to="/forgot-password" style={{ fontSize: '13px', color: '#4ade80', textDecoration: 'none', fontWeight: 600 }}>Forgot password?</Link>
                 </div>
-                <h2 style={{ fontSize: '20px', fontWeight: 700 }}>Secure your account</h2>
-                <p style={{ color: 'var(--text-gray)', fontSize: '14px', marginTop: '8px' }}>
-                  Almost there! Choose a strong password to finish.
-                </p>
-              </div>
-
-              {/* Password */}
-              <div className="form-group" style={{ marginBottom: '24px' }}>
-                <label>Create Password</label>
-                <div className={`input-wrapper ${pwError ? 'input-error' : ''}`}>
+                <div className="input-wrapper">
+                  <Lock size={18} className="input-icon" />
                   <input
                     type={showPassword ? 'text' : 'password'}
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
+                    value={loginPassword}
+                    onChange={(e) => { setLoginPassword(e.target.value); setSubmitError(''); }}
                     className="input-field"
-                    placeholder="At least 8 characters"
+                    placeholder="Enter your password"
                     required
                   />
                   <button type="button" className="btn-icon" onClick={() => setShowPw(!showPassword)}>
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
-                {pwError && <p className="field-error" style={{ marginTop: '8px' }}>{pwError}</p>}
               </div>
 
-              {/* Confirm Password */}
-              <div className="form-group" style={{ marginBottom: '32px' }}>
-                <label>Confirm Password</label>
-                <div className={`input-wrapper ${confirmPwError ? 'input-error' : ''}`}>
-                  <input
-                    type={showConfirmPw ? 'text' : 'password'}
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className="input-field"
-                    placeholder="Repeat your password"
-                    required
-                  />
-                  <button type="button" className="btn-icon" onClick={() => setShowConfirmPw(!showConfirmPw)}>
-                    {showConfirmPw ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-                {confirmPwError && <p className="field-error" style={{ marginTop: '8px' }}>{confirmPwError}</p>}
-              </div>
-
-              {/* Terms checkbox */}
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '32px' }}>
-                <input 
-                  type="checkbox" 
-                  id="terms" 
-                  checked={agreed} 
-                  onChange={(e) => setAgreed(e.target.checked)} 
-                  style={{ marginTop: '4px', width: '16px', height: '16px', cursor: 'pointer' }}
-                />
-                <label htmlFor="terms" style={{ fontSize: '14px', color: 'var(--text-gray)', lineHeight: '1.4', cursor: 'pointer' }}>
-                  I agree to the <Link to="/terms" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>Terms of Service</Link> and 
-                  <Link to="/terms" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none', marginLeft: '4px' }}>Privacy Policy</Link>.
-                </label>
-              </div>
-
-               <button
+              <button
                 type="submit"
-                className="btn-primary-website"
-                disabled={!agreed || formData.password.length < 8 || loading}
+                disabled={!loginContact.trim() || !loginPassword || loading}
+                style={{ width: '100%', padding: '14px', borderRadius: '12px', background: '#4ade80', color: '#000', fontWeight: 700, fontSize: '15px', border: 'none', cursor: 'pointer' }}
               >
-                {loading ? <><Loader size={18} className="spinning" /> Finalizing...</> : 'Complete Registration'}
-              </button>
-
-              <button 
-                type="button" 
-                className="btn-link w-full mt-4" 
-                onClick={() => setStage('details')}
-                style={{ fontSize: '14px', color: 'var(--text-gray)' }}
-              >
-                Go back
+                {loading ? <><Loader size={18} className="spinning" /> Signing in...</> : 'Sign In'}
               </button>
             </form>
           )}
 
+          {/* ── Submit Error Banner ── */}
           {submitError && (
-            <div style={{ padding: '12px', marginTop: '24px', backgroundColor: '#fef2f2', color: '#b91c1c', borderRadius: '8px', fontSize: '14px', border: '1px solid #fee2e2' }}>
+            <div style={{ padding: '14px', marginTop: '20px', backgroundColor: '#fef2f2', color: '#b91c1c', borderRadius: '12px', fontSize: '14px', border: '1px solid #fee2e2' }}>
               {submitError}
             </div>
           )}
 
-          <div className="divider">OR</div>
+          <div className="divider" style={{ margin: '24px 0', textAlign: 'center', color: '#6b7280', fontSize: '13px' }}>OR</div>
 
+          {/* ── Google Sign In Button ── */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <button
               type="button"
               className="btn-google-website"
               onClick={handleGoogle}
               disabled={loading}
+              style={{ width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.05)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}
             >
               <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="" width={18} />
               <span>Continue with Google</span>
             </button>
-
-            <button
-              type="button"
-              className="btn-google-website"
-              onClick={handleGuest}
-              disabled={loading}
-            >
-              <User size={18} style={{ color: '#64748b' }} />
-              <span>Continue as Guest</span>
-            </button>
           </div>
 
-          <p style={{ marginTop: '40px', textAlign: 'center', fontSize: '14px', color: 'var(--text-gray)' }}>
-            Already have an account?{' '}
-            <button 
-              onClick={handleGoToSignIn}
-              style={{ 
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                color: 'var(--primary)', 
-                fontWeight: 700, 
-                textDecoration: 'none',
-                cursor: 'pointer',
-                fontSize: 'inherit',
-                fontFamily: 'inherit'
-              }}
-            >
-              Sign in
-            </button>
+          {/* ── In-page Mode Toggle Switch ── */}
+          <p style={{ marginTop: '32px', textAlign: 'center', fontSize: '14px', color: 'var(--text-gray)' }}>
+            {authMode === 'signup' ? (
+              <>
+                Already have an account?{' '}
+                <button 
+                  type="button"
+                  onClick={() => { setAuthMode('login'); setSubmitError(''); }}
+                  style={{ background: 'none', border: 'none', padding: 0, color: '#4ade80', fontWeight: 700, cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit' }}
+                >
+                  Sign in
+                </button>
+              </>
+            ) : (
+              <>
+                Don't have an account?{' '}
+                <button 
+                  type="button"
+                  onClick={() => { setAuthMode('signup'); setSubmitError(''); }}
+                  style={{ background: 'none', border: 'none', padding: 0, color: '#4ade80', fontWeight: 700, cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit' }}
+                >
+                  Create account
+                </button>
+              </>
+            )}
           </p>
 
-          {/* Admin Portal Link */}
+          {/* ── Admin Portal ── */}
           <div style={{ textAlign: 'center', marginTop: '16px' }}>
             <Link
               to="/admin/login"
@@ -486,12 +514,11 @@ export default function SignUp() {
                 border: '1px solid #e2e8f0',
                 transition: 'all 0.2s'
               }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#22c55e'; e.currentTarget.style.color = '#15803d'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.color = '#64748b'; }}
             >
               🛡️ Admin Portal
             </Link>
           </div>
+
         </div>
       </div>
     </div>

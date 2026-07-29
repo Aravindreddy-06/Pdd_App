@@ -5,7 +5,6 @@ import { NotificationProvider } from './context/NotificationContext';
 import { RequestProvider } from './context/RequestContext';
 import Navbar from './components/Navbar';
 import Splash from './pages/Splash';
-import Onboarding from './pages/Onboarding';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Explore from './pages/Explore';
@@ -39,8 +38,8 @@ import AdminForgotPassword from './pages/AdminForgotPassword';
 import SupabaseGuide from './pages/SupabaseGuide';
 import './App.css';
 
-// Pages that do NOT show sidebar/bottom-nav (auth/onboarding flows)
-const STANDALONE_PATHS = ['/', '/onboarding', '/signup', '/login', '/verify-email', '/forgot-password', '/terms', '/location-access', '/rate-experience', '/community-trust', '/admin/login', '/admin/signup', '/admin/forgot-password'];
+// Pages that do NOT show sidebar/bottom-nav (standalone flows)
+const STANDALONE_PATHS = ['/', '/signup', '/login', '/verify-email', '/forgot-password', '/terms', '/location-access', '/rate-experience', '/community-trust', '/admin/login', '/admin/signup', '/admin/forgot-password'];
 
 function AppShell() {
   const location = useLocation();
@@ -60,7 +59,6 @@ function AppShell() {
       <div className={isStandalone ? '' : 'app-content'}>
         <Routes>
           <Route path="/" element={<Splash />} />
-          <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
@@ -72,7 +70,7 @@ function AppShell() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/signup" element={<AdminSignup />} />
           <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />
-          <Route path="/perks" element={<Circles />} /> {/* Placeholder */}
+          <Route path="/perks" element={<Circles />} />
           <Route path="/my-items" element={<MyItems />} />
           <Route path="/add-item" element={<AddItem />} />
           <Route path="/location-access" element={<LocationAccess />} />

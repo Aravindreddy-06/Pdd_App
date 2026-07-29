@@ -1,22 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { UserContext } from './UserContextInstance';
 import { supabase } from '../lib/supabaseClient';
-
-const DEFAULT_USER = {
-  name: 'Alex Rivera',
-  email: 'alex.rivera@example.com',
-  phone: '(555) 123-4567',
-  location: 'San Francisco, CA',
-  bio: 'I love DIY projects and gardening. Always happy to share tools and help out my neighbors!',
-  avatar: 'https://ui-avatars.com/api/?name=Alex+Rivera&background=84cc16&color=fff',
-  rating: 0,
-  borrowed: 0,
-  shared: 0,
-  wishlist: []
-};
+import { User, Sparkles, Type } from 'lucide-react';
 
 export function UserProvider({ children }) {
-  // 1. Initialize user from localStorage immediately (for guest support and faster load)
+  // 1. Initialize user from localStorage immediately (for faster load)
   const [user, setUser] = useState(() => {
     try {
       const saved = localStorage.getItem('rs_profile');
@@ -28,6 +16,9 @@ export function UserProvider({ children }) {
   });
   
   const [loading, setLoading] = useState(true);
+  const [showUsernameModal, setShowUsernameModal] = useState(false);
+  const [tempFullName, setTempFullName] = useState('');
+  const [tempUsername, setTempUsername] = useState('');
 
   const fetchProfile = useCallback(async (userId) => {
     try {
@@ -87,7 +78,8 @@ export function UserProvider({ children }) {
         localStorage.setItem('rs_join_date', joinYear);
       }
 
-      const userName = savedProfile.name || data?.full_name || authUser?.user_metadata?.full_name || authUser?.user_metadata?.name || 'Neighbor';
+      const userName = savedProfile.name || data?.full_name || authUser?.user_metadata?.full_name || authUser?.user_metadata?.name || authUser?.email?.split('@')[0] || 'Neighbor';
+      const userHandle = savedProfile.username || data?.username || authUser?.user_metadata?.username || '';
       
       const mappedUser = {
         ...data,
@@ -95,12 +87,22 @@ export function UserProvider({ children }) {
         id: userId,
         email: authUser?.email,
         name: userName,
+        username: userHandle,
         avatar: savedProfile.avatar || data?.avatar_url || authUser?.user_metadata?.avatar_url || authUser?.user_metadata?.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=84cc16&color=fff`,
         memberSince: joinYear,
         wishlist: finalWishlist,
         cart: finalCart,
       };
+
       setUser(mappedUser);
+
+      // Prompt Username & Name modal if new user has not completed username setup
+      const hasCompletedSetup = savedProfile.is_setup_complete || data?.username || userHandle;
+      if (!hasCompletedSetup && authUser) {
+        setTempFullName(userName);
+        setTempUsername(userName.toLowerCase().replace(/\s+/g, '_'));
+        setShowUsernameModal(true);
+      }
     } catch (error) {
       console.error('Error fetching profile:', error);
     } finally {
@@ -140,14 +142,16 @@ export function UserProvider({ children }) {
   const updateUser = useCallback(async (newData) => {
     console.log("UserContext - Updating User Data:", newData);
     
-    // 1. Update local state immediately for responsiveness
+    // 1. Update local state immediately for responsiveness across application
     setUser(prev => {
       const updated = { ...prev, ...newData };
       
       // 2. Persist to localStorage for recovery and persistence
       try {
         const toSave = { 
-          name: updated.name, 
+          name: updated.name,
+          username: updated.username,
+          is_setup_complete: true,
           bio: updated.bio, 
           location: updated.location, 
           address: updated.address,
@@ -172,6 +176,7 @@ export function UserProvider({ children }) {
       if (session?.user?.id) {
         const toUpdate = {};
         if (newData.name) toUpdate.full_name = newData.name;
+        if (newData.username) toUpdate.username = newData.username;
         if (newData.avatar) toUpdate.avatar_url = newData.avatar;
         if (newData.bio) toUpdate.bio = newData.bio;
         if (newData.location) toUpdate.location = newData.location;
@@ -189,6 +194,27 @@ export function UserProvider({ children }) {
       console.error("Supabase sync error:", err);
     }
   }, []);
+
+  const handleSaveUsernameSubmit = async (e) => {
+    e.preventDefault();
+    if (!tempUsername.trim() || !tempFullName.trim()) return;
+
+    const formattedUsername = tempUsername.trim().startsWith('@') 
+      ? tempUsername.trim() 
+      : `@${tempUsername.trim()}`;
+
+    const formattedName = tempFullName.trim();
+    const newAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(formattedName)}&background=84cc16&color=fff`;
+
+    await updateUser({ 
+      name: formattedName,
+      username: formattedUsername,
+      avatar: newAvatar,
+      is_setup_complete: true
+    });
+
+    setShowUsernameModal(false);
+  };
 
   const toggleWishlist = useCallback(async (item) => {
     let isLiked = false;
@@ -272,156 +298,76 @@ export function UserProvider({ children }) {
   const watchIdRef = useRef(null);
   const lastGeocodedAccuracy = useRef(9999);
 
-  // Helper for reverse geocoding
   const updateLocationFromPosition = useCallback(async (position, source = 'auto') => {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
-    
-    console.log(`Geocoding coordinates (${source}): ${lat}, ${lng}`);
-
     try {
-      const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-      
-      const [googleRes, nomRes] = await Promise.allSettled([
-        apiKey 
-          ? fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}&result_type=sublocality|locality|neighborhood`)
-          : Promise.reject('no key'),
-        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
-      ]);
-
-      let googleLocation = null;
-      if (googleRes.status === 'fulfilled') {
-        const data = await googleRes.value.json();
-        if (data.status === 'OK' && data.results.length > 0) {
-          for (const result of data.results) {
-            const comps = result.address_components;
-            const findType = (t) => comps.find(c => c.types.includes(t));
-            const sublocality = findType('sublocality_level_1') || findType('sublocality') || findType('neighborhood') || findType('administrative_area_level_3');
-            const locality = findType('locality') || findType('administrative_area_level_2');
-            if (sublocality) {
-              const parts = [sublocality.long_name];
-              if (locality) parts.push(locality.long_name);
-              googleLocation = parts.join(', ');
-              break;
-            }
-          }
-          if (!googleLocation) {
-            googleLocation = data.results[0].formatted_address.split(',').slice(0, 3).join(', ');
-          }
-        }
-      }
-
-      let nomLocation = null;
-      if (nomRes.status === 'fulfilled') {
-        const nomData = await nomRes.value.json();
+      const nomRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
+      if (nomRes.ok) {
+        const nomData = await nomRes.json();
         if (nomData && nomData.address) {
           const a = nomData.address;
           const sub = a.suburb || a.neighbourhood || a.quarter || a.city_district || a.hamlet || a.village || a.town || a.city;
           const city = a.city || a.town || a.municipality || a.county;
-          if (sub && city && sub !== city) {
-            nomLocation = `${sub}, ${city}`;
-          } else {
-            nomLocation = sub || city;
-          }
+          const loc = (sub && city && sub !== city) ? `${sub}, ${city}` : (sub || city || 'Current Location');
+          const result = { location: loc, address: loc, coordinates: { lat, lng }, locationSource: source };
+          await updateUser(result);
+          return result;
         }
       }
-
-      const finalLocation = googleLocation || nomLocation || 'Current Location';
-      console.log('Final location chosen:', finalLocation);
-      const result = { 
-        location: finalLocation, 
-        address: finalLocation, 
-        coordinates: { lat, lng },
-        locationSource: source
-      };
-      await updateUser(result);
-      return result;
-
+      const fallback = { location: 'Current Location', address: 'Current Location', coordinates: { lat, lng }, locationSource: source };
+      await updateUser(fallback);
+      return fallback;
     } catch (e) {
-      console.error('Geocoding error:', e);
-      const result = { location: 'Current Location', address: 'Current Location', coordinates: { lat, lng }, locationSource: source };
-      await updateUser(result);
-      return result;
+      const fallback = { location: 'Current Location', address: 'Current Location', coordinates: { lat, lng }, locationSource: source };
+      await updateUser(fallback);
+      return fallback;
     }
   }, [updateUser]);
 
   const requestLocation = useCallback((source = 'auto') => {
     return new Promise((resolve) => {
       if (!navigator.geolocation) return resolve(false);
-
       let hasResolved = false;
-      let bestPosition = null;
-
       const watchId = navigator.geolocation.watchPosition(
         async (position) => {
-          const { accuracy } = position.coords;
-          console.log(`GPS update received. Accuracy: ${accuracy}m`);
-          
-          if (!bestPosition || accuracy < bestPosition.coords.accuracy) {
-            bestPosition = position;
-          }
-
-          // If we get a very accurate position (< 100m) or after some time, resolve
-          if (accuracy < 100 && !hasResolved) {
+          if (position.coords.accuracy < 100 && !hasResolved) {
             hasResolved = true;
             navigator.geolocation.clearWatch(watchId);
             await updateLocationFromPosition(position, source);
             resolve(true);
           }
         },
-        (error) => {
-          console.error("Location request error:", error);
+        () => {
           if (!hasResolved) {
             hasResolved = true;
             navigator.geolocation.clearWatch(watchId);
             resolve(false);
           }
         },
-        { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 }
+        { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
       );
-
-      // Timeout fallback to best available position (only if reasonably accurate)
-      setTimeout(async () => {
+      setTimeout(() => {
         if (!hasResolved) {
           hasResolved = true;
           navigator.geolocation.clearWatch(watchId);
-          if (bestPosition && bestPosition.coords.accuracy < 5000) {
-            await updateLocationFromPosition(bestPosition, source);
-            resolve(true);
-          } else {
-            console.log("No accurate position found during timeout.");
-            resolve(false);
-          }
+          resolve(false);
         }
-      }, 8000);
+      }, 5000);
     });
   }, [updateLocationFromPosition]);
 
   const startWatchingLocation = useCallback(() => {
     if (!navigator.geolocation) return;
-    
-    // Clear existing watch if any
-    if (watchIdRef.current) {
-      navigator.geolocation.clearWatch(watchIdRef.current);
-    }
-
+    if (watchIdRef.current) navigator.geolocation.clearWatch(watchIdRef.current);
     watchIdRef.current = navigator.geolocation.watchPosition(
       async (position) => {
-        const { accuracy } = position.coords;
-        
-        // This is where we check the current state (source)
         const currentSource = (() => {
-          try {
-            const saved = JSON.parse(localStorage.getItem('rs_profile') || '{}');
-            return saved.locationSource;
-          } catch { return 'auto'; }
+          try { return JSON.parse(localStorage.getItem('rs_profile') || '{}').locationSource; } catch { return 'auto'; }
         })();
-
-        // Prevent overwriting manual location
         if (currentSource === 'manual') return;
-
-        if (accuracy < 100 && accuracy < (lastGeocodedAccuracy.current - 10)) {
-          lastGeocodedAccuracy.current = accuracy;
+        if (position.coords.accuracy < 100 && position.coords.accuracy < (lastGeocodedAccuracy.current - 10)) {
+          lastGeocodedAccuracy.current = position.coords.accuracy;
           await updateLocationFromPosition(position, 'auto');
         }
       },
@@ -437,26 +383,18 @@ export function UserProvider({ children }) {
     }
   }, []);
 
-  // Proactively detect location on app load
   useEffect(() => {
     const initLocation = async () => {
-      console.log("App load: Starting automatic location detection...");
-      
       try {
-        // Even if we have a saved location, we try to get a fresh one for accuracy
-        // We set a shorter timeout here to not block the app splash too long
         await requestLocation('auto');
       } catch (err) {
-        console.error("Initial location detection failed:", err);
+        console.error("Initial location error:", err);
       } finally {
-        // Keep watching for better accuracy in the background
         startWatchingLocation();
         setLoading(false);
       }
     };
-    
     initLocation();
-    
     return () => stopWatchingLocation();
   }, [requestLocation, startWatchingLocation, stopWatchingLocation]);
 
@@ -475,11 +413,72 @@ export function UserProvider({ children }) {
       signOut: async () => {
         localStorage.removeItem('rs_last_login');
         localStorage.removeItem('rs_profile');
+        localStorage.removeItem('rs_wishlist');
+        localStorage.removeItem('rs_cart');
+        localStorage.removeItem('resource_share_items');
         setUser(null);
         await supabase.auth.signOut();
       }
     }}>
       {children}
+
+      {/* Username & Display Name Setup Modal for New Users */}
+      {showUsernameModal && (
+        <div className="modal-overlay" style={{ zIndex: 1000, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'fixed', inset: 0 }}>
+          <div className="modal-card animate-in" style={{ maxWidth: '440px', width: '90%', padding: '36px', borderRadius: '24px', background: '#141814', border: '1px solid rgba(74, 222, 128, 0.3)', color: '#fff', textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)' }}>
+            <div style={{ width: '60px', height: '60px', borderRadius: '20px', background: 'rgba(34, 197, 94, 0.15)', color: '#4ade80', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+              <Sparkles size={30} />
+            </div>
+            <h2 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '8px' }}>Welcome to Lendkart!</h2>
+            <p style={{ fontSize: '14px', color: '#9ca3af', lineHeight: 1.5, marginBottom: '24px' }}>
+              Set your display name and unique username to complete your profile setup.
+            </p>
+
+            <form onSubmit={handleSaveUsernameSubmit}>
+              {/* Full Name / Display Name */}
+              <div style={{ marginBottom: '18px', textAlign: 'left' }}>
+                <label style={{ fontSize: '13px', fontWeight: 700, color: '#d1d5db', marginBottom: '6px', display: 'block' }}>Full Name</label>
+                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                  <Type size={18} style={{ position: 'absolute', left: '14px', color: '#9ca3af' }} />
+                  <input
+                    type="text"
+                    value={tempFullName}
+                    onChange={(e) => setTempFullName(e.target.value)}
+                    placeholder="e.g. Aravind Reddy"
+                    required
+                    style={{ width: '100%', padding: '12px 14px 12px 42px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '14px', color: '#fff', fontSize: '14px', outline: 'none' }}
+                  />
+                </div>
+              </div>
+
+              {/* Username */}
+              <div style={{ marginBottom: '24px', textAlign: 'left' }}>
+                <label style={{ fontSize: '13px', fontWeight: 700, color: '#d1d5db', marginBottom: '6px', display: 'block' }}>Unique Username</label>
+                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                  <User size={18} style={{ position: 'absolute', left: '14px', color: '#9ca3af' }} />
+                  <input
+                    type="text"
+                    value={tempUsername}
+                    onChange={(e) => setTempUsername(e.target.value)}
+                    placeholder="@username"
+                    required
+                    style={{ width: '100%', padding: '12px 14px 12px 42px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '14px', color: '#fff', fontSize: '14px', outline: 'none' }}
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={!tempUsername.trim() || !tempFullName.trim()}
+                style={{ width: '100%', borderRadius: '14px', padding: '14px', fontWeight: 700, fontSize: '15px', background: '#22c55e', color: '#000', border: 'none', cursor: 'pointer', transition: 'all 0.2s ease' }}
+              >
+                Save Profile & Continue →
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </UserContext.Provider>
   );
 }

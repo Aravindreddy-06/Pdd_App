@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Handshake, Heart, ShieldCheck, Zap } from 'lucide-react';
+import { Handshake, Zap } from 'lucide-react';
 import './Splash.css';
 
 export default function Splash() {
@@ -15,15 +15,15 @@ export default function Splash() {
   ];
 
   useEffect(() => {
-    // Step progression
+    // Step progression animation
     const stepInterval = setInterval(() => {
       setCurrentStep(prev => (prev < steps.length - 1 ? prev + 1 : prev));
-    }, 800);
+    }, 650);
 
-    // Final navigation
+    // Final navigation: after loading splash completes, navigate directly to /signup (Create Account)
     const timer = setTimeout(() => {
-      navigate('/onboarding');
-    }, 3200);
+      navigate('/signup', { replace: true });
+    }, 2800);
 
     return () => {
       clearTimeout(timer);
@@ -64,7 +64,7 @@ export default function Splash() {
       </div>
       
       <h1 className="splash-title">
-        Resource<span className="text-primary">Share</span>
+        Lend<span className="text-primary">kart</span>
       </h1>
       <p className="splash-subtitle">Community Rental Marketplace</p>
 

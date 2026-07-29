@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
-  Eye, EyeOff, Loader, User
+  Eye, EyeOff, Loader
 } from 'lucide-react';
 import Logo from '../components/Logo';
 import { useUser } from '../hooks/useUser';
@@ -12,7 +12,7 @@ const ADMIN_EMAIL = (import.meta.env.VITE_ADMIN_EMAIL || 'ResourceShareadmin@gma
 
 export default function Login() {
   const navigate = useNavigate();
-  const { updateUser, requestLocation } = useUser();
+  const { requestLocation } = useUser();
 
   const [contact,      setContact]     = useState('');
   const [password,    setPassword]    = useState('');
@@ -44,32 +44,11 @@ export default function Login() {
     }
   };
 
-  // ── Guest sign-in ──────────────────────────────────────────────────────────
-  const handleGuest = async () => {
-    setLoading(true);
-    setSubmitError('');
-    try {
-      console.log("Mocking Guest Login");
-      updateUser({
-        uid: 'guest-' + Math.random().toString(36).substr(2, 9),
-        name: 'Guest User',
-        avatar: 'https://ui-avatars.com/api/?name=Guest+User&background=84cc16&color=fff',
-        isAnonymous: true
-      });
-      await requestLocation();
-      navigate('/home', { replace: true });
-    } catch (err) {
-      setSubmitError('Guest login failed.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // ── Email / Password login ─────────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isValidContact) {
-      setSubmitError('Please enter a valid email or phone number.');
+      setSubmitError('Please enter a valid registered email or phone number.');
       return;
     }
     if (!password) return;
@@ -77,12 +56,19 @@ export default function Login() {
     setLoading(true);
     setSubmitError('');
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email: contact.trim(),
         password: password
       });
 
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes('Invalid login credentials')) {
+          setSubmitError('Invalid credentials or account does not exist. Please sign up if you are a new user.');
+        } else {
+          throw error;
+        }
+        return;
+      }
       
       await requestLocation();
       const loggedEmail = contact.trim().toLowerCase();
@@ -101,7 +87,7 @@ export default function Login() {
         {/* Logo */}
         <Link to="/" className="auth-logo">
           <Logo size={32} />
-          <span className="auth-logo-text">ResourceShare</span>
+          <span className="auth-logo-text">Lendkart</span>
         </Link>
 
         {/* Card */}
@@ -116,7 +102,7 @@ export default function Login() {
                 <input
                   type="text"
                   className="input-field"
-                  placeholder=""
+                  placeholder="name@example.com"
                   value={contact}
                   onChange={(e) => { setContact(e.target.value); setSubmitError(''); }}
                   required
@@ -171,13 +157,13 @@ export default function Login() {
           </form>
 
           <div className="mt-6" style={{ fontSize: '12px', color: 'var(--text-gray)', lineHeight: 1.5 }}>
-            By continuing, you agree to ResourceShare's{' '}
+            By continuing, you agree to Lendkart's{' '}
             <Link to="/terms" className="text-primary font-medium" style={{ textDecoration: 'none' }}>Conditions of Use</Link> and{' '}
             <Link to="/terms" className="text-primary font-medium" style={{ textDecoration: 'none' }}>Privacy Notice</Link>.
           </div>
 
           <div className="divider mt-6 mb-6" style={{ fontSize: '11px', color: '#767676' }}>
-            <span style={{ backgroundColor: 'var(--bg-color)', padding: '0 8px' }}>New to ResourceShare?</span>
+            <span style={{ backgroundColor: 'var(--bg-color)', padding: '0 8px' }}>New to Lendkart?</span>
           </div>
 
           <Link to="/signup" style={{ textDecoration: 'none', display: 'block' }}>
@@ -186,12 +172,12 @@ export default function Login() {
               className="btn-social"
               style={{ width: '100%', borderRadius: '8px', padding: '10px', backgroundColor: '#f3f3f3', border: '1px solid #d5d9d9', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', fontSize: '14px', color: '#0f1111' }}
             >
-              Create your ResourceShare account
+              Create your Lendkart account
             </button>
           </Link>
 
           <div className="divider mt-6 mb-6" style={{ fontSize: '11px', color: '#767676' }}>
-            <span style={{ backgroundColor: 'var(--bg-color)', padding: '0 8px' }}>Or continue with</span>
+            <span style={{ backgroundColor: 'var(--bg-color)', padding: '0 8px' }}>Or sign in with</span>
           </div>
 
           {/* Google Sign-In */}
@@ -208,33 +194,7 @@ export default function Login() {
               width={18}
               height={18}
             />
-            <span style={{ fontSize: '14px', fontWeight: 500 }}>Google</span>
-          </button>
-
-          {/* Guest Sign-In */}
-          <button
-            type="button"
-            onClick={handleGuest}
-            disabled={loading}
-            style={{ 
-              width: '100%', 
-              borderRadius: '8px', 
-              padding: '10px',
-              marginTop: '12px',
-              backgroundColor: 'transparent',
-              border: '1px solid var(--border-color)',
-              color: 'var(--text-dark)',
-              fontSize: '14px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px'
-            }}
-          >
-            <User size={18} />
-            <span>Continue as Guest</span>
+            <span style={{ fontSize: '14px', fontWeight: 500 }}>Continue with Google</span>
           </button>
         </div>
       </div>

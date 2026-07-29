@@ -5,11 +5,13 @@ import './Logout.css';
 
 export default function Logout() {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { user, signOut } = useUser();
 
-  const handleLogout = () => {
-    // In a real app, clear auth state here
-    navigate('/login');
+  const handleLogout = async () => {
+    if (signOut) {
+      await signOut();
+    }
+    navigate('/signup', { replace: true });
   };
 
   return (
@@ -31,7 +33,7 @@ export default function Logout() {
           <h2 className="logout-heading">Are you sure you want to log out?</h2>
           
           <p className="logout-subtext">
-            You will need to sign back in to access your ResourceShare account, community updates, and impact reports.
+            You will need to sign back in to access your Lendkart account, community updates, and impact reports.
           </p>
 
           <div className="logout-actions">
@@ -45,7 +47,7 @@ export default function Logout() {
         </div>
 
         <div className="signed-in-info">
-          Signed in as <span className="user-email-highlight">{user?.email || 'alex.neighbor@gmail.com'}</span>
+          Signed in as <span className="user-email-highlight">{user?.email || 'neighbor@lendkart.com'}</span>
         </div>
       </div>
     </div>

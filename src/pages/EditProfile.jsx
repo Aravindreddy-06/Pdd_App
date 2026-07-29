@@ -170,7 +170,7 @@ export default function EditProfile() {
             <PhoneInput
               className={`PhoneInput ${errors.phone ? 'input-error' : ''}`}
               international
-              defaultCountry="US"
+              defaultCountry="IN"
               value={formData.phone || ''}
               onChange={handlePhoneChange}
             />

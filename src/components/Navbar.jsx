@@ -113,7 +113,7 @@ export default function Navbar() {
         <div className="navbar-left">
           <div className="navbar-logo" onClick={() => navigate('/home')} role="button" tabIndex={0}>
             <Logo size={28} />
-            <span className="navbar-logo-text">ResourceShare</span>
+            <span className="navbar-logo-text">Lendkart</span>
           </div>
           
           <div className="navbar-location" onClick={() => navigate('/location-access')}>
