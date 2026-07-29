@@ -1,0 +1,139 @@
+.logout-page {
+  min-height: 100vh;
+  background-color: var(--bg-color); /* Transparent to show the global gradient and particle effects */
+  display: flex;
+  flex-direction: column;
+}
+
+.logout-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.logout-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius-xl);
+  padding: 48px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.logout-card:hover {
+  border-color: rgba(132, 204, 22, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  transform: translateY(-4px);
+}
+
+.logout-icon-circle {
+  width: 88px;
+  height: 88px;
+  background-color: var(--primary-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  border: 1px solid rgba(132, 204, 22, 0.2);
+  box-shadow: 0 0 20px rgba(132, 204, 22, 0.15);
+  animation: pulse-primary 3s infinite ease-in-out;
+}
+
+@keyframes pulse-primary {
+  0% { box-shadow: 0 0 20px rgba(132, 204, 22, 0.15); }
+  50% { box-shadow: 0 0 30px rgba(132, 204, 22, 0.35); }
+  100% { box-shadow: 0 0 20px rgba(132, 204, 22, 0.15); }
+}
+
+.logout-heading {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+  line-height: 1.35;
+  letter-spacing: -0.5px;
+}
+
+.logout-subtext {
+  font-size: 15px;
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin-bottom: 36px;
+}
+
+.logout-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.confirm-logout-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--grad-olive);
+  color: #000000;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(132, 204, 22, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.confirm-logout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(132, 204, 22, 0.4);
+  opacity: 0.95;
+}
+
+.confirm-logout-btn:active {
+  transform: scale(0.97);
+}
+
+.cancel-logout-btn {
+  width: 100%;
+  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--text-dark);
+  border: 1.5px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.cancel-logout-btn:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.cancel-logout-btn:active {
+  transform: scale(0.98);
+}
+
+.signed-in-info {
+  margin-top: 40px;
+  font-size: 14px;
+  color: var(--text-light);
+  letter-spacing: 0.3px;
+}
+
+.user-email-highlight {
+  color: var(--primary);
+  font-weight: 600;
+}

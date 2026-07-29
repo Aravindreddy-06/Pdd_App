@@ -1,0 +1,21 @@
+.rs-logo-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rs-logo-leaf {
+  position: absolute;
+  color: var(--primary, #4ade80);
+  opacity: 0.3;
+  filter: blur(2px);
+  z-index: 1;
+}
+
+.rs-logo-hand {
+  position: relative;
+  color: var(--primary, #4ade80);
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}

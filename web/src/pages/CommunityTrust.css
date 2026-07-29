@@ -1,0 +1,221 @@
+.trust-page {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.trust-hero {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 70%);
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+}
+
+.hero-title {
+  color: white;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.2;
+  max-width: 80%;
+}
+
+.trust-content {
+  padding: 32px 20px;
+}
+
+.trust-intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.trust-section-heading {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.trust-intro-text {
+  font-size: 15px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.trust-subtitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 20px;
+}
+
+.no-margin {
+  margin-bottom: 0;
+}
+
+.badges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.badge-card {
+  background-color: white;
+  border-radius: 24px;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.badge-icon-bg {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.badge-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.badge-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.badge-desc {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.safety-tips-section {
+  background-color: #f0fdf4;
+  margin: 0 -20px 48px -20px;
+  padding: 32px 20px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.tips-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tip-card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.tip-icon {
+  margin-top: 2px;
+}
+
+.tip-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.tip-desc {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 4px 0 0 0;
+}
+
+.guidelines-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.guideline-item {
+  display: flex;
+  gap: 16px;
+}
+
+.guideline-num {
+  font-size: 20px;
+  font-weight: 800;
+  color: #22c55e;
+  line-height: 1;
+}
+
+.guideline-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.guideline-desc {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.trust-footer {
+  text-align: center;
+}
+
+.get-verified-btn {
+  width: 100%;
+  padding: 18px;
+  background-color: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(34, 197, 94, 0.2);
+}
+
+.tos-text {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #9ca3af;
+}

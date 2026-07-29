@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Lendkart</string>
+    <string name="title_activity_main">Lendkart</string>
+    <string name="package_name">com.aravind.lendkart</string>
+    <string name="custom_url_scheme">com.aravind.lendkart</string>
+</resources>
