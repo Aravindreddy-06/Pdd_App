@@ -5,7 +5,7 @@ import { useItems } from '../context/ItemContext';
 import ItemCard from '../components/ItemCard';
 import { COLORS } from '../theme/colors';
 
-const CATEGORIES = ['All', 'Electronics', 'Tools', 'Photography', 'Outdoors'];
+const CATEGORIES = ['All', 'Electronics', 'Tools', 'Outdoors', 'Kitchen', 'Furniture', 'Party'];
 
 export default function ProductListingScreen({ navigation }) {
   const { filteredItems, selectedCategory, setSelectedCategory, searchQuery, setSearchQuery } = useItems();
