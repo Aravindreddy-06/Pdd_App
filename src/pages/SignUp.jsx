@@ -213,10 +213,7 @@ export default function SignUp() {
     setLoading(true);
     setSubmitError('');
     try {
-      const host = window.location.hostname;
-      const redirectUrl = (host === 'localhost' || host.includes('-projects.vercel.app'))
-        ? 'https://resource-sharing.vercel.app/home'
-        : `${window.location.origin}/home`;
+      const redirectUrl = `${window.location.origin}/home`;
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
