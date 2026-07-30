@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Handshake, Zap } from 'lucide-react';
+import { Zap } from 'lucide-react';
+import Logo from '../components/Logo';
 import './Splash.css';
 
 export default function Splash() {
@@ -50,7 +51,7 @@ export default function Splash() {
       {/* ── Logo Section ── */}
       <div className="logo-wrapper">
         <div className="logo-circle">
-          <Handshake size={56} strokeWidth={2.5} className="handshake-icon" />
+          <Logo size={56} />
         </div>
         <div className="orbiting-icon icon-1">
           <span role="img" aria-label="cart">📦</span>
