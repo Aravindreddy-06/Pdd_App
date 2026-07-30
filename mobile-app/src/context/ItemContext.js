@@ -29,7 +29,14 @@ export function ItemProvider({ children }) {
           rating: item.rating || 5.0,
           distance: item.distance || '0.3 km',
         }));
-        setItems(formatted);
+
+        const supabaseIds = new Set(formatted.map(i => i.id));
+        const supabaseTitles = new Set(formatted.map(i => i.title?.toLowerCase()));
+        const uniqueInitial = INITIAL_ITEMS.filter(i => !supabaseIds.has(i.id) && !supabaseTitles.has(i.title?.toLowerCase()));
+
+        setItems([...formatted, ...uniqueInitial]);
+      } else {
+        setItems(INITIAL_ITEMS);
       }
     } catch (e) {
       console.error('Fetch items exception:', e);
