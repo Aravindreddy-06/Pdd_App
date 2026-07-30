@@ -44,8 +44,10 @@ export default function HomeScreen({ navigation }) {
           {[
             { label: 'Tools', icon: 'build-outline' },
             { label: 'Electronics', icon: 'laptop-outline' },
+            { label: 'Photography', icon: 'camera-outline' },
             { label: 'Outdoors', icon: 'compass-outline' },
             { label: 'Kitchen', icon: 'restaurant-outline' },
+            { label: 'Furniture', icon: 'bed-outline' },
           ].map(cat => (
             <TouchableOpacity
               key={cat.label}
