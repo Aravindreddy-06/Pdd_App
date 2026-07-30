@@ -30,10 +30,11 @@ export default function Login() {
     setLoading(true);
     setSubmitError('');
     try {
+      const redirectUrl = `${window.location.origin}/home`;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin + '/home'
+          redirectTo: redirectUrl
         }
       });
       if (error) throw error;
