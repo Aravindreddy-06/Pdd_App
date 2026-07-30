@@ -30,7 +30,6 @@ import HelpSupport from './pages/HelpSupport';
 import CommunityTrust from './pages/CommunityTrust';
 import RateExperience from './pages/RateExperience';
 import Requests from './pages/Requests';
-import Circles from './pages/Circles';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
 import AdminSignup from './pages/AdminSignup';
@@ -65,12 +64,10 @@ function AppShell() {
           <Route path="/impact" element={<Impact />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/requests" element={<Requests />} />
-          <Route path="/circles" element={<Circles />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/signup" element={<AdminSignup />} />
           <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />
-          <Route path="/perks" element={<Circles />} />
           <Route path="/my-items" element={<MyItems />} />
           <Route path="/add-item" element={<AddItem />} />
           <Route path="/location-access" element={<LocationAccess />} />

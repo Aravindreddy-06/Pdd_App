@@ -54,7 +54,7 @@ function getPathForModule(module, index) {
   switch (module) {
     case 'Authentication': return index % 2 === 0 ? '/login' : '/signup';
     case 'Authorization': return index % 2 === 0 ? '/admin' : '/settings';
-    case 'Navigation': return ['/home', '/explore', '/cart', '/profile', '/circles'][index % 5];
+    case 'Navigation': return ['/home', '/explore', '/cart', '/profile'][index % 4];
     case 'UI Validation': return ['/home', '/explore', '/cart', '/settings'][index % 4];
     case 'Forms': return ['/login', '/signup', '/add-item', '/cart'][index % 4];
     case 'CRUD Operations': return ['/my-items', '/add-item', '/cart', '/wishlist'][index % 4];

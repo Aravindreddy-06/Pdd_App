@@ -1,9 +1,10 @@
 .splash-bg {
   background: var(--grad-dark);
   position: relative;
-  overflow: hidden;
-  height: 100vh;
-  width: 100vw;
+  overflow-y: auto;
+  min-height: 100vh;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ── Logo Overhaul ───────────────────────────────────────────── */

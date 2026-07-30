@@ -18,10 +18,19 @@
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  padding: 8px 40px;
+  padding: 8px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+  scrollbar-width: none;
+}
+
+.strip-inner::-webkit-scrollbar {
+  display: none;
 }
 
 .category-item {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -14,7 +14,6 @@ const LOAD_ENDPOINTS = [
   { endpoint: '/api/v1/borrow-requests', method: 'POST', baseRps: 6, min: 60, avg: 280, max: 1520 },
   { endpoint: '/api/v1/chat/messages', method: 'GET', baseRps: 14, min: 45, avg: 220, max: 1390 },
   { endpoint: '/api/v1/payments/verify', method: 'POST', baseRps: 5, min: 65, avg: 290, max: 1550 },
-  { endpoint: '/api/v1/circles/nearby', method: 'GET', baseRps: 9, min: 50, avg: 240, max: 1460 },
   { endpoint: '/api/v1/admin/metrics', method: 'GET', baseRps: 4, min: 70, avg: 310, max: 1580 },
   { endpoint: '/assets/logo.png', method: 'GET', baseRps: 18, min: 25, avg: 120, max: 850 },
   { endpoint: '/api/v1/auth/refresh', method: 'POST', baseRps: 5, min: 55, avg: 260, max: 1490 },

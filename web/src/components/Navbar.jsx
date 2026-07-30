@@ -15,7 +15,6 @@ const NAV_LINKS = [
   { label: 'Explore',  icon: Compass, to: '/explore' },
   { label: 'Impact',   icon: Award,   to: '/impact' },
   { label: 'Requests', icon: MessageSquare, to: '/requests' },
-  { label: 'Circles',  icon: Users, to: '/circles' },
   { label: 'My Items', icon: Package, to: '/my-items' },
 ];
 

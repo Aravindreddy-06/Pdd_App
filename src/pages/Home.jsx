@@ -103,10 +103,6 @@ export default function Home() {
             <Activity size={20} />
             <span>Requests</span>
           </div>
-          <div className="category-item" onClick={() => navigate('/circles')}>
-            <Users size={20} />
-            <span>Circles</span>
-          </div>
         </div>
       </div>
 

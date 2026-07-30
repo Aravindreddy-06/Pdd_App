@@ -1,9 +1,10 @@
 .auth-split-page {
   display: flex;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   background-color: var(--bg-color);
-  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .auth-visual-side {
