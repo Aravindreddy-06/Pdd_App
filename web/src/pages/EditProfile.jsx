@@ -32,8 +32,11 @@ export default function EditProfile() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setFormData(prev => ({ ...prev, avatar: imageUrl }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({ ...prev, avatar: reader.result }));
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -67,6 +70,14 @@ export default function EditProfile() {
       setIsSaving(true);
       try {
         await updateUser(formData);
+        try {
+          const saved = JSON.parse(localStorage.getItem('rs_profile') || '{}');
+          localStorage.setItem('rs_profile', JSON.stringify({
+            ...saved,
+            ...formData,
+            is_setup_complete: true
+          }));
+        } catch (e) {}
         navigate(-1);
       } catch (err) {
         console.error("Save error:", err);

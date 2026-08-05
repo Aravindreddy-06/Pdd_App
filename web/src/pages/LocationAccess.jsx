@@ -23,18 +23,100 @@ export default function LocationAccess() {
   const handleUseGPS = async () => {
     setIsLocating(true);
     try {
-      const newLocData = await requestLocation();
-      if (newLocData && newLocData.coordinates) {
-        const newLoc = {
-          address: newLocData.location || 'Current Location',
-          lat: newLocData.coordinates.lat,
-          lng: newLocData.coordinates.lng
-        };
+      const newLocData = await requestLocation('gps');
+      if (newLocData && (newLocData.coordinates || (newLocData.lat && newLocData.lng))) {
+        const lat = newLocData.coordinates?.lat || newLocData.lat;
+        const lng = newLocData.coordinates?.lng || newLocData.lng;
+        const address = newLocData.location || newLocData.address || 'Current Location';
+
+        const newLoc = { address, lat, lng };
         setSelectedLocation(newLoc);
+        
+        await updateUser({
+          location: address,
+          address: address,
+          lat,
+          lng,
+          coordinates: { lat, lng },
+          locationSource: 'gps'
+        });
+        
+        navigate('/home');
+        return;
       }
+
+      if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser.");
+        setIsLocating(false);
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          let address = '';
+
+          try {
+            const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+            if (apiKey) {
+              const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}&result_type=sublocality|locality|neighborhood`);
+              const data = await res.json();
+              if (data.results && data.results[0]) {
+                const result = data.results[0];
+                const sub = result.address_components.find(c => c.types.includes('sublocality'))?.long_name;
+                const loc = result.address_components.find(c => c.types.includes('locality'))?.long_name;
+                address = sub ? (loc ? `${sub}, ${loc}` : sub) : result.formatted_address.split(',').slice(0, 2).join(', ');
+              }
+            }
+          } catch (e) {
+            console.error("Google Geocoding error:", e);
+          }
+
+          if (!address) {
+            try {
+              const nomRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
+              if (nomRes.ok) {
+                const nomData = await nomRes.json();
+                if (nomData && nomData.address) {
+                  const a = nomData.address;
+                  const sub = a.suburb || a.neighbourhood || a.quarter || a.city_district || a.hamlet || a.village || a.town || a.city;
+                  const city = a.city || a.town || a.municipality || a.county;
+                  address = (sub && city && sub !== city) ? `${sub}, ${city}` : (sub || city || nomData.display_name.split(',').slice(0, 2).join(', '));
+                }
+              }
+            } catch (e) {
+              console.error("Nominatim Geocoding error:", e);
+            }
+          }
+
+          if (!address) {
+            address = `Location (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
+          }
+
+          const newLoc = { address, lat, lng };
+          setSelectedLocation(newLoc);
+
+          await updateUser({
+            location: address,
+            address: address,
+            lat,
+            lng,
+            coordinates: { lat, lng },
+            locationSource: 'gps'
+          });
+
+          navigate('/home');
+        },
+        (error) => {
+          console.error("GPS Error:", error);
+          alert("Unable to detect your current location. Please check browser GPS permissions.");
+          setIsLocating(false);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
     } catch (err) {
       console.error("GPS Error:", err);
-    } finally {
       setIsLocating(false);
     }
   };
@@ -44,17 +126,16 @@ export default function LocationAccess() {
     setSelectedLocation(loc);
   };
 
-  const handleConfirmLocation = () => {
-    if (selectedLocation) {
-      updateUser({
+  const handleConfirmLocation = async () => {
+    if (selectedLocation && selectedLocation.address) {
+      await updateUser({
         location: selectedLocation.address,
         address: selectedLocation.address,
         lat: selectedLocation.lat,
         lng: selectedLocation.lng,
         coordinates: { lat: selectedLocation.lat, lng: selectedLocation.lng },
-        locationSource: 'manual'
+        locationSource: 'pinned'
       });
-      // Small delay for visual feedback if needed, but navigate is fine
       navigate('/home');
     }
   };

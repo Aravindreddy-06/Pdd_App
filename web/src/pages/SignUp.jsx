@@ -213,10 +213,7 @@ export default function SignUp() {
     setLoading(true);
     setSubmitError('');
     try {
-      const host = window.location.hostname;
-      const redirectUrl = (host === 'localhost' || host.includes('-projects.vercel.app'))
-        ? 'https://resource-sharing.vercel.app/home'
-        : `${window.location.origin}/home`;
+      const redirectUrl = `${window.location.origin}/home`;
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -247,8 +244,8 @@ export default function SignUp() {
             Own less.
           </h1>
           <p className="auth-visual-sub">
-            Join 3,800+ neighbors already building a more sustainable and 
-            connected community through shared resources.
+            Build a more sustainable and connected community together through 
+            shared resources.
           </p>
         </div>
         <div className="auth-visual-footer">

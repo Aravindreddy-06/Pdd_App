@@ -74,63 +74,21 @@ export default function Impact() {
         ))}
       </div>
 
-      <section className="impact-details">
-        <h3 style={{ marginBottom: '8px' }}>Milestones &amp; Achievements</h3>
-        <p className="text-gray" style={{ marginBottom: '24px', fontSize: '14px' }}>Unlock badges as you participate in the community.</p>
-
-        {[
-          {
-            title: 'First-Time Borrower',
-            desc: 'Successfully borrowed your first item from a neighbor.',
-            stat: borrowed > 0 ? '✅ Achieved' : '🔒 Locked',
-            achieved: borrowed > 0,
-          },
-          {
-            title: 'Generous Neighbor',
-            desc: 'Lent your first item to someone in the community.',
-            stat: shared > 0 ? '✅ Achieved' : '🔒 Locked',
-            achieved: shared > 0,
-          },
-          {
-            title: 'Power Lender',
-            desc: 'Lend 10 items to reach the next level of community trust.',
-            stat: `${shared}/10`,
-            achieved: shared >= 10,
-          },
-          {
-            title: 'Active Borrower',
-            desc: 'Borrow 10 unique items to become a master requester.',
-            stat: `${borrowed}/10`,
-            achieved: borrowed >= 10,
-          },
-        ].map(({ title, desc, stat, achieved }) => (
-          <div className="detail-row" key={title}>
-            <div className="detail-info">
-              <h4>{title}</h4>
-              <p>{desc}</p>
-            </div>
-            <div
-              className="detail-stat"
-              style={{ color: achieved ? 'var(--primary)' : 'rgba(255,255,255,0.3)' }}
-            >
-              {stat}
-            </div>
-          </div>
-        ))}
-      </section>
-
-      <div className="flex-row justify-center mt-12">
+      <div className="flex-row justify-center mt-8">
         <div
           className="card text-center"
           style={{
             maxWidth: '600px',
-            background: 'linear-gradient(160deg, rgba(132,204,22,0.08), rgba(13,15,2,0.8))',
+            width: '100%',
+            padding: '32px 24px',
+            borderRadius: '24px',
+            background: 'linear-gradient(160deg, rgba(132,204,22,0.08), rgba(13,15,2,0.85))',
             border: '1px solid rgba(132,204,22,0.2)',
           }}
         >
-          <ShieldCheck size={48} style={{ color: 'var(--primary)', marginBottom: '16px' }} />
-          <h3>Community Trust</h3>
-          <p className="text-gray mt-2">
+          <ShieldCheck size={44} style={{ color: 'var(--primary)', margin: '0 auto 12px' }} />
+          <h3 style={{ fontSize: '20px', fontWeight: 800 }}>Community Trust</h3>
+          <p className="text-gray mt-2" style={{ fontSize: '14px', lineHeight: 1.6, maxWidth: '480px', margin: '8px auto 0' }}>
             Your impact is built on a foundation of trust. High ratings and consistent sharing earn you "Trusted Neighbor" status.
           </p>
         </div>

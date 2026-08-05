@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   User,
@@ -121,8 +121,21 @@ export default function SignUp() {
     setStage('password');
   };
 
-  // ── Registration Handler ───────────────────────────────────────────
-  const handleSignUp = async (e) => {
+  const [otpCode, setOtpCode] = useState('');
+  const [otpError, setOtpError] = useState('');
+  const [resendCooldown, setResendCooldown] = useState(0);
+
+  // Resend cooldown timer
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
+  // Step 1 -> Step 2 -> Request OTP -> Step 3 (OTP verification)
+  const handleInitiateSignUp = async (e) => {
     e.preventDefault();
     
     const hasNumber = /\d/.test(formData.password);
@@ -135,12 +148,82 @@ export default function SignUp() {
     setLoading(true);
     setSubmitError('');
 
+    try {
+      // Send OTP to user's email via Gmail SMTP backend
+      const res = await fetch('/api/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.contact.trim(), purpose: 'signup' })
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to send OTP code');
+      }
+
+      setStage('otp');
+      setResendCooldown(60);
+      setOtpError('');
+    } catch (err) {
+      setSubmitError('OTP Sending failed: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendSignUpOtp = async () => {
+    if (resendCooldown > 0) return;
+    setLoading(true);
+    setOtpError('');
+    try {
+      const res = await fetch('/api/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.contact.trim(), purpose: 'signup' })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to resend OTP');
+      }
+      setResendCooldown(60);
+      setOtpError('');
+    } catch (err) {
+      setOtpError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ── Registration Handler after OTP Verified ──────────────────────
+  const handleVerifyAndSignUp = async (e) => {
+    e.preventDefault();
+    if (!otpCode || otpCode.trim().length < 6) {
+      setOtpError('Please enter the full 6-digit OTP');
+      return;
+    }
+
+    setLoading(true);
+    setOtpError('');
+
     localStorage.removeItem('rs_profile');
     localStorage.removeItem('rs_wishlist');
     localStorage.removeItem('rs_cart');
     localStorage.removeItem('resource_share_items');
 
     try {
+      // 1. Verify OTP
+      const verifyRes = await fetch('/api/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.contact.trim(), otp: otpCode.trim(), purpose: 'signup' })
+      });
+      const verifyData = await verifyRes.json();
+
+      if (!verifyRes.ok || !verifyData.success) {
+        throw new Error(verifyData.error || 'Invalid OTP code');
+      }
+
+      // 2. Complete Supabase Auth Sign Up
       const { data: signUpData, error } = await supabase.auth.signUp({
         email: formData.contact.trim(),
         password: formData.password,
@@ -171,7 +254,7 @@ export default function SignUp() {
       await requestLocation();
       navigate('/home');
     } catch (err) {
-      setSubmitError('Registration failed: ' + err.message);
+      setOtpError(err.message);
     } finally {
       setLoading(false);
     }
@@ -244,8 +327,8 @@ export default function SignUp() {
             Own less.
           </h1>
           <p className="auth-visual-sub">
-            Join 3,800+ neighbors already building a more sustainable and 
-            connected community through shared resources.
+            Build a more sustainable and connected community together through 
+            shared resources.
           </p>
         </div>
         <div className="auth-visual-footer">
@@ -314,14 +397,14 @@ export default function SignUp() {
               )}
 
               {stage === 'password' && (
-                <form onSubmit={handleSignUp} className="animate-in">
+                <form onSubmit={handleInitiateSignUp} className="animate-in">
                   <div className="text-center mb-6">
                     <div className="icon-container-light-green" style={{ margin: '0 auto 16px' }}>
                       <ShieldCheck size={24} color="var(--primary)" />
                     </div>
                     <h2 style={{ fontSize: '20px', fontWeight: 700 }}>Secure your account</h2>
                     <p style={{ color: 'var(--text-gray)', fontSize: '14px', marginTop: '8px' }}>
-                      Almost there! Choose a strong password to finish.
+                      Choose a strong password to continue to verification.
                     </p>
                   </div>
 
@@ -385,7 +468,7 @@ export default function SignUp() {
                     disabled={!agreed || formData.password.length < 8 || loading}
                     style={{ width: '100%', padding: '14px', borderRadius: '12px', background: '#4ade80', color: '#000', fontWeight: 700, fontSize: '15px', border: 'none', cursor: 'pointer' }}
                   >
-                    {loading ? <><Loader size={18} className="spinning" /> Finalizing...</> : 'Complete Registration'}
+                    {loading ? <><Loader size={18} className="spinning" /> Sending OTP...</> : 'Send Verification OTP'}
                   </button>
 
                   <button 
@@ -398,8 +481,75 @@ export default function SignUp() {
                   </button>
                 </form>
               )}
+
+              {/* ── STAGE 3: OTP VERIFICATION ── */}
+              {stage === 'otp' && (
+                <form onSubmit={handleVerifyAndSignUp} className="animate-in">
+                  <div className="text-center mb-6">
+                    <div className="icon-container-light-green" style={{ margin: '0 auto 16px', width: '56px', height: '56px', borderRadius: '50%', background: '#ecfdf5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Mail size={28} color="#10b981" />
+                    </div>
+                    <h2 style={{ fontSize: '22px', fontWeight: 700 }}>Enter Verification Code</h2>
+                    <p style={{ color: 'var(--text-gray)', fontSize: '14px', marginTop: '8px', lineHeight: '1.5' }}>
+                      We have sent a 6-digit OTP to<br />
+                      <strong style={{ color: '#ffffff' }}>{formData.contact}</strong>
+                    </p>
+                  </div>
+
+                  <div className="form-group mb-6">
+                    <label style={{ fontSize: '12px', fontWeight: 700, color: '#9ca3af', letterSpacing: '0.5px', marginBottom: '8px', display: 'block', textAlign: 'center' }}>ENTER 6-DIGIT OTP</label>
+                    <div className="input-wrapper" style={{ justifyContent: 'center' }}>
+                      <input
+                        type="text"
+                        maxLength={6}
+                        value={otpCode}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, '');
+                          setOtpCode(val);
+                          setOtpError('');
+                        }}
+                        className="input-field"
+                        placeholder="123456"
+                        style={{ textAlign: 'center', letterSpacing: '8px', fontSize: '24px', fontWeight: 'bold', width: '100%', padding: '12px' }}
+                        autoFocus
+                        required
+                      />
+                    </div>
+                    {otpError && <p className="field-error" style={{ marginTop: '8px', color: '#ef4444', textAlign: 'center' }}>{otpError}</p>}
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn-primary-website"
+                    disabled={otpCode.length < 6 || loading}
+                    style={{ width: '100%', padding: '14px', borderRadius: '12px', background: '#4ade80', color: '#000', fontWeight: 700, fontSize: '15px', border: 'none', cursor: 'pointer' }}
+                  >
+                    {loading ? <><Loader size={18} className="spinning" /> Verifying OTP...</> : 'Verify & Create Account'}
+                  </button>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>
+                    <button
+                      type="button"
+                      onClick={handleResendSignUpOtp}
+                      disabled={resendCooldown > 0 || loading}
+                      style={{ background: 'none', border: 'none', color: resendCooldown > 0 ? '#9ca3af' : '#4ade80', fontSize: '14px', fontWeight: 600, cursor: resendCooldown > 0 ? 'not-allowed' : 'pointer' }}
+                    >
+                      {resendCooldown > 0 ? `Resend OTP in ${resendCooldown}s` : 'Resend OTP'}
+                    </button>
+
+                    <button 
+                      type="button" 
+                      onClick={() => setStage('password')}
+                      style={{ fontSize: '14px', color: 'var(--text-gray)', background: 'none', border: 'none', cursor: 'pointer' }}
+                    >
+                      Change password
+                    </button>
+                  </div>
+                </form>
+              )}
             </>
           )}
+
 
           {/* ── MODE 2: SIGN IN / LOG IN ── */}
           {authMode === 'login' && (

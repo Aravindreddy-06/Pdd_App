@@ -132,15 +132,18 @@ export default function AddItem() {
       const validImages = base64Images.filter(Boolean);
 
       const newItem = {
-        id: Date.now(),
+        id: Date.now().toString(),
         title,
         price: isFree ? 'Free' : `₹${price}/day`,
         img: validImages[0] || 'https://images.unsplash.com/photo-1512314889357-e157c22f938d?auto=format&fit=crop&w=400&q=80',
         images: validImages.length > 0 ? validImages : ['https://images.unsplash.com/photo-1512314889357-e157c22f938d?auto=format&fit=crop&w=400&q=80'],
         category,
-        rating: 0,
+        rating: 5.0,
         distance: '0.1 km',
         owner: user?.name || 'Local Neighbor',
+        user_id: user?.id || null,
+        owner_id: user?.id || null,
+        ownerEmail: user?.email || null,
         description,
         features: rules.filter(r => r.checked).map(r => r.text)
       };

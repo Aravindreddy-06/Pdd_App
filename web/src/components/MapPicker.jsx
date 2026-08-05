@@ -112,24 +112,36 @@ export default function MapPicker({ onLocationSelect, initialLocation = null }) 
           let address = '';
           
           if (apiKey) {
-            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${newPos.lat},${newPos.lng}&key=${apiKey}&result_type=sublocality|locality|neighborhood`);
+            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${newPos.lat},${newPos.lng}&key=${apiKey}`);
             const data = await response.json();
-            if (data.results && data.results[0]) {
-              // Try to get sublocality
-              const result = data.results[0];
-              const sub = result.address_components.find(c => c.types.includes('sublocality'))?.long_name;
-              const loc = result.address_components.find(c => c.types.includes('locality'))?.long_name;
-              address = sub ? (loc ? `${sub}, ${loc}` : sub) : result.formatted_address.split(',').slice(0, 2).join(', ');
+            if (data.results && data.results.length > 0) {
+              const fullAddr = data.results[0].formatted_address;
+              const parts = fullAddr.split(', ');
+              address = parts.length > 3 ? parts.slice(0, 3).join(', ') : fullAddr;
             }
           }
           
           if (!address) {
             const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${newPos.lat}&lon=${newPos.lng}&zoom=18&addressdetails=1`);
             const data = await response.json();
-            const a = data.address;
-            const sub = a.suburb || a.neighbourhood || a.road || a.village;
-            const city = a.city || a.town || a.municipality;
-            address = sub ? (city ? `${sub}, ${city}` : sub) : data.display_name.split(',').slice(0, 2).join(', ');
+            if (data && data.address) {
+              const a = data.address;
+              const poi = a.amenity || a.building || a.shop || a.office || a.tourism || a.leisure || a.hospital || a.university || a.school;
+              const road = a.road || a.pedestrian || a.suburb || a.neighbourhood || a.village;
+              const city = a.city || a.town || a.municipality || a.county;
+              
+              if (poi) {
+                address = `${poi}${road ? `, ${road}` : ''}${city ? `, ${city}` : ''}`;
+              } else if (road && city) {
+                address = `${road}, ${city}`;
+              } else if (data.display_name) {
+                address = data.display_name.split(', ').slice(0, 3).join(', ');
+              }
+            }
+          }
+          
+          if (!address) {
+            address = `Location (${newPos.lat.toFixed(5)}, ${newPos.lng.toFixed(5)})`;
           }
           
           setSearchQuery(address);
@@ -157,19 +169,18 @@ export default function MapPicker({ onLocationSelect, initialLocation = null }) 
     setMarker(pos);
     setCenter(pos);
     
-    // Reverse geocode to get a readable address
+    // Reverse geocode to get exact readable address
     try {
       const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
       let address = '';
       
       if (apiKey) {
-        const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}&result_type=sublocality|locality|neighborhood`);
+        const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`);
         const data = await response.json();
-        if (data.results && data.results[0]) {
-          const result = data.results[0];
-          const sub = result.address_components.find(c => c.types.includes('sublocality'))?.long_name;
-          const loc = result.address_components.find(c => c.types.includes('locality'))?.long_name;
-          address = sub ? (loc ? `${sub}, ${loc}` : sub) : result.formatted_address.split(',').slice(0, 2).join(', ');
+        if (data.results && data.results.length > 0) {
+          const fullAddr = data.results[0].formatted_address;
+          const parts = fullAddr.split(', ');
+          address = parts.length > 3 ? parts.slice(0, 3).join(', ') : fullAddr;
         }
       }
       
@@ -178,19 +189,29 @@ export default function MapPicker({ onLocationSelect, initialLocation = null }) 
         const data = await response.json();
         if (data && data.address) {
           const a = data.address;
-          const main = a.suburb || a.neighbourhood || a.road || a.village || a.hamlet;
-          const city = a.city || a.town || a.municipality;
-          address = main ? (city ? `${main}, ${city}` : main) : data.display_name.split(',').slice(0, 2).join(', ');
-        } else {
-          address = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+          const poi = a.amenity || a.building || a.shop || a.office || a.tourism || a.leisure || a.hospital || a.university || a.school;
+          const road = a.road || a.pedestrian || a.suburb || a.neighbourhood || a.village;
+          const city = a.city || a.town || a.municipality || a.county;
+          
+          if (poi) {
+            address = `${poi}${road ? `, ${road}` : ''}${city ? `, ${city}` : ''}`;
+          } else if (road && city) {
+            address = `${road}, ${city}`;
+          } else if (data.display_name) {
+            address = data.display_name.split(', ').slice(0, 3).join(', ');
+          }
         }
+      }
+      
+      if (!address) {
+        address = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
       }
       
       onLocationSelect({ address, lat, lng });
       setSearchQuery(address);
     } catch (err) {
       console.error("Geocoding failed:", err);
-      onLocationSelect({ address: `${lat.toFixed(4)}, ${lng.toFixed(4)}`, lat, lng });
+      onLocationSelect({ address: `${lat.toFixed(5)}, ${lng.toFixed(5)}`, lat, lng });
     }
   }, [onLocationSelect]);
 

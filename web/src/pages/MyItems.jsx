@@ -5,7 +5,7 @@ import {
   TrendingUp, Eye, Star, MapPin, CheckCircle2, AlertCircle,
   RefreshCw, ChevronDown, BarChart2, Zap, Shield, X, Edit3
 } from 'lucide-react';
-import { useItems } from '../context/ItemContext';
+import { useItems, isItemOwner } from '../context/ItemContext';
 import { useUser } from '../hooks/useUser';
 import './MyItems.css';
 
@@ -66,12 +66,7 @@ export default function MyItems() {
     localStorage.setItem('rs_borrowing_items', JSON.stringify(borrowingItems));
   }, [borrowingItems]);
 
-  const lendingItems = items.filter(item =>
-    !item.owner ||
-    item.owner === (user?.name?.split(' ')[0] || user?.name) ||
-    item.owner === 'Me' ||
-    item.owner === 'Local Neighbor'
-  );
+  const lendingItems = items.filter(item => isItemOwner(item, user));
 
   const activeLendingItems = lendingItems.filter(item => 
     item.status === 'borrowed' || item.status === 'Active' || item.status === 'Borrowed'

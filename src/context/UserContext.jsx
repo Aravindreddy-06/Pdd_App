@@ -8,7 +8,15 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
       const saved = localStorage.getItem('rs_profile');
-      if (saved) return JSON.parse(saved);
+      const savedLoc = localStorage.getItem('rs_user_location');
+      let base = saved ? JSON.parse(saved) : {};
+      if (savedLoc) {
+        try {
+          const locObj = JSON.parse(savedLoc);
+          base = { ...base, ...locObj };
+        } catch (e) {}
+      }
+      return Object.keys(base).length > 0 ? base : null;
     } catch (e) {
       console.error("Error loading persisted user:", e);
     }
@@ -66,9 +74,12 @@ export function UserProvider({ children }) {
         console.error("Error fetching Supabase data:", e);
       }
 
-      // Load persisted profile edits from localStorage
+      // Load persisted profile edits & location from localStorage
       const savedProfile = (() => {
         try { return JSON.parse(localStorage.getItem('rs_profile') || '{}'); } catch { return {}; }
+      })();
+      const savedLocation = (() => {
+        try { return JSON.parse(localStorage.getItem('rs_user_location') || 'null'); } catch { return null; }
       })();
 
       // Load or initialize member join year
@@ -81,13 +92,21 @@ export function UserProvider({ children }) {
       const userName = savedProfile.name || data?.full_name || authUser?.user_metadata?.full_name || authUser?.user_metadata?.name || authUser?.email?.split('@')[0] || 'Neighbor';
       const userHandle = savedProfile.username || data?.username || authUser?.user_metadata?.username || '';
       
+      const locName = savedProfile.location || savedLocation?.location || data?.location;
+      const locAddress = savedProfile.address || savedLocation?.address || data?.location || locName;
+      const locCoords = savedProfile.coordinates || savedLocation?.coordinates || (data?.lat && data?.lng ? { lat: data.lat, lng: data.lng } : null);
+      const locSource = savedProfile.locationSource || savedLocation?.locationSource || 'pinned';
+
       const mappedUser = {
         ...data,
         ...savedProfile, // Overlay any locally saved profile edits (priority)
         id: userId,
-        email: authUser?.email,
+        email: savedProfile.email || authUser?.email || data?.email,
         name: userName,
         username: userHandle,
+        bio: savedProfile.bio !== undefined ? savedProfile.bio : (data?.bio || ''),
+        phone: savedProfile.phone !== undefined ? savedProfile.phone : (data?.phone || ''),
+        ...(locName ? { location: locName, address: locAddress, coordinates: locCoords, locationSource: locSource } : {}),
         avatar: savedProfile.avatar || data?.avatar_url || authUser?.user_metadata?.avatar_url || authUser?.user_metadata?.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=84cc16&color=fff`,
         memberSince: joinYear,
         wishlist: finalWishlist,
@@ -151,16 +170,25 @@ export function UserProvider({ children }) {
         const toSave = { 
           name: updated.name,
           username: updated.username,
+          email: updated.email,
           is_setup_complete: true,
           bio: updated.bio, 
           location: updated.location, 
-          address: updated.address,
+          address: updated.address || updated.location,
           avatar: updated.avatar, 
           phone: updated.phone,
           coordinates: updated.coordinates,
-          locationSource: updated.locationSource
+          locationSource: updated.locationSource || 'pinned'
         };
         localStorage.setItem('rs_profile', JSON.stringify(toSave));
+        if (updated.location) {
+          localStorage.setItem('rs_user_location', JSON.stringify({
+            location: updated.location,
+            address: updated.address || updated.location,
+            coordinates: updated.coordinates,
+            locationSource: updated.locationSource || 'pinned'
+          }));
+        }
       } catch (e) {
         console.error("Failed to persist profile to localStorage:", e);
       }
@@ -310,16 +338,16 @@ export function UserProvider({ children }) {
           const sub = a.suburb || a.neighbourhood || a.quarter || a.city_district || a.hamlet || a.village || a.town || a.city;
           const city = a.city || a.town || a.municipality || a.county;
           const loc = (sub && city && sub !== city) ? `${sub}, ${city}` : (sub || city || 'Current Location');
-          const result = { location: loc, address: loc, coordinates: { lat, lng }, locationSource: source };
+          const result = { location: loc, address: loc, coordinates: { lat, lng }, lat, lng, locationSource: source };
           await updateUser(result);
           return result;
         }
       }
-      const fallback = { location: 'Current Location', address: 'Current Location', coordinates: { lat, lng }, locationSource: source };
+      const fallback = { location: 'Current Location', address: 'Current Location', coordinates: { lat, lng }, lat, lng, locationSource: source };
       await updateUser(fallback);
       return fallback;
     } catch (e) {
-      const fallback = { location: 'Current Location', address: 'Current Location', coordinates: { lat, lng }, locationSource: source };
+      const fallback = { location: 'Current Location', address: 'Current Location', coordinates: { lat, lng }, lat, lng, locationSource: source };
       await updateUser(fallback);
       return fallback;
     }
@@ -327,33 +355,43 @@ export function UserProvider({ children }) {
 
   const requestLocation = useCallback((source = 'auto') => {
     return new Promise((resolve) => {
-      if (!navigator.geolocation) return resolve(false);
-      let hasResolved = false;
-      const watchId = navigator.geolocation.watchPosition(
+      if (!navigator.geolocation) return resolve(null);
+      navigator.geolocation.getCurrentPosition(
         async (position) => {
-          if (position.coords.accuracy < 100 && !hasResolved) {
-            hasResolved = true;
-            navigator.geolocation.clearWatch(watchId);
-            await updateLocationFromPosition(position, source);
-            resolve(true);
-          }
+          const res = await updateLocationFromPosition(position, source);
+          resolve(res);
         },
-        () => {
-          if (!hasResolved) {
-            hasResolved = true;
-            navigator.geolocation.clearWatch(watchId);
-            resolve(false);
-          }
+        async (err) => {
+          console.warn("getCurrentPosition failed, fallback to watchPosition...", err);
+          let hasResolved = false;
+          const watchId = navigator.geolocation.watchPosition(
+            async (position) => {
+              if (!hasResolved) {
+                hasResolved = true;
+                navigator.geolocation.clearWatch(watchId);
+                const res = await updateLocationFromPosition(position, source);
+                resolve(res);
+              }
+            },
+            () => {
+              if (!hasResolved) {
+                hasResolved = true;
+                navigator.geolocation.clearWatch(watchId);
+                resolve(null);
+              }
+            },
+            { enableHighAccuracy: false, timeout: 8000 }
+          );
+          setTimeout(() => {
+            if (!hasResolved) {
+              hasResolved = true;
+              navigator.geolocation.clearWatch(watchId);
+              resolve(null);
+            }
+          }, 5000);
         },
-        { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
-      setTimeout(() => {
-        if (!hasResolved) {
-          hasResolved = true;
-          navigator.geolocation.clearWatch(watchId);
-          resolve(false);
-        }
-      }, 5000);
     });
   }, [updateLocationFromPosition]);
 
@@ -362,10 +400,14 @@ export function UserProvider({ children }) {
     if (watchIdRef.current) navigator.geolocation.clearWatch(watchIdRef.current);
     watchIdRef.current = navigator.geolocation.watchPosition(
       async (position) => {
-        const currentSource = (() => {
-          try { return JSON.parse(localStorage.getItem('rs_profile') || '{}').locationSource; } catch { return 'auto'; }
+        const hasSavedLocation = (() => {
+          try {
+            const p = JSON.parse(localStorage.getItem('rs_profile') || '{}');
+            const l = JSON.parse(localStorage.getItem('rs_user_location') || 'null');
+            return p.location || l?.location;
+          } catch { return null; }
         })();
-        if (currentSource === 'manual') return;
+        if (hasSavedLocation) return;
         if (position.coords.accuracy < 100 && position.coords.accuracy < (lastGeocodedAccuracy.current - 10)) {
           lastGeocodedAccuracy.current = position.coords.accuracy;
           await updateLocationFromPosition(position, 'auto');
@@ -386,17 +428,27 @@ export function UserProvider({ children }) {
   useEffect(() => {
     const initLocation = async () => {
       try {
-        await requestLocation('auto');
+        const savedLoc = (() => {
+          try {
+            const p = JSON.parse(localStorage.getItem('rs_profile') || '{}');
+            const l = JSON.parse(localStorage.getItem('rs_user_location') || 'null');
+            return p.location || l?.location;
+          } catch { return null; }
+        })();
+
+        // Only request auto location on startup IF user has NO saved location at all
+        if (!savedLoc && !user?.location) {
+          await requestLocation('auto');
+        }
       } catch (err) {
         console.error("Initial location error:", err);
       } finally {
-        startWatchingLocation();
         setLoading(false);
       }
     };
     initLocation();
     return () => stopWatchingLocation();
-  }, [requestLocation, startWatchingLocation, stopWatchingLocation]);
+  }, [requestLocation, stopWatchingLocation, user?.location]);
 
   return (
     <UserContext.Provider value={{ 
@@ -412,7 +464,11 @@ export function UserProvider({ children }) {
       stopWatchingLocation,
       signOut: async () => {
         localStorage.removeItem('rs_last_login');
+        const savedLoc = localStorage.getItem('rs_user_location');
         localStorage.removeItem('rs_profile');
+        if (savedLoc) {
+          localStorage.setItem('rs_user_location', savedLoc);
+        }
         localStorage.removeItem('rs_wishlist');
         localStorage.removeItem('rs_cart');
         localStorage.removeItem('resource_share_items');

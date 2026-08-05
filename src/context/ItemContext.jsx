@@ -23,6 +23,28 @@ const safeSave = (items) => {
   }
 };
 
+export function isItemOwner(item, user) {
+  if (!item || !user) return false;
+
+  // 1. Match by user_id or owner_id
+  if (item.user_id && user.id && item.user_id.toString() === user.id.toString()) return true;
+  if (item.owner_id && user.id && item.owner_id.toString() === user.id.toString()) return true;
+
+  // 2. Match by ownerEmail / owner_email
+  if (item.ownerEmail && user.email && item.ownerEmail.toLowerCase() === user.email.toLowerCase()) return true;
+  if (item.owner_email && user.email && item.owner_email.toLowerCase() === user.email.toLowerCase()) return true;
+
+  // 3. Match by owner display name
+  if (item.owner && user.name) {
+    const o = item.owner.trim().toLowerCase();
+    const uName = user.name.trim().toLowerCase();
+    const uFirst = user.name.split(' ')[0].trim().toLowerCase();
+    if (o === uName || o === uFirst || o === 'me') return true;
+  }
+
+  return false;
+}
+
 export function ItemProvider({ children }) {
   const [items, setItems] = useState(() => {
     const saved = localStorage.getItem('resource_share_items');
@@ -94,22 +116,28 @@ export function ItemProvider({ children }) {
 
   const addItem = useCallback(async (newItem) => {
     const itemId = newItem.id ? newItem.id.toString() : Date.now().toString();
-    const guestItem = { 
+    const { data: { session } } = await supabase.auth.getSession();
+    const currentUserId = session?.user?.id || newItem.user_id || newItem.owner_id || null;
+    const currentUserEmail = session?.user?.email || newItem.ownerEmail || null;
+
+    const itemWithOwner = { 
       ...newItem, 
       id: itemId,
+      user_id: currentUserId,
+      owner_id: currentUserId,
+      ownerEmail: currentUserEmail,
       created_at: new Date().toISOString()
     };
 
     // Update local state & localStorage immediately for instant UI feedback
     setItems(prev => {
-      const newItems = [guestItem, ...prev.filter(i => i.id !== itemId)];
+      const newItems = [itemWithOwner, ...prev.filter(i => i.id.toString() !== itemId)];
       safeSave(newItems);
       return newItems;
     });
 
     // Save item globally into Supabase table so all users can see it
     try {
-      const { data: { session } } = await supabase.auth.getSession();
       const toInsert = {
         title: newItem.title,
         price: newItem.price,
@@ -121,7 +149,7 @@ export function ItemProvider({ children }) {
         owner: newItem.owner || 'Verified Neighbor',
         description: newItem.description || '',
         features: newItem.features || [],
-        user_id: session?.user?.id || null
+        user_id: currentUserId
       };
 
       const { error } = await supabase.from('items').insert([toInsert]);
@@ -130,24 +158,44 @@ export function ItemProvider({ children }) {
       console.error("Publish item Supabase error:", err);
     }
 
-    return guestItem;
+    return itemWithOwner;
   }, []);
 
-  const updateItem = useCallback((id, updatedFields) => {
+  const updateItem = useCallback(async (id, updatedFields) => {
     setItems(prev => {
       const newItems = prev.map(item => item.id.toString() === id.toString() ? { ...item, ...updatedFields } : item);
       safeSave(newItems);
       return newItems;
     });
+
+    try {
+      const { error } = await supabase
+        .from('items')
+        .update(updatedFields)
+        .eq('id', id);
+      if (error) console.warn("Supabase update error:", error.message);
+    } catch (e) {
+      console.error("Supabase update error:", e);
+    }
   }, []);
 
-  const removeItem = (id) => {
+  const removeItem = useCallback(async (id) => {
     setItems(prev => {
       const newItems = prev.filter(item => item.id.toString() !== id.toString());
       safeSave(newItems);
       return newItems;
     });
-  };
+
+    try {
+      const { error } = await supabase
+        .from('items')
+        .delete()
+        .eq('id', id);
+      if (error) console.warn("Supabase delete error:", error.message);
+    } catch (e) {
+      console.error("Supabase delete error:", e);
+    }
+  }, []);
 
   const getItemsByCategory = (category) => {
     if (!category || category === 'All') return items;

@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
+    "scheme": "lendkart",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -23,6 +24,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "supabaseUrl": "https://yvzoyodkolevobhdgexe.supabase.co",
+      "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2em95b2Rrb2xldm9iaGRnZXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMTkzNjYsImV4cCI6MjA5Mzc5NTM2Nn0.VgwzdNci31DTPCFYxW7KeA8DHMvi_kJWjggOYsrag0U"
     }
   }
 }

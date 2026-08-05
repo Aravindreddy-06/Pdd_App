@@ -1,18 +1,53 @@
 .impact-page {
-  padding-top: 40px;
-  padding-bottom: 80px;
+  padding-top: 32px;
+  padding-bottom: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Page Header ───────────────────────────────────── */
+.impact-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 36px;
+}
+
+.impact-header h1 {
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  background: var(--grad-olive);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.impact-header p {
+  font-size: 15px;
+  color: var(--text-gray);
+  line-height: 1.6;
 }
 
 /* ── Stats Grid ─────────────────────────────────────── */
 .impact-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 1024px) {
+  .impact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .impact-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .stat-card {
-  background: #12170200; /* fallback */
   background: linear-gradient(
     160deg,
     rgba(132, 204, 22, 0.06) 0%,
@@ -20,110 +55,63 @@
     rgba(26, 29, 5, 0.9) 100%
   );
   border: 1px solid rgba(132, 204, 22, 0.18);
-  padding: 36px 28px 32px;
-  border-radius: 24px;
+  padding: 24px 20px;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
   position: relative;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.3s ease;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 
-/* Subtle top-edge highlight — like glass catching light */
-.stat-card::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 10%; right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(132, 204, 22, 0.4), transparent);
-}
-
-/* Animated shimmer sweep on hover */
-.stat-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -120%;
-  width: 80%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.04),
-    transparent
-  );
-  transform: skewX(-20deg);
-  transition: left 0.6s ease;
-}
-
-.stat-card:hover::before {
-  left: 150%;
-}
-
 .stat-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  border-color: rgba(132, 204, 22, 0.5);
-  box-shadow:
-    0 24px 56px rgba(0, 0, 0, 0.6),
-    0 0 24px rgba(132, 204, 22, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-4px);
+  border-color: rgba(132, 204, 22, 0.4);
 }
 
 /* ── Icon Wrap ─────────────────────────────────────── */
 .stat-icon-wrap {
-  width: 68px;
-  height: 68px;
-  border-radius: 20px;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
   position: relative;
   z-index: 2;
-  /* Inner border + glow */
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* ── Value ─────────────────────────────────────────── */
 .stat-value {
-  font-size: 54px;
-  font-weight: 900;
+  font-size: 38px;
+  font-weight: 800;
   color: #fff;
-  line-height: 1;
-  margin-bottom: 10px;
-  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
   position: relative;
   z-index: 2;
-  text-shadow: 0 0 40px rgba(132, 204, 22, 0.3);
 }
 
 /* ── Label ─────────────────────────────────────────── */
 .stat-label {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   color: #84cc16;
   position: relative;
   z-index: 2;
   opacity: 0.9;
-  word-break: break-word;
-  max-width: 140px;
-  line-height: 1.4;
-}
-
-/* ── Page Header ───────────────────────────────────── */
-.impact-header {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 48px;
+  line-height: 1.3;
 }
 
 .impact-header h1 {
