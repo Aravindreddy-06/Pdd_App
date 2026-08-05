@@ -134,6 +134,33 @@ export default function SignUp() {
     return () => clearInterval(timer);
   }, [resendCooldown]);
 
+  async function callApi(endpoint, payload) {
+    const isCapacitor = typeof window !== 'undefined' && (
+      window.location.hostname === 'localhost' || 
+      window.location.protocol === 'capacitor:' || 
+      window.location.protocol === 'file:'
+    );
+    const baseUrl = isCapacitor ? (import.meta.env.VITE_API_BASE_URL || '') : '';
+    const url = baseUrl ? `${baseUrl.replace(/\/$/, '')}${endpoint}` : endpoint;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      const text = await res.text();
+      if (text.includes('<!doctype') || text.includes('<html')) {
+        throw new Error('OTP backend API is not accessible on this device network. Please try again or log in with credentials.');
+      }
+      throw new Error('Unexpected API response format');
+    }
+
+    return await res.json();
+  }
+
   // Step 1 -> Step 2 -> Request OTP -> Step 3 (OTP verification)
   const handleInitiateSignUp = async (e) => {
     e.preventDefault();
@@ -150,14 +177,9 @@ export default function SignUp() {
 
     try {
       // Send OTP to user's email via Gmail SMTP backend
-      const res = await fetch('/api/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: formData.contact.trim(), purpose: 'signup' })
-      });
-      const data = await res.json();
+      const data = await callApi('/api/send-otp', { email: formData.contact.trim(), purpose: 'signup' });
 
-      if (!res.ok || !data.success) {
+      if (!data.success) {
         throw new Error(data.error || 'Failed to send OTP code');
       }
 
@@ -176,13 +198,8 @@ export default function SignUp() {
     setLoading(true);
     setOtpError('');
     try {
-      const res = await fetch('/api/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: formData.contact.trim(), purpose: 'signup' })
-      });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
+      const data = await callApi('/api/send-otp', { email: formData.contact.trim(), purpose: 'signup' });
+      if (!data.success) {
         throw new Error(data.error || 'Failed to resend OTP');
       }
       setResendCooldown(60);
@@ -212,14 +229,9 @@ export default function SignUp() {
 
     try {
       // 1. Verify OTP
-      const verifyRes = await fetch('/api/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: formData.contact.trim(), otp: otpCode.trim(), purpose: 'signup' })
-      });
-      const verifyData = await verifyRes.json();
+      const verifyData = await callApi('/api/verify-otp', { email: formData.contact.trim(), otp: otpCode.trim(), purpose: 'signup' });
 
-      if (!verifyRes.ok || !verifyData.success) {
+      if (!verifyData.success) {
         throw new Error(verifyData.error || 'Invalid OTP code');
       }
 
