@@ -140,25 +140,47 @@ export default function SignUp() {
       window.location.protocol === 'capacitor:' || 
       window.location.protocol === 'file:'
     );
-    const baseUrl = isCapacitor ? (import.meta.env.VITE_API_BASE_URL || '') : '';
-    const url = baseUrl ? `${baseUrl.replace(/\/$/, '')}${endpoint}` : endpoint;
 
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    const contentType = res.headers.get('content-type') || '';
-    if (!contentType.includes('application/json')) {
-      const text = await res.text();
-      if (text.includes('<!doctype') || text.includes('<html')) {
-        throw new Error('OTP backend API is not accessible on this device network. Please try again or log in with credentials.');
+    const candidateUrls = [];
+    if (isCapacitor) {
+      if (import.meta.env.VITE_API_BASE_URL) {
+        candidateUrls.push(`${import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')}${endpoint}`);
       }
-      throw new Error('Unexpected API response format');
+      candidateUrls.push(`https://resource-sharing.vercel.app${endpoint}`);
+      candidateUrls.push(`http://127.0.0.1:5173${endpoint}`);
+      candidateUrls.push(`http://10.133.54.232:5173${endpoint}`);
+    } else {
+      candidateUrls.push(endpoint);
     }
 
-    return await res.json();
+    const fetchWithTimeout = (url) => new Promise(async (resolve, reject) => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 6000);
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+        clearTimeout(timer);
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const data = await res.json();
+          return resolve(data);
+        }
+        reject(new Error('Non-JSON response'));
+      } catch (err) {
+        clearTimeout(timer);
+        reject(err);
+      }
+    });
+
+    try {
+      return await Promise.any(candidateUrls.map(url => fetchWithTimeout(url)));
+    } catch (err) {
+      throw new Error('OTP backend API is unreachable. Please check your internet connection or dev server.');
+    }
   }
 
   // Step 1 -> Step 2 -> Request OTP -> Step 3 (OTP verification)

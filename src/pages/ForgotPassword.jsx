@@ -29,6 +29,55 @@ export default function ForgotPassword() {
     return () => clearInterval(timer);
   }, [resendCooldown]);
 
+  async function callApi(endpoint, payload) {
+    const isCapacitor = typeof window !== 'undefined' && (
+      window.location.hostname === 'localhost' || 
+      window.location.protocol === 'capacitor:' || 
+      window.location.protocol === 'file:'
+    );
+
+    const candidateUrls = [];
+    if (isCapacitor) {
+      if (import.meta.env.VITE_API_BASE_URL) {
+        candidateUrls.push(`${import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')}${endpoint}`);
+      }
+      candidateUrls.push(`https://resource-sharing.vercel.app${endpoint}`);
+      candidateUrls.push(`http://127.0.0.1:5173${endpoint}`);
+      candidateUrls.push(`http://10.133.54.232:5173${endpoint}`);
+    } else {
+      candidateUrls.push(endpoint);
+    }
+
+    const fetchWithTimeout = (url) => new Promise(async (resolve, reject) => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 6000);
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+        clearTimeout(timer);
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const data = await res.json();
+          return resolve(data);
+        }
+        reject(new Error('Non-JSON response'));
+      } catch (err) {
+        clearTimeout(timer);
+        reject(err);
+      }
+    });
+
+    try {
+      return await Promise.any(candidateUrls.map(url => fetchWithTimeout(url)));
+    } catch (err) {
+      throw new Error('OTP backend API is unreachable. Please check your internet connection or dev server.');
+    }
+  }
+
   // Step 1: Send OTP to email
   const handleSendOtp = async (e) => {
     e.preventDefault();
@@ -40,14 +89,9 @@ export default function ForgotPassword() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), purpose: 'forgot_password' })
-      });
-      const data = await res.json();
+      const data = await callApi('/api/send-otp', { email: email.trim(), purpose: 'forgot_password' });
 
-      if (!res.ok || !data.success) {
+      if (!data.success) {
         throw new Error(data.error || 'Failed to send OTP code');
       }
 
@@ -66,13 +110,8 @@ export default function ForgotPassword() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), purpose: 'forgot_password' })
-      });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
+      const data = await callApi('/api/send-otp', { email: email.trim(), purpose: 'forgot_password' });
+      if (!data.success) {
         throw new Error(data.error || 'Failed to resend OTP');
       }
       setResendCooldown(60);
@@ -94,14 +133,9 @@ export default function ForgotPassword() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), otp: otp.trim(), purpose: 'forgot_password' })
-      });
-      const data = await res.json();
+      const data = await callApi('/api/verify-otp', { email: email.trim(), otp: otp.trim(), purpose: 'forgot_password' });
 
-      if (!res.ok || !data.success) {
+      if (!data.success) {
         throw new Error(data.error || 'Invalid OTP code');
       }
 
@@ -135,14 +169,9 @@ export default function ForgotPassword() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/reset-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), otp: otp.trim(), newPassword })
-      });
-      const data = await res.json();
+      const data = await callApi('/api/reset-password', { email: email.trim(), otp: otp.trim(), newPassword });
 
-      if (!res.ok || !data.success) {
+      if (!data.success) {
         throw new Error(data.error || 'Failed to reset password');
       }
 
