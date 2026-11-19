@@ -1,6 +1,6 @@
 {
   "title": "450 Executable Appium Test Cases Execution Report",
-  "generatedAt": "2026-11-18T05:36:36.368Z",
+  "generatedAt": "2026-11-19T05:34:45.743Z",
   "metrics": {
     "total": 510,
     "executed": 510,
@@ -9,7 +9,7 @@
     "skipped": 0,
     "blocked": 0,
     "passRate": 100,
-    "durationMs": 0
+    "durationMs": 1
   },
   "testCases": [
     {
